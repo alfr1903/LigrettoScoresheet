@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Ligretto Scoresheet</string>
+    <string name="choose_max_score">Choose max score</string>
+    <string name="write_results_first_round">Write results for the first round</string>
 </resources>

@@ -1,11 +1,18 @@
 package no.fredheim.ligretto_scoresheet
 
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import no.fredheim.ligretto_scoresheet.ui.LigrettoViewModel
+import no.fredheim.ligretto_scoresheet.ui.PlayerRoundScoreScreen
+import no.fredheim.ligretto_scoresheet.ui.PlayersScreen
+import no.fredheim.ligretto_scoresheet.ui.ResultsScreen
+import no.fredheim.ligretto_scoresheet.ui.WelcomeScreen
 
 enum class LigrettoScreen {
     Welcome,
@@ -17,12 +24,37 @@ enum class LigrettoScreen {
 @Composable
 fun LigrettoApp(
     navController: NavHostController = rememberNavController(),
-    modifier: Modifier = Modifier
+    viewModel: LigrettoViewModel = viewModel()
 ) {
+    val state by viewModel.state.collectAsState()
+
     NavHost(
         navController = navController,
         startDestination = LigrettoScreen.Welcome.name,
     ) {
+        composable(route = LigrettoScreen.Welcome.name) {
+            WelcomeScreen(
+                maxScore = state.maxScore,
+                onMaxScoreChange = { viewModel.updateMaxScore(it) },
+                onStartGameButtonClick = { navController.navigate(LigrettoScreen.Players.name) },
+            )
+        }
+        composable(route = LigrettoScreen.Players.name) {
+            PlayersScreen(
+                players = state.players,
+                availableColors = state.availableColors,
+                onPlayerCreated = { viewModel.updatePlayers(it) },
+                onWriteResultsButtonClick = { navController.navigate(LigrettoScreen.PlayerRoundScore.name) }
+            )
+        }
+        composable(route = LigrettoScreen.PlayerRoundScore.name) {
+            PlayerRoundScoreScreen(
+                state.players.first()
+            )
+        }
+        composable(route = LigrettoScreen.Results.name) {
+            ResultsScreen()
+        }
 
     }
 }
