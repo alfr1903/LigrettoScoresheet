@@ -26,7 +26,7 @@ fun LigrettoApp(
     navController: NavHostController = rememberNavController(),
     viewModel: LigrettoViewModel = viewModel()
 ) {
-    val state by viewModel.state.collectAsState()
+    val state by viewModel.gameState.collectAsState()
 
     NavHost(
         navController = navController,
@@ -41,15 +41,26 @@ fun LigrettoApp(
         }
         composable(route = LigrettoScreen.Players.name) {
             PlayersScreen(
-                players = state.players,
+                players = state.players.values.toList(),
+                nameInput = state.nameInput,
                 availableColors = state.availableColors,
-                onPlayerCreated = { viewModel.updatePlayers(it) },
-                onWriteResultsButtonClick = { navController.navigate(LigrettoScreen.PlayerRoundScore.name) }
+                chosenColor = state.chosenColor,
+                onNameChange = { viewModel.updateNameInput(it) },
+                onChosenColorChange = { viewModel.updateChosenColor(it) },
+                onPlayerCreated = { viewModel.addPlayer(it) },
+                onWriteResultsButtonClick = {
+                    viewModel.initNextRoundAllPlayers()
+                    navController.navigate(LigrettoScreen.PlayerRoundScore.name)
+                }
             )
         }
         composable(route = LigrettoScreen.PlayerRoundScore.name) {
             PlayerRoundScoreScreen(
-                state.players.first()
+                player = viewModel.currentPlayer(),
+                round = viewModel.currentRound,
+                onSubtractCard = {  },
+                onNumCardsChange = {  }
+
             )
         }
         composable(route = LigrettoScreen.Results.name) {

@@ -1,5 +1,18 @@
 <resources>
     <string name="app_name">Ligretto Scoresheet</string>
     <string name="choose_max_score">Choose max score</string>
-    <string name="write_results_first_round">Write results for the first round</string>
+    <string name="start_game">Start Game</string>
+    <string name="player">Player %d</string>
+    <string name="add_new_player">Add new player</string>
+    <string name="add_player">Add player</string>
+    <string name="playing_cards">playing cards</string>
+    <string name="tens">10s</string>
+    <string name="subtract">subtract</string>
+    <string name="points">%d points</string>
+    <string name="center">Center</string>
+    <string name="ligretto">Ligretto</string>
+    <string name="add">Add</string>
+    <string name="welcome">Welcome to the ligretto score sheet app</string>
+    <string name="add_max_score">Add max score</string>
+    <string name="max_score_rules">Game can be started with or without a max score</string>
 </resources>

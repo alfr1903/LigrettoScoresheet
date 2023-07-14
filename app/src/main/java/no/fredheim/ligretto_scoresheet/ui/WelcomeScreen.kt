@@ -2,10 +2,13 @@ package no.fredheim.ligretto_scoresheet.ui
 
 import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -16,12 +19,17 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontStyle
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import no.fredheim.ligretto_scoresheet.R
+import no.fredheim.ligretto_scoresheet.common.Counter
 import no.fredheim.ligretto_scoresheet.ui.theme.LigrettoScoresheetTheme
 
 @Composable
@@ -36,58 +44,45 @@ fun WelcomeScreen(
             .fillMaxSize()
             .padding(16.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center
+        verticalArrangement = Arrangement.Center,
     ) {
-        Text(
-            text = "Welcome to the ligretto score sheet app",
-            modifier = Modifier.padding(8.dp)
-        )
-        EditNumberField(
-            label = R.string.choose_max_score,
-            keyboardOptions = KeyboardOptions.Default.copy(
-                keyboardType = KeyboardType.Number,
-                imeAction = ImeAction.Done,
-            ),
-            value = maxScore,
-            onValueChange = onMaxScoreChange,
-            modifier = Modifier.padding(8.dp)
-        )
-        Button(
-            onClick = onStartGameButtonClick,
-            modifier = Modifier.padding(8.dp)
+        Box(
+            contentAlignment = Alignment.Center,
+            modifier = Modifier.weight(1f)
         ) {
             Text(
-                text = "Start game"
+                text = stringResource(R.string.welcome),
+                textAlign = TextAlign.Center,
+                fontSize = 30.sp,
             )
         }
-    }
-
-}
-
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-fun EditNumberField(
-    @StringRes label: Int,
-    keyboardOptions: KeyboardOptions,
-    value: String,
-    onValueChange: (String) -> Unit,
-    modifier: Modifier = Modifier
-) {
-    TextField(
-        value = value,
-        textStyle = LocalTextStyle.current.copy(textAlign = TextAlign.Center),
-        onValueChange = onValueChange,
-        singleLine = true,
-        placeholder = {
+        Column(
+            modifier = Modifier.weight(1f),
+            horizontalAlignment = Alignment.CenterHorizontally,
+        ) {
             Text(
-                text = stringResource(label),
+                text = stringResource(R.string.add_max_score),
                 textAlign = TextAlign.Center,
-                modifier = modifier.fillMaxWidth()
+                fontWeight = FontWeight.Bold,
+                fontSize = 26.sp,
             )
-        },
-        keyboardOptions = keyboardOptions,
-        modifier = modifier.fillMaxWidth()
-    )
+            Text(
+                text = stringResource(R.string.max_score_rules),
+                textAlign = TextAlign.Center
+            )
+            Counter(
+                value = maxScore,
+                onValueChange = onMaxScoreChange,
+            )
+            Button(
+                onClick = onStartGameButtonClick,
+            ) {
+                Text(
+                    text = stringResource(R.string.start_game)
+                )
+            }
+        }
+    }
 }
 
 @Preview(
