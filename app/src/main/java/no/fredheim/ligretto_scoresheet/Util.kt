@@ -16,3 +16,5 @@ object Util {
     private val thao = Player(2, "Thao", LigrettoLightBlue)
     val players = listOf(alex, thao)
 }
+
+fun String.isDigitsOnly() = all(Char::isDigit) && isNotEmpty()

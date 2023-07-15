@@ -8,7 +8,7 @@
     <string name="playing_cards">playing cards</string>
     <string name="tens">10s</string>
     <string name="subtract">subtract</string>
-    <string name="points">%d points</string>
+    <string name="points">%s points</string>
     <string name="center">Center</string>
     <string name="ligretto">Ligretto</string>
     <string name="add">Add</string>
