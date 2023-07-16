@@ -79,6 +79,7 @@ fun PlayersScreen(
             modifier = Modifier.padding(top = 16.dp)
         )
         Button(
+            enabled = players.isNotEmpty(),
             onClick = onWriteResultsButtonClick,
             modifier = Modifier.padding(top = 32.dp)
         ) {

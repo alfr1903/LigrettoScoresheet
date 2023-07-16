@@ -76,7 +76,7 @@ fun PlayerRoundScoreScreen(
             imageDescription = R.string.playing_cards,
             description = R.string.center,
             numCards = currentNumCenter,
-            points = CalculationService.points(CardType.Ten, currentNumCenter),
+            points = CalculationService.points(CardType.Center, currentNumCenter),
             onNumCardsChange = { currentNumCenter = it },
         )
         CardPointsCalculator(
@@ -84,7 +84,7 @@ fun PlayerRoundScoreScreen(
             imageDescription = R.string.playing_cards,
             description = R.string.ligretto,
             numCards = currentNumLigretto,
-            points = CalculationService.points(CardType.Ten, currentNumLigretto),
+            points = CalculationService.points(CardType.Ligretto, currentNumLigretto),
             onNumCardsChange = { currentNumLigretto = it },
         )
 

@@ -16,7 +16,7 @@ object CalculationService {
                 if(!numCards.isDigitsOnly()) "0" else (numCards.toInt() * 2).toString()
             }
             CardType.Center -> {
-                if(!numCards.isDigitsOnly()) "0" else (numCards.toInt() * 2).toString()
+                if(!numCards.isDigitsOnly()) "0" else (numCards.toInt()).toString()
             }
             CardType.Ligretto -> {
                 if(!numCards.isDigitsOnly()) "0" else (numCards.toInt() * -2).toString()
