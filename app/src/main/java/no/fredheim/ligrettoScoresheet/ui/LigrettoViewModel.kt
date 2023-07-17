@@ -15,8 +15,11 @@ class LigrettoViewModel : ViewModel() {
     private val _gameState = MutableStateFlow(GameState())
     val gameState: StateFlow<GameState> = _gameState.asStateFlow()
 
-    private var currentRound = 0
-    private var currentPlayerIndex = 1
+    var currentRound = 0
+        private set
+
+    var currentPlayerIndex = 1
+        private set
 
     fun updateMaxScore(score: String) {
         _gameState.update { _gameState.value.copy(maxScore = score) }
@@ -64,11 +67,12 @@ class LigrettoViewModel : ViewModel() {
 
     fun currentPlayer(): Player = _gameState.value.players[currentPlayerIndex]!!
 
-    fun currentRound(): Round = currentPlayer().round[currentRound]!!
+    fun currentRound(player: Player): Round =
+        _gameState.value.players[player.number]!!.round[currentRound]!!
 
-    fun addRound(round: Round) {
+    fun addRoundCurrentPlayer(round: Round) {
         _gameState.value.players[currentPlayerIndex]!!.round[currentRound] = round
-        currentPlayerIndex++
+        if (currentPlayerIndex + 1 <= _gameState.value.players.size) currentPlayerIndex++
     }
 
     fun lastPlayer(): Boolean = currentPlayerIndex == _gameState.value.players.size

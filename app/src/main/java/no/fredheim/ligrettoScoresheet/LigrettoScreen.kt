@@ -62,16 +62,18 @@ fun LigrettoApp(
             )
         }
         composable(route = LigrettoScreen.PlayerRoundScore.name) {
+            val currentPlayer = viewModel.currentPlayer()
+
             PlayerRoundScoreScreen(
-                player = viewModel.currentPlayer(),
-                round = viewModel.currentRound(),
+                player = currentPlayer,
+                round = viewModel.currentRound(currentPlayer),
                 lastPlayer = viewModel.lastPlayer(),
                 onNextPlayerButtonClick = {
-                    viewModel.addRound(it)
+                    viewModel.addRoundCurrentPlayer(it)
                     navController.navigate(LigrettoScreen.PlayerRoundScore.name)
                 },
                 onResultsButtonClick = {
-                    viewModel.addRound(it)
+                    viewModel.addRoundCurrentPlayer(it)
                     navController.navigate(LigrettoScreen.Results.name)
                 },
                 modifier = Modifier.screenBorder()

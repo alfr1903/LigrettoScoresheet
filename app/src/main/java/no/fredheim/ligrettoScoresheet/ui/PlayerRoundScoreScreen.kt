@@ -168,7 +168,7 @@ fun PlayerRoundScoreScreenPreview() {
     LigrettoScoresheetTheme {
         PlayerRoundScoreScreen(
             player = Util.alex,
-            round = Util.alex.round[1]!!,
+            round = Util.alex.round[2]!!,
             lastPlayer = false,
             onNextPlayerButtonClick = { },
             onResultsButtonClick = { }

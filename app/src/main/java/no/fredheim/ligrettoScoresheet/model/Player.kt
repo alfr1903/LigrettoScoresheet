@@ -7,4 +7,6 @@ data class Player(
     val name: String = "",
     val color: Color,
     val round: MutableMap<Int, Round> = mutableMapOf()
-)
+) {
+
+}
