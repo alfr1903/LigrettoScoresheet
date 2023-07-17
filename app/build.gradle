@@ -1,14 +1,17 @@
 plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
+    id 'org.jlleitschuh.gradle.ktlint'
+    id 'io.gitlab.arturbosch.detekt'
+    id 'org.jetbrains.kotlinx.kover'
 }
 
 android {
-    namespace 'no.fredheim.ligretto_scoresheet'
+    namespace 'no.fredheim.ligrettoScoresheet'
     compileSdk 33
 
     defaultConfig {
-        applicationId "no.fredheim.ligretto_scoresheet"
+        applicationId "no.fredheim.ligrettoScoresheet"
         minSdk 26
         targetSdk 33
         versionCode 1
@@ -44,6 +47,12 @@ android {
             excludes += '/META-INF/{AL2.0,LGPL2.1}'
         }
     }
+
+    testOptions {
+        unitTests.all {
+            useJUnitPlatform()
+        }
+    }
 }
 
 dependencies {
@@ -60,11 +69,35 @@ dependencies {
     implementation 'androidx.core:core-ktx:1.10.1'
     implementation 'androidx.navigation:navigation-compose:2.6.0'
 
-    testImplementation 'junit:junit:4.13.2'
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.9.3'
+    testImplementation 'org.junit.jupiter:junit-jupiter-params:5.9.3'
+    testImplementation 'io.kotest:kotest-assertions-core:5.6.2'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.9.3'
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
     androidTestImplementation platform('androidx.compose:compose-bom:2022.10.00')
     androidTestImplementation 'androidx.compose.ui:ui-test-junit4'
     debugImplementation 'androidx.compose.ui:ui-tooling'
     debugImplementation 'androidx.compose.ui:ui-test-manifest'
+}
+
+ktlint {
+    android.set(true)
+    outputColorName.set("RED")
+}
+
+koverReport {
+    // filters for all report types of all build variants
+    filters {
+        excludes {
+            classes(
+                    "*Fragment",
+                    "*Fragment\$*",
+                    "*Activity",
+                    "*Activity\$*",
+                    "*.databinding.*",
+                    "*.BuildConfig"
+            )
+        }
+    }
 }

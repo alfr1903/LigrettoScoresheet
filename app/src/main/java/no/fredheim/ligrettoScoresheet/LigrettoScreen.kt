@@ -1,18 +1,21 @@
-package no.fredheim.ligretto_scoresheet
+package no.fredheim.ligrettoScoresheet
 
+import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import no.fredheim.ligretto_scoresheet.ui.LigrettoViewModel
-import no.fredheim.ligretto_scoresheet.ui.PlayerRoundScoreScreen
-import no.fredheim.ligretto_scoresheet.ui.PlayersScreen
-import no.fredheim.ligretto_scoresheet.ui.ResultsScreen
-import no.fredheim.ligretto_scoresheet.ui.WelcomeScreen
+import no.fredheim.ligrettoScoresheet.ui.LigrettoViewModel
+import no.fredheim.ligrettoScoresheet.ui.PlayerRoundScoreScreen
+import no.fredheim.ligrettoScoresheet.ui.PlayersScreen
+import no.fredheim.ligrettoScoresheet.ui.ResultsScreen
+import no.fredheim.ligrettoScoresheet.ui.WelcomeScreen
 
 enum class LigrettoScreen {
     Welcome,
@@ -30,15 +33,16 @@ fun LigrettoApp(
 
     NavHost(
         navController = navController,
-        startDestination = LigrettoScreen.Welcome.name,
+        startDestination = LigrettoScreen.Welcome.name
     ) {
         composable(route = LigrettoScreen.Welcome.name) {
             WelcomeScreen(
                 maxScore = state.maxScore,
                 onStartGameButtonClick = { maxScore ->
                     viewModel.updateMaxScore(maxScore)
-                    navController.navigate(LigrettoScreen.Players.name) }
-                ,
+                    navController.navigate(LigrettoScreen.Players.name)
+                },
+                modifier = Modifier.screenBorder()
             )
         }
         composable(route = LigrettoScreen.Players.name) {
@@ -53,19 +57,36 @@ fun LigrettoApp(
                 onWriteResultsButtonClick = {
                     viewModel.initNextRoundAllPlayers()
                     navController.navigate(LigrettoScreen.PlayerRoundScore.name)
-                }
+                },
+                modifier = Modifier.screenBorder()
             )
         }
         composable(route = LigrettoScreen.PlayerRoundScore.name) {
             PlayerRoundScoreScreen(
                 player = viewModel.currentPlayer(),
                 round = viewModel.currentRound(),
-                onNextPlayerButtonClick = {}
+                lastPlayer = viewModel.lastPlayer(),
+                onNextPlayerButtonClick = {
+                    viewModel.addRound(it)
+                    navController.navigate(LigrettoScreen.PlayerRoundScore.name)
+                },
+                onResultsButtonClick = {
+                    viewModel.addRound(it)
+                    navController.navigate(LigrettoScreen.Results.name)
+                },
+                modifier = Modifier.screenBorder()
             )
         }
         composable(route = LigrettoScreen.Results.name) {
-            ResultsScreen()
+            ResultsScreen(
+                players = state.players.values.toList(),
+                onNextRoundButtonClick = {
+                    navController.navigate(LigrettoScreen.PlayerRoundScore.name)
+                },
+                modifier = Modifier.screenBorder()
+            )
         }
-
     }
 }
+
+private fun Modifier.screenBorder() = this.padding(4.dp)

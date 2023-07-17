@@ -1,4 +1,4 @@
-package no.fredheim.ligretto_scoresheet.ui
+package no.fredheim.ligrettoScoresheet.ui
 
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material3.Button
 import androidx.compose.material3.Divider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -25,20 +26,23 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import no.fredheim.ligretto_scoresheet.R
-import no.fredheim.ligretto_scoresheet.Util
-import no.fredheim.ligretto_scoresheet.common.Counter
-import no.fredheim.ligretto_scoresheet.model.CardType
-import no.fredheim.ligretto_scoresheet.model.Player
-import no.fredheim.ligretto_scoresheet.model.Round
-import no.fredheim.ligretto_scoresheet.service.CalculationService
-import no.fredheim.ligretto_scoresheet.ui.theme.LigrettoScoresheetTheme
+import no.fredheim.ligrettoScoresheet.R
+import no.fredheim.ligrettoScoresheet.Util
+import no.fredheim.ligrettoScoresheet.common.Counter
+import no.fredheim.ligrettoScoresheet.common.Points
+import no.fredheim.ligrettoScoresheet.model.CardType
+import no.fredheim.ligrettoScoresheet.model.Player
+import no.fredheim.ligrettoScoresheet.model.Round
+import no.fredheim.ligrettoScoresheet.service.CalculationService
+import no.fredheim.ligrettoScoresheet.ui.theme.LigrettoScoresheetTheme
 
 @Composable
 fun PlayerRoundScoreScreen(
     player: Player,
     round: Round,
+    lastPlayer: Boolean,
     onNextPlayerButtonClick: (Round) -> Unit,
+    onResultsButtonClick: (Round) -> Unit,
     modifier: Modifier = Modifier
 ) {
     var currentNum10s by remember { mutableStateOf(round.num10s) }
@@ -49,7 +53,7 @@ fun PlayerRoundScoreScreen(
         modifier = modifier
             .fillMaxSize()
             .padding(top = 60.dp, start = 16.dp, end = 16.dp),
-        horizontalAlignment = Alignment.CenterHorizontally,
+        horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Box(
             contentAlignment = Alignment.Center,
@@ -59,7 +63,7 @@ fun PlayerRoundScoreScreen(
                 .background(color = player.color, shape = CircleShape)
         ) {
             Text(
-                text = player.name,
+                text = player.name
             )
         }
         Divider(Modifier.padding(top = 32.dp, bottom = 32.dp))
@@ -69,7 +73,7 @@ fun PlayerRoundScoreScreen(
             description = R.string.tens,
             numCards = currentNum10s,
             points = CalculationService.points(CardType.Ten, currentNum10s),
-            onNumCardsChange = { currentNum10s = it },
+            onNumCardsChange = { currentNum10s = it }
         )
         CardPointsCalculator(
             image = R.drawable.playing_cards,
@@ -77,7 +81,7 @@ fun PlayerRoundScoreScreen(
             description = R.string.center,
             numCards = currentNumCenter,
             points = CalculationService.points(CardType.Center, currentNumCenter),
-            onNumCardsChange = { currentNumCenter = it },
+            onNumCardsChange = { currentNumCenter = it }
         )
         CardPointsCalculator(
             image = R.drawable.playing_cards,
@@ -85,9 +89,47 @@ fun PlayerRoundScoreScreen(
             description = R.string.ligretto,
             numCards = currentNumLigretto,
             points = CalculationService.points(CardType.Ligretto, currentNumLigretto),
-            onNumCardsChange = { currentNumLigretto = it },
+            onNumCardsChange = { currentNumLigretto = it }
         )
-
+        Text(
+            text = stringResource(
+                R.string.round_points,
+                CalculationService
+                    .points(currentNum10s, currentNumCenter, currentNumLigretto)
+                    .toString()
+            )
+        )
+        if (!lastPlayer) {
+            Button(
+                onClick = {
+                    onNextPlayerButtonClick(
+                        Round(
+                            num10s = currentNum10s,
+                            numCenter = currentNumCenter,
+                            numLigretto = currentNumLigretto
+                        )
+                    )
+                },
+                modifier = Modifier.padding(top = 16.dp)
+            ) {
+                Text(text = stringResource(R.string.next_player))
+            }
+        } else {
+            Button(
+                onClick = {
+                    onResultsButtonClick(
+                        Round(
+                            num10s = currentNum10s,
+                            numCenter = currentNumCenter,
+                            numLigretto = currentNumLigretto
+                        )
+                    )
+                },
+                modifier = Modifier.padding(top = 16.dp)
+            ) {
+                Text(text = stringResource(R.string.results))
+            }
+        }
     }
 }
 
@@ -101,22 +143,21 @@ fun CardPointsCalculator(
     onNumCardsChange: (String) -> Unit,
     modifier: Modifier = Modifier
 ) {
-   Row(
-       verticalAlignment = Alignment.CenterVertically,
-       modifier = modifier
-   ) {
-       Column(horizontalAlignment = Alignment.CenterHorizontally) {
-           Image(
-               painter = painterResource(image),
-               contentDescription = stringResource(imageDescription)
-           )
-           Text(text = stringResource(description))
-       }
-       Counter(value = numCards, onValueChange = { onNumCardsChange(it) })
-       Text(text = stringResource(R.string.points, points))
-   }
+    Row(
+        verticalAlignment = Alignment.CenterVertically,
+        modifier = modifier
+    ) {
+        Column(horizontalAlignment = Alignment.CenterHorizontally) {
+            Image(
+                painter = painterResource(image),
+                contentDescription = stringResource(imageDescription)
+            )
+            Text(text = stringResource(description))
+        }
+        Counter(value = numCards, onValueChange = { onNumCardsChange(it) })
+        Points(points = points)
+    }
 }
-
 
 @Preview(
     showBackground = true,
@@ -128,8 +169,26 @@ fun PlayerRoundScoreScreenPreview() {
         PlayerRoundScoreScreen(
             player = Util.alex,
             round = Util.alex.round[1]!!,
-            onNextPlayerButtonClick = {  }
+            lastPlayer = false,
+            onNextPlayerButtonClick = { },
+            onResultsButtonClick = { }
         )
     }
+}
 
+@Preview(
+    showBackground = true,
+    device = "id:pixel_4"
+)
+@Composable
+fun PlayerRoundScoreLastPlayerScreenPreview() {
+    LigrettoScoresheetTheme {
+        PlayerRoundScoreScreen(
+            player = Util.thao,
+            round = Util.thao.round[2]!!,
+            lastPlayer = true,
+            onNextPlayerButtonClick = { },
+            onResultsButtonClick = { }
+        )
+    }
 }

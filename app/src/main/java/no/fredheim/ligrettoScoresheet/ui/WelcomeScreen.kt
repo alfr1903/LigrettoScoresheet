@@ -1,4 +1,4 @@
-package no.fredheim.ligretto_scoresheet.ui
+package no.fredheim.ligrettoScoresheet.ui
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -20,9 +20,9 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import no.fredheim.ligretto_scoresheet.R
-import no.fredheim.ligretto_scoresheet.common.Counter
-import no.fredheim.ligretto_scoresheet.ui.theme.LigrettoScoresheetTheme
+import no.fredheim.ligrettoScoresheet.R
+import no.fredheim.ligrettoScoresheet.common.Counter
+import no.fredheim.ligrettoScoresheet.ui.theme.LigrettoScoresheetTheme
 
 @Composable
 fun WelcomeScreen(
@@ -37,7 +37,7 @@ fun WelcomeScreen(
             .fillMaxSize()
             .padding(16.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center,
+        verticalArrangement = Arrangement.Center
     ) {
         Box(
             contentAlignment = Alignment.Center,
@@ -46,18 +46,18 @@ fun WelcomeScreen(
             Text(
                 text = stringResource(R.string.welcome),
                 textAlign = TextAlign.Center,
-                fontSize = 30.sp,
+                fontSize = 30.sp
             )
         }
         Column(
             modifier = Modifier.weight(1f),
-            horizontalAlignment = Alignment.CenterHorizontally,
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Text(
                 text = stringResource(R.string.add_max_score),
                 textAlign = TextAlign.Center,
                 fontWeight = FontWeight.Bold,
-                fontSize = 26.sp,
+                fontSize = 26.sp
             )
             Text(
                 text = stringResource(R.string.max_score_rules),
@@ -65,10 +65,10 @@ fun WelcomeScreen(
             )
             Counter(
                 value = currentMax,
-                onValueChange = { currentMax = it },
+                onValueChange = { currentMax = it }
             )
             Button(
-                onClick = { onStartGameButtonClick(currentMax) },
+                onClick = { onStartGameButtonClick(currentMax) }
             ) {
                 Text(
                     text = stringResource(R.string.start_game)
@@ -87,7 +87,7 @@ fun WelcomeScreenPreview() {
     LigrettoScoresheetTheme {
         WelcomeScreen(
             maxScore = "",
-            onStartGameButtonClick = {  }
+            onStartGameButtonClick = { }
         )
     }
 }

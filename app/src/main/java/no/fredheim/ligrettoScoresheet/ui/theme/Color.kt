@@ -1,4 +1,4 @@
-package no.fredheim.ligretto_scoresheet.ui.theme
+package no.fredheim.ligrettoScoresheet.ui.theme
 
 import androidx.compose.ui.graphics.Color
 
@@ -28,7 +28,6 @@ val LigrettoBrown = Color(0xFF7D6347)
 val LigrettoPurple = Color(0xFF9C89C5)
 val LigrettoPink = Color(0xFFE9B1D4)
 
-
 val Colors = setOf(
     LigrettoOrange,
     LigrettoLightBlue,
@@ -41,6 +40,5 @@ val Colors = setOf(
     LigrettoGreen,
     LigrettoBrown,
     LigrettoPurple,
-    LigrettoPink,
+    LigrettoPink
 )
-

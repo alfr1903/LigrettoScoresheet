@@ -15,4 +15,9 @@
     <string name="welcome">Welcome to the ligretto score sheet app</string>
     <string name="add_max_score">Add max score</string>
     <string name="max_score_rules">Game can be started with or without a max score</string>
+    <string name="next_player">Next player</string>
+    <string name="results">See results</string>
+    <string name="scoreboard">Scoreboard</string>
+    <string name="next_round">Next Round</string>
+    <string name="round_points">Round points: %s</string>
 </resources>

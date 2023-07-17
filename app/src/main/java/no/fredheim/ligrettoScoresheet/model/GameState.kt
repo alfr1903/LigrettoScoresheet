@@ -1,7 +1,4 @@
-package no.fredheim.ligretto_scoresheet.model
-
-import androidx.compose.ui.graphics.Color
-import no.fredheim.ligretto_scoresheet.ui.theme.Colors
+package no.fredheim.ligrettoScoresheet.model
 
 data class GameState(
     val maxScore: String = "",

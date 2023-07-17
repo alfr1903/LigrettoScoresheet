@@ -1,8 +1,7 @@
-package no.fredheim.ligretto_scoresheet.common
+package no.fredheim.ligrettoScoresheet.common
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -25,9 +24,9 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import no.fredheim.ligretto_scoresheet.R
-import no.fredheim.ligretto_scoresheet.service.CalculationService
-import no.fredheim.ligretto_scoresheet.ui.theme.LigrettoScoresheetTheme
+import no.fredheim.ligrettoScoresheet.R
+import no.fredheim.ligrettoScoresheet.service.CalculationService
+import no.fredheim.ligrettoScoresheet.ui.theme.LigrettoScoresheetTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -38,7 +37,7 @@ fun Counter(
 ) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
-        modifier = modifier,
+        modifier = modifier
     ) {
         Image(
             painter = painterResource(id = R.drawable.subtract),
@@ -54,11 +53,11 @@ fun Counter(
             textStyle = LocalTextStyle.current.copy(textAlign = TextAlign.Center),
             keyboardOptions = KeyboardOptions.Default.copy(
                 keyboardType = KeyboardType.Number,
-                imeAction = ImeAction.Done,
+                imeAction = ImeAction.Done
             ),
             colors = TextFieldDefaults.textFieldColors(
                 focusedIndicatorColor = Color.Transparent,
-                unfocusedIndicatorColor = Color.Transparent,
+                unfocusedIndicatorColor = Color.Transparent
             ),
             shape = RoundedCornerShape(16.dp),
             modifier = Modifier
