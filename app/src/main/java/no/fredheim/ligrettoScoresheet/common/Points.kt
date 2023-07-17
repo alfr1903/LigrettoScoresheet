@@ -6,6 +6,6 @@ import androidx.compose.ui.res.stringResource
 import no.fredheim.ligrettoScoresheet.R
 
 @Composable
-fun Points(points: String) {
+fun Points(points: Int) {
     Text(text = stringResource(R.string.points, points))
 }

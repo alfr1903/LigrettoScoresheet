@@ -1,7 +1,7 @@
-package no.fredheim.ligrettoScoresheet.ui
+package no.fredheim.ligrettoScoresheet.ui.screens
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
@@ -26,8 +26,10 @@ import no.fredheim.ligrettoScoresheet.ui.theme.LigrettoScoresheetTheme
 fun ResultsScreen(
     players: List<Player>,
     onNextRoundButtonClick: () -> Unit,
+    onBack: () -> Unit,
     modifier: Modifier = Modifier
 ) {
+    val playersSorted = players.sortedByDescending { it.score() }
     Column(
         modifier = modifier,
         horizontalAlignment = Alignment.CenterHorizontally
@@ -38,17 +40,15 @@ fun ResultsScreen(
             fontWeight = FontWeight.Bold
         )
         Divider()
-        LazyColumn(
-            modifier = modifier
-                .fillMaxSize()
-        ) {
-            itemsIndexed(players) { num, player ->
+        LazyColumn {
+            itemsIndexed(playersSorted) { num, player ->
                 PlayerScoreRow(number = num + 1, player = player, modifier.padding(4.dp))
             }
         }
         Button(onClick = onNextRoundButtonClick) {
             Text(text = stringResource(R.string.next_round))
         }
+        BackHandler(onBack = onBack)
     }
 }
 
@@ -62,7 +62,8 @@ fun ResultsScreenPreview() {
         ResultsScreen(
             players = Util.players,
             modifier = Modifier.padding(4.dp),
-            onNextRoundButtonClick = { }
+            onNextRoundButtonClick = { },
+            onBack = { }
         )
     }
 }

@@ -12,10 +12,10 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import no.fredheim.ligrettoScoresheet.ui.LigrettoViewModel
-import no.fredheim.ligrettoScoresheet.ui.PlayerRoundScoreScreen
-import no.fredheim.ligrettoScoresheet.ui.PlayersScreen
-import no.fredheim.ligrettoScoresheet.ui.ResultsScreen
-import no.fredheim.ligrettoScoresheet.ui.WelcomeScreen
+import no.fredheim.ligrettoScoresheet.ui.screens.PlayerRoundScoreScreen
+import no.fredheim.ligrettoScoresheet.ui.screens.PlayersScreen
+import no.fredheim.ligrettoScoresheet.ui.screens.ResultsScreen
+import no.fredheim.ligrettoScoresheet.ui.screens.WelcomeScreen
 
 enum class LigrettoScreen {
     Welcome,
@@ -76,6 +76,10 @@ fun LigrettoApp(
                     viewModel.addRoundCurrentPlayer(it)
                     navController.navigate(LigrettoScreen.Results.name)
                 },
+                onBack = {
+                    viewModel.handleBackPress(LigrettoScreen.PlayerRoundScore)
+                    navController.popBackStack()
+                },
                 modifier = Modifier.screenBorder()
             )
         }
@@ -83,7 +87,12 @@ fun LigrettoApp(
             ResultsScreen(
                 players = state.players.values.toList(),
                 onNextRoundButtonClick = {
+                    viewModel.initNextRoundAllPlayers()
                     navController.navigate(LigrettoScreen.PlayerRoundScore.name)
+                },
+                onBack = {
+                    viewModel.handleBackPress(LigrettoScreen.Results)
+                    navController.popBackStack()
                 },
                 modifier = Modifier.screenBorder()
             )

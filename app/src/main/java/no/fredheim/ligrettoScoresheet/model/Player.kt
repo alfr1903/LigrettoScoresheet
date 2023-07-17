@@ -8,5 +8,5 @@ data class Player(
     val color: Color,
     val round: MutableMap<Int, Round> = mutableMapOf()
 ) {
-
+    fun score() = round.values.sumOf { it.points() }
 }

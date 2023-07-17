@@ -1,4 +1,4 @@
-package no.fredheim.ligrettoScoresheet.ui
+package no.fredheim.ligrettoScoresheet.ui.screens
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box

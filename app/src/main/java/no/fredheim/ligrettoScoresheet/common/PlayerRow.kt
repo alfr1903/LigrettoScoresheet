@@ -1,8 +1,10 @@
 package no.fredheim.ligrettoScoresheet.common
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
@@ -10,13 +12,13 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import no.fredheim.ligrettoScoresheet.R
 import no.fredheim.ligrettoScoresheet.Util
 import no.fredheim.ligrettoScoresheet.model.Player
-import no.fredheim.ligrettoScoresheet.service.CalculationService
 import no.fredheim.ligrettoScoresheet.ui.theme.LigrettoScoresheetTheme
 
 @Composable
@@ -69,11 +71,16 @@ fun PlayerScoreRow(
         )
         Text(
             text = player.name,
-            modifier = Modifier
-                .weight(5f)
-                .padding(start = 8.dp)
+            modifier = Modifier.padding(start = 8.dp)
         )
-        Points(points = CalculationService.score(player))
+        if (number == 1) {
+            Image(
+                painter = painterResource(id = R.drawable.trophy),
+                contentDescription = stringResource(R.string.trophy),
+            )
+        }
+        Spacer(modifier = Modifier.weight(5f))
+        Points(points = player.score())
     }
 }
 

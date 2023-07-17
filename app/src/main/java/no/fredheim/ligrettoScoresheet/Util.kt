@@ -2,6 +2,7 @@ package no.fredheim.ligrettoScoresheet
 
 import no.fredheim.ligrettoScoresheet.model.Player
 import no.fredheim.ligrettoScoresheet.model.Round
+import no.fredheim.ligrettoScoresheet.ui.theme.LigrettoGreen
 import no.fredheim.ligrettoScoresheet.ui.theme.LigrettoLightBlue
 import no.fredheim.ligrettoScoresheet.ui.theme.LigrettoOrange
 
@@ -23,10 +24,20 @@ object Util {
         round = mutableMapOf(
             Pair(1, Round(num10s = "2", numCenter = "15", numLigretto = "0")),
             Pair(2, Round(num10s = "0", numCenter = "6", numLigretto = "8")),
-
         )
     )
-    val players = listOf(alex, thao)
+
+    private val rikke = Player(
+        number = 3,
+        name = "Rikke",
+        color = LigrettoGreen,
+        round = mutableMapOf(
+            Pair(1, Round(num10s = "2", numCenter = "15", numLigretto = "1")),
+            Pair(2, Round(num10s = "1", numCenter = "12", numLigretto = "1")),
+        )
+    )
+
+    val players = listOf(alex, thao, rikke)
 }
 
 fun String.isDigitsOnly() = all(Char::isDigit) && isNotEmpty()

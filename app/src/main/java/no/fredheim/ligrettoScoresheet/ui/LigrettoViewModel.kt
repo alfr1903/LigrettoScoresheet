@@ -6,6 +6,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
+import no.fredheim.ligrettoScoresheet.LigrettoScreen
 import no.fredheim.ligrettoScoresheet.model.GameState
 import no.fredheim.ligrettoScoresheet.model.Player
 import no.fredheim.ligrettoScoresheet.model.PlayersUiState
@@ -59,9 +60,11 @@ class LigrettoViewModel : ViewModel() {
         }
     }
     fun initNextRoundAllPlayers() {
+        currentPlayerIndex = 1
         currentRound++
         (1.._gameState.value.players.size).forEach {
-            _gameState.value.players[it]!!.round[currentRound] = Round()
+            if(!_gameState.value.players[it]!!.round.containsKey(currentRound))
+                _gameState.value.players[it]!!.round[currentRound] = Round()
         }
     }
 
@@ -76,4 +79,20 @@ class LigrettoViewModel : ViewModel() {
     }
 
     fun lastPlayer(): Boolean = currentPlayerIndex == _gameState.value.players.size
+    fun handleBackPress(fromScreen: LigrettoScreen) {
+        when (fromScreen) {
+            LigrettoScreen.Welcome,
+            LigrettoScreen.Players,
+            LigrettoScreen.Results -> Unit
+            LigrettoScreen.PlayerRoundScore -> {
+                when {
+                    currentPlayerIndex == 1 && currentRound == 1 -> Unit
+                    currentPlayerIndex == 1 -> {
+                        currentPlayerIndex = _gameState.value.players.size; currentRound--
+                    }
+                    else -> currentPlayerIndex--
+                }
+            }
+        }
+    }
 }

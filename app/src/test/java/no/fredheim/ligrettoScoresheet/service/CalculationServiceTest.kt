@@ -149,16 +149,4 @@ internal class CalculationServiceTest {
             CalculationService.points("1", "14", "0") shouldBe 16
         }
     }
-
-    @Nested
-    inner class PlayerTotalScore {
-
-        @Test
-        fun `given first two rounds as described, total score for the game should be 14`() {
-            // Alex cards first round: 0 tens, 8 center and 5 ligretto cards
-            // Alex cards second round: 1 ten, 14 center and 0 ligretto cards
-            CalculationService.score(Util.alex) shouldBe "14"
-        }
-    }
-
 }

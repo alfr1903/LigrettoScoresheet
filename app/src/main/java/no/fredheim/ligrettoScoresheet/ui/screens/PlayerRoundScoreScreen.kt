@@ -1,5 +1,6 @@
-package no.fredheim.ligrettoScoresheet.ui
+package no.fredheim.ligrettoScoresheet.ui.screens
 
+import androidx.activity.compose.BackHandler
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import androidx.compose.foundation.Image
@@ -43,6 +44,7 @@ fun PlayerRoundScoreScreen(
     lastPlayer: Boolean,
     onNextPlayerButtonClick: (Round) -> Unit,
     onResultsButtonClick: (Round) -> Unit,
+    onBack: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     var currentNum10s by remember { mutableStateOf(round.num10s) }
@@ -94,9 +96,7 @@ fun PlayerRoundScoreScreen(
         Text(
             text = stringResource(
                 R.string.round_points,
-                CalculationService
-                    .points(currentNum10s, currentNumCenter, currentNumLigretto)
-                    .toString()
+                CalculationService.points(currentNum10s, currentNumCenter, currentNumLigretto)
             )
         )
         if (!lastPlayer) {
@@ -130,6 +130,7 @@ fun PlayerRoundScoreScreen(
                 Text(text = stringResource(R.string.results))
             }
         }
+        BackHandler(onBack = onBack)
     }
 }
 
@@ -155,7 +156,7 @@ fun CardPointsCalculator(
             Text(text = stringResource(description))
         }
         Counter(value = numCards, onValueChange = { onNumCardsChange(it) })
-        Points(points = points)
+        Points(points = points.toInt())
     }
 }
 
@@ -171,7 +172,8 @@ fun PlayerRoundScoreScreenPreview() {
             round = Util.alex.round[2]!!,
             lastPlayer = false,
             onNextPlayerButtonClick = { },
-            onResultsButtonClick = { }
+            onResultsButtonClick = { },
+            onBack = { }
         )
     }
 }
@@ -188,7 +190,8 @@ fun PlayerRoundScoreLastPlayerScreenPreview() {
             round = Util.thao.round[2]!!,
             lastPlayer = true,
             onNextPlayerButtonClick = { },
-            onResultsButtonClick = { }
+            onResultsButtonClick = { },
+            onBack = { }
         )
     }
 }

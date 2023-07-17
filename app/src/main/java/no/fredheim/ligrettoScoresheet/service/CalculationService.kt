@@ -30,6 +30,4 @@ object CalculationService {
         val ligretto = points(CardType.Ligretto, numLigretto)
         return tens.toInt() + center.toInt() + ligretto.toInt()
     }
-
-    fun score(player: Player): String = player.round.values.sumOf { it.points() }.toString()
 }

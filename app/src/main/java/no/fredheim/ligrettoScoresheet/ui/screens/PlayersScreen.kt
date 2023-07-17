@@ -1,4 +1,4 @@
-package no.fredheim.ligrettoScoresheet.ui
+package no.fredheim.ligrettoScoresheet.ui.screens
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.background
