@@ -140,7 +140,7 @@ fun CardPointsCalculator(
     @StringRes imageDescription: Int,
     @StringRes description: Int,
     numCards: String,
-    points: String,
+    points: Int,
     onNumCardsChange: (String) -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -156,7 +156,7 @@ fun CardPointsCalculator(
             Text(text = stringResource(description))
         }
         Counter(value = numCards, onValueChange = { onNumCardsChange(it) })
-        Points(points = points.toInt())
+        Points(points = points)
     }
 }
 

@@ -11,23 +11,21 @@ object CalculationService {
     fun decrement(value: String): String =
         if (!value.isDigitsOnly() || value == "1") "" else value.toInt().dec().toString()
 
-    fun points(cardType: CardType, numCards: String): String =
+    fun points(cardType: CardType, numCards: String): Int =
         when (cardType) {
             CardType.Ten -> {
-                if (!numCards.isDigitsOnly()) "0" else (numCards.toInt() * 2).toString()
+                if (!numCards.isDigitsOnly()) 0 else numCards.toInt() * 2
             }
             CardType.Center -> {
-                if (!numCards.isDigitsOnly()) "0" else (numCards.toInt()).toString()
+                if (!numCards.isDigitsOnly()) 0 else numCards.toInt()
             }
             CardType.Ligretto -> {
-                if (!numCards.isDigitsOnly()) "0" else (numCards.toInt() * -2).toString()
+                if (!numCards.isDigitsOnly()) 0 else numCards.toInt() * -2
             }
         }
 
-    fun points(num10s: String, numCenter: String, numLigretto: String): Int {
-        val tens = points(CardType.Ten, num10s)
-        val center = points(CardType.Center, numCenter)
-        val ligretto = points(CardType.Ligretto, numLigretto)
-        return tens.toInt() + center.toInt() + ligretto.toInt()
-    }
+    fun points(num10s: String, numCenter: String, numLigretto: String): Int =
+        points(CardType.Ten, num10s) +
+        points(CardType.Center, numCenter) +
+        points(CardType.Ligretto, numLigretto)
 }
