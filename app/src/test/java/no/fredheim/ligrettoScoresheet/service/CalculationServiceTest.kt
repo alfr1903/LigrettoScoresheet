@@ -48,6 +48,11 @@ internal class CalculationServiceTest {
         fun `given 1 decrement function should set score to empty string`() {
             CalculationService.decrement("1") shouldBe ""
         }
+
+        @Test
+        fun `given empty input decrement function should set score to empty string`() {
+            CalculationService.decrement("") shouldBe ""
+        }
     }
 
     @Nested
