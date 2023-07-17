@@ -10,14 +10,21 @@ object Util {
         number = 1,
         name = "Alex",
         color = LigrettoOrange,
-        round = mutableMapOf(Pair(1, Round()))
+        round = mutableMapOf(
+            Pair(1, Round(num10s = "0", numCenter = "8", numLigretto = "5")),
+            Pair(2, Round(num10s = "1", numCenter = "14", numLigretto = "0"))
+        )
     )
 
     val thao = Player(
         number = 2,
         name = "Thao",
         color = LigrettoLightBlue,
-        round = mutableMapOf(Pair(2, Round()))
+        round = mutableMapOf(
+            Pair(1, Round(num10s = "2", numCenter = "15", numLigretto = "0")),
+            Pair(2, Round(num10s = "0", numCenter = "6", numLigretto = "8")),
+
+        )
     )
     val players = listOf(alex, thao)
 }
