@@ -25,8 +25,10 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import no.fredheim.ligrettoScoresheet.R
@@ -43,7 +45,7 @@ import no.fredheim.ligrettoScoresheet.ui.theme.LigrettoScoresheetTheme
 fun PlayerRoundScoreScreen(
     player: Player,
     round: Round,
-    lastPlayer: Boolean,
+    numPlayers: Int,
     onNextPlayerButtonClick: (Round) -> Unit,
     onResultsButtonClick: (Round) -> Unit,
     onBack: () -> Unit,
@@ -52,6 +54,8 @@ fun PlayerRoundScoreScreen(
     var currentNum10s by remember { mutableStateOf(round.num10s) }
     var currentNumCenter by remember { mutableStateOf(round.numCenter) }
     var currentNumLigretto by remember { mutableStateOf(round.numLigretto) }
+
+    val lastPlayer = player.number == numPlayers
 
     Column(
         modifier = modifier
@@ -102,10 +106,12 @@ fun PlayerRoundScoreScreen(
             )
         )
         Row(
-            modifier = Modifier.padding(top = 16.dp).fillMaxWidth(),
+            modifier = Modifier
+                .padding(top = 16.dp)
+                .fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceEvenly
         ) {
-            Button(onClick = { onBack() }) {
+            Button(onClick = onBack) {
                 if (player.number == 1) {
                     if (round.number == 1) Text(text = stringResource(R.string.abort_game))
                     else Text(text = stringResource(R.string.last_round_results))
@@ -127,6 +133,12 @@ fun PlayerRoundScoreScreen(
                 if(!lastPlayer) Text(text = stringResource(R.string.next_player))
                 else Text(text = stringResource(R.string.results))
             }
+        }
+        Box(Modifier.weight(1f), contentAlignment = Alignment.Center) {
+            Text(
+                text = "${player.number}/$numPlayers",
+                color = Color.Gray
+            )
         }
     }
     BackHandler(onBack = onBack)
@@ -168,7 +180,7 @@ fun PlayerRoundScoreFirstRoundFirstPlayerScreenPreview() {
         PlayerRoundScoreScreen(
             player = Util.alex,
             round = Util.alex.round[1]!!,
-            lastPlayer = false,
+            numPlayers = 3,
             onNextPlayerButtonClick = { },
             onResultsButtonClick = { },
             onBack = { }
@@ -186,7 +198,7 @@ fun PlayerRoundScoreSecondRoundFirstPlayerScreenPreview() {
         PlayerRoundScoreScreen(
             player = Util.alex,
             round = Util.alex.round[2]!!,
-            lastPlayer = false,
+            numPlayers = 3,
             onNextPlayerButtonClick = { },
             onResultsButtonClick = { },
             onBack = { }
@@ -204,7 +216,7 @@ fun PlayerRoundScoreMiddlePlayerScreenPreview() {
         PlayerRoundScoreScreen(
             player = Util.thao,
             round = Util.thao.round[2]!!,
-            lastPlayer = false,
+            numPlayers = 3,
             onNextPlayerButtonClick = { },
             onResultsButtonClick = { },
             onBack = { }
@@ -222,7 +234,7 @@ fun PlayerRoundScoreLastPlayerScreenPreview() {
         PlayerRoundScoreScreen(
             player = Util.rikke,
             round = Util.rikke.round[2]!!,
-            lastPlayer = true,
+            numPlayers = 3,
             onNextPlayerButtonClick = { },
             onResultsButtonClick = { },
             onBack = { }

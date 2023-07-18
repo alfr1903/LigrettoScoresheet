@@ -75,10 +75,10 @@ class LigrettoViewModel : ViewModel() {
 
     fun addRoundCurrentPlayer(round: Round) {
         _gameState.value.players[currentPlayerIndex]!!.round[currentRound] = round
-        if (currentPlayerIndex + 1 <= _gameState.value.players.size) currentPlayerIndex++
+        if (currentPlayerIndex + 1 <= numPlayers()) currentPlayerIndex++
     }
 
-    fun lastPlayer(): Boolean = currentPlayerIndex == _gameState.value.players.size
+    fun numPlayers(): Int = _gameState.value.players.size
     fun handleBackPress(fromScreen: LigrettoScreen) {
         when (fromScreen) {
             LigrettoScreen.Welcome,
@@ -87,9 +87,7 @@ class LigrettoViewModel : ViewModel() {
             LigrettoScreen.PlayerRoundScore -> {
                 when {
                     currentPlayerIndex == 1 && currentRound == 1 -> Unit
-                    currentPlayerIndex == 1 -> {
-                        currentPlayerIndex = _gameState.value.players.size; currentRound--
-                    }
+                    currentPlayerIndex == 1 -> { currentPlayerIndex = numPlayers(); currentRound-- }
                     else -> currentPlayerIndex--
                 }
             }

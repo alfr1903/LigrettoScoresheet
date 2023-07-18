@@ -67,7 +67,7 @@ fun LigrettoApp(
             PlayerRoundScoreScreen(
                 player = currentPlayer,
                 round = viewModel.currentRound(currentPlayer),
-                lastPlayer = viewModel.lastPlayer(),
+                numPlayers = viewModel.numPlayers(),
                 onNextPlayerButtonClick = {
                     viewModel.addRoundCurrentPlayer(it)
                     navController.navigate(LigrettoScreen.PlayerRoundScore.name)
@@ -86,6 +86,7 @@ fun LigrettoApp(
         composable(route = LigrettoScreen.Results.name) {
             ResultsScreen(
                 players = state.players.values.toList(),
+                round = viewModel.currentRound,
                 onNextRoundButtonClick = {
                     viewModel.initNextRoundAllPlayers()
                     navController.navigate(LigrettoScreen.PlayerRoundScore.name)

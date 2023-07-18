@@ -24,4 +24,5 @@
     <string name="last_round_results">Last round results</string>
     <string name="abort_game">Abort game</string>
     <string name="prev_player">Prev player</string>
+    <string name="after_round">after %d round</string>
 </resources>

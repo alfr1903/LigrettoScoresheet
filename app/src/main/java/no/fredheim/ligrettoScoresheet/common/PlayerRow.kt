@@ -53,6 +53,7 @@ fun PlayerRow(
 fun PlayerScoreRow(
     number: Int,
     player: Player,
+    round: Int,
     modifier: Modifier = Modifier
 ) {
     Row(
@@ -80,7 +81,7 @@ fun PlayerScoreRow(
             )
         }
         Spacer(modifier = Modifier.weight(5f))
-        Points(points = player.score())
+        Points(points = player.score(untilRound = round))
     }
 }
 
@@ -102,6 +103,11 @@ fun PlayerRowPreview() {
 @Composable
 fun PlayerScoreRowPreview() {
     LigrettoScoresheetTheme {
-        PlayerScoreRow(number = 1, player = Util.alex, modifier = Modifier.padding(4.dp))
+        PlayerScoreRow(
+            number = 1,
+            player = Util.alex,
+            round = 1,
+            modifier = Modifier.padding(4.dp)
+        )
     }
 }

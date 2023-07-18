@@ -1,7 +1,10 @@
 package no.fredheim.ligrettoScoresheet.ui.screens
 
 import androidx.activity.compose.BackHandler
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
@@ -25,11 +28,12 @@ import no.fredheim.ligrettoScoresheet.ui.theme.LigrettoScoresheetTheme
 @Composable
 fun ResultsScreen(
     players: List<Player>,
+    round: Int,
     onNextRoundButtonClick: () -> Unit,
     onBack: () -> Unit,
     modifier: Modifier = Modifier
 ) {
-    val playersSorted = players.sortedByDescending { it.score() }
+    val playersSorted = players.sortedByDescending { it.score(untilRound = round) }
     Column(
         modifier = modifier,
         horizontalAlignment = Alignment.CenterHorizontally
@@ -39,16 +43,47 @@ fun ResultsScreen(
             fontSize = 30.sp,
             fontWeight = FontWeight.Bold
         )
+        Text(text = stringResource(R.string.after_round, round) + if (round > 1) "s" else "")
         Divider()
         LazyColumn {
             itemsIndexed(playersSorted) { num, player ->
-                PlayerScoreRow(number = num + 1, player = player, modifier.padding(4.dp))
+                PlayerScoreRow(
+                    number = num + 1,
+                    player = player,
+                    round = round,
+                    modifier.padding(4.dp)
+                )
             }
         }
-        Button(onClick = onNextRoundButtonClick) {
-            Text(text = stringResource(R.string.next_round))
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceEvenly
+        ) {
+            Button(onClick = onBack) {
+                Text(text = stringResource(R.string.prev_player))
+            }
+            Button(onClick = onNextRoundButtonClick) {
+                Text(text = stringResource(R.string.next_round))
+            }
         }
-        BackHandler(onBack = onBack)
+    }
+    BackHandler(onBack = onBack)
+}
+
+@Preview(
+    showBackground = true,
+    device = "id:pixel_4"
+)
+@Composable
+fun ResultsScreenRound1Preview() {
+    LigrettoScoresheetTheme {
+        ResultsScreen(
+            players = Util.players,
+            round = 1,
+            modifier = Modifier.padding(4.dp),
+            onNextRoundButtonClick = { },
+            onBack = { }
+        )
     }
 }
 
@@ -57,10 +92,11 @@ fun ResultsScreen(
     device = "id:pixel_4"
 )
 @Composable
-fun ResultsScreenPreview() {
+fun ResultsScreenRound2Preview() {
     LigrettoScoresheetTheme {
         ResultsScreen(
             players = Util.players,
+            round = 2,
             modifier = Modifier.padding(4.dp),
             onNextRoundButtonClick = { },
             onBack = { }
