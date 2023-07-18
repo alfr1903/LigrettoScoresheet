@@ -6,7 +6,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
-import no.fredheim.ligrettoScoresheet.LigrettoScreen
+import no.fredheim.ligrettoScoresheet.Screen
 import no.fredheim.ligrettoScoresheet.model.GameState
 import no.fredheim.ligrettoScoresheet.model.Player
 import no.fredheim.ligrettoScoresheet.model.PlayersUiState
@@ -16,7 +16,7 @@ class LigrettoViewModel : ViewModel() {
     private val _gameState = MutableStateFlow(GameState())
     val gameState: StateFlow<GameState> = _gameState.asStateFlow()
 
-    var currentRound = 0
+    var currentRound = 1
         private set
 
     var currentPlayerIndex = 1
@@ -59,10 +59,12 @@ class LigrettoViewModel : ViewModel() {
             it.copy(playersUiState = newUiState)
         }
     }
-    fun initNextRoundAllPlayers() {
-        currentPlayerIndex = 1
-        currentRound++
-        (1.._gameState.value.players.size).forEach {
+    fun initNextRoundAllPlayers(firstTime: Boolean) {
+        if (!firstTime) {
+            currentPlayerIndex = 1
+            currentRound++
+        }
+        (1..numPlayers()).forEach {
             if(!_gameState.value.players[it]!!.round.containsKey(currentRound))
                 _gameState.value.players[it]!!.round[currentRound] = Round(number = currentRound)
         }
@@ -79,12 +81,12 @@ class LigrettoViewModel : ViewModel() {
     }
 
     fun numPlayers(): Int = _gameState.value.players.size
-    fun handleBackPress(fromScreen: LigrettoScreen) {
+    fun handleBackPress(fromScreen: Screen) {
         when (fromScreen) {
-            LigrettoScreen.Welcome,
-            LigrettoScreen.Players,
-            LigrettoScreen.Results -> Unit
-            LigrettoScreen.PlayerRoundScore -> {
+            Screen.Welcome,
+            Screen.Players,
+            Screen.Results -> Unit
+            Screen.PlayerRoundScore -> {
                 when {
                     currentPlayerIndex == 1 && currentRound == 1 -> Unit
                     currentPlayerIndex == 1 -> { currentPlayerIndex = numPlayers(); currentRound-- }

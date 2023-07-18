@@ -17,7 +17,7 @@ import no.fredheim.ligrettoScoresheet.ui.screens.PlayersScreen
 import no.fredheim.ligrettoScoresheet.ui.screens.ResultsScreen
 import no.fredheim.ligrettoScoresheet.ui.screens.WelcomeScreen
 
-enum class LigrettoScreen {
+enum class Screen {
     Welcome,
     Players,
     PlayerRoundScore,
@@ -33,19 +33,19 @@ fun LigrettoApp(
 
     NavHost(
         navController = navController,
-        startDestination = LigrettoScreen.Welcome.name
+        startDestination = Screen.Welcome.name
     ) {
-        composable(route = LigrettoScreen.Welcome.name) {
+        composable(route = Screen.Welcome.name) {
             WelcomeScreen(
                 maxScore = state.maxScore,
                 onStartGameButtonClick = { maxScore ->
                     viewModel.updateMaxScore(maxScore)
-                    navController.navigate(LigrettoScreen.Players.name)
+                    navController.navigate(Screen.Players.name)
                 },
                 modifier = Modifier.screenBorder()
             )
         }
-        composable(route = LigrettoScreen.Players.name) {
+        composable(route = Screen.Players.name) {
             PlayersScreen(
                 players = state.players.values.toList(),
                 name = state.playersUiState.name,
@@ -55,44 +55,43 @@ fun LigrettoApp(
                 onChosenColorChange = { viewModel.updateChosenColor(it) },
                 onPlayerCreated = { viewModel.addPlayer(it) },
                 onWriteResultsButtonClick = {
-                    viewModel.initNextRoundAllPlayers()
-                    navController.navigate(LigrettoScreen.PlayerRoundScore.name)
+                    viewModel.initNextRoundAllPlayers(firstTime = true)
+                    navController.navigate(Screen.PlayerRoundScore.name)
                 },
                 modifier = Modifier.screenBorder()
             )
         }
-        composable(route = LigrettoScreen.PlayerRoundScore.name) {
+        composable(route = Screen.PlayerRoundScore.name) {
             val currentPlayer = viewModel.currentPlayer()
-
             PlayerRoundScoreScreen(
                 player = currentPlayer,
                 round = viewModel.currentRound(currentPlayer),
                 numPlayers = viewModel.numPlayers(),
                 onNextPlayerButtonClick = {
                     viewModel.addRoundCurrentPlayer(it)
-                    navController.navigate(LigrettoScreen.PlayerRoundScore.name)
+                    navController.navigate(Screen.PlayerRoundScore.name)
                 },
                 onResultsButtonClick = {
                     viewModel.addRoundCurrentPlayer(it)
-                    navController.navigate(LigrettoScreen.Results.name)
+                    navController.navigate(Screen.Results.name)
                 },
                 onBack = {
-                    viewModel.handleBackPress(LigrettoScreen.PlayerRoundScore)
+                    viewModel.handleBackPress(Screen.PlayerRoundScore)
                     navController.popBackStack()
                 },
                 modifier = Modifier.screenBorder()
             )
         }
-        composable(route = LigrettoScreen.Results.name) {
+        composable(route = Screen.Results.name) {
             ResultsScreen(
                 players = state.players.values.toList(),
                 round = viewModel.currentRound,
                 onNextRoundButtonClick = {
-                    viewModel.initNextRoundAllPlayers()
-                    navController.navigate(LigrettoScreen.PlayerRoundScore.name)
+                    viewModel.initNextRoundAllPlayers(firstTime = false)
+                    navController.navigate(Screen.PlayerRoundScore.name)
                 },
                 onBack = {
-                    viewModel.handleBackPress(LigrettoScreen.Results)
+                    viewModel.handleBackPress(Screen.Results)
                     navController.popBackStack()
                 },
                 modifier = Modifier.screenBorder()
