@@ -64,7 +64,7 @@ class LigrettoViewModel : ViewModel() {
         currentRound++
         (1.._gameState.value.players.size).forEach {
             if(!_gameState.value.players[it]!!.round.containsKey(currentRound))
-                _gameState.value.players[it]!!.round[currentRound] = Round()
+                _gameState.value.players[it]!!.round[currentRound] = Round(number = currentRound)
         }
     }
 

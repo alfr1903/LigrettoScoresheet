@@ -5,10 +5,12 @@ import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
@@ -99,39 +101,35 @@ fun PlayerRoundScoreScreen(
                 CalculationService.points(currentNum10s, currentNumCenter, currentNumLigretto)
             )
         )
-        if (!lastPlayer) {
-            Button(
-                onClick = {
-                    onNextPlayerButtonClick(
-                        Round(
-                            num10s = currentNum10s,
-                            numCenter = currentNumCenter,
-                            numLigretto = currentNumLigretto
-                        )
-                    )
-                },
-                modifier = Modifier.padding(top = 16.dp)
-            ) {
-                Text(text = stringResource(R.string.next_player))
+        Row(
+            modifier = Modifier.padding(top = 16.dp).fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceEvenly
+        ) {
+            Button(onClick = { onBack() }) {
+                if (player.number == 1) {
+                    if (round.number == 1) Text(text = stringResource(R.string.abort_game))
+                    else Text(text = stringResource(R.string.last_round_results))
+                }
+                else Text(text = stringResource(R.string.prev_player))
             }
-        } else {
             Button(
                 onClick = {
-                    onResultsButtonClick(
-                        Round(
-                            num10s = currentNum10s,
-                            numCenter = currentNumCenter,
-                            numLigretto = currentNumLigretto
-                        )
+                    val roundData = Round(
+                        number = round.number,
+                        num10s = currentNum10s,
+                        numCenter = currentNumCenter,
+                        numLigretto = currentNumLigretto
                     )
+                    if (!lastPlayer) onNextPlayerButtonClick(roundData)
+                    else onResultsButtonClick(roundData)
                 },
-                modifier = Modifier.padding(top = 16.dp)
             ) {
-                Text(text = stringResource(R.string.results))
+                if(!lastPlayer) Text(text = stringResource(R.string.next_player))
+                else Text(text = stringResource(R.string.results))
             }
         }
-        BackHandler(onBack = onBack)
     }
+    BackHandler(onBack = onBack)
 }
 
 @Composable
@@ -165,7 +163,25 @@ fun CardPointsCalculator(
     device = "id:pixel_4"
 )
 @Composable
-fun PlayerRoundScoreScreenPreview() {
+fun PlayerRoundScoreFirstRoundFirstPlayerScreenPreview() {
+    LigrettoScoresheetTheme {
+        PlayerRoundScoreScreen(
+            player = Util.alex,
+            round = Util.alex.round[1]!!,
+            lastPlayer = false,
+            onNextPlayerButtonClick = { },
+            onResultsButtonClick = { },
+            onBack = { }
+        )
+    }
+}
+
+@Preview(
+    showBackground = true,
+    device = "id:pixel_4"
+)
+@Composable
+fun PlayerRoundScoreSecondRoundFirstPlayerScreenPreview() {
     LigrettoScoresheetTheme {
         PlayerRoundScoreScreen(
             player = Util.alex,
@@ -183,11 +199,29 @@ fun PlayerRoundScoreScreenPreview() {
     device = "id:pixel_4"
 )
 @Composable
-fun PlayerRoundScoreLastPlayerScreenPreview() {
+fun PlayerRoundScoreMiddlePlayerScreenPreview() {
     LigrettoScoresheetTheme {
         PlayerRoundScoreScreen(
             player = Util.thao,
             round = Util.thao.round[2]!!,
+            lastPlayer = false,
+            onNextPlayerButtonClick = { },
+            onResultsButtonClick = { },
+            onBack = { }
+        )
+    }
+}
+
+@Preview(
+    showBackground = true,
+    device = "id:pixel_4"
+)
+@Composable
+fun PlayerRoundScoreLastPlayerScreenPreview() {
+    LigrettoScoresheetTheme {
+        PlayerRoundScoreScreen(
+            player = Util.rikke,
+            round = Util.rikke.round[2]!!,
             lastPlayer = true,
             onNextPlayerButtonClick = { },
             onResultsButtonClick = { },
