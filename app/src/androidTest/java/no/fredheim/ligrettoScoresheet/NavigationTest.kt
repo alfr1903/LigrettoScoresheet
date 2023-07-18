@@ -32,9 +32,50 @@ class NavigationTest {
     }
 
     @Test
-    fun afterStartGameButtonPressed_currentScreenShouldBePlayersScreen() {
-        composeTestRule.clickNodeWithText(R.string.start_game)
+    fun afterStartGamePressed_currentScreenShouldBePlayersScreen() {
+        composeTestRule.clickNode(R.string.start_game)
         navController shouldHaveCurrentRouteName Screen.Players.name
     }
+
+    @Test
+    fun afterPlayersAdded_and_StartGamePressed_currentScreenShouldBeFirstPlayerRoundScreen() {
+        composeTestRule.navigateToPlayersScreen()
+
+        composeTestRule.insertIntoField(R.string.add_new_player, "Alex")
+        composeTestRule.clickNode(R.string.add_player)
+        composeTestRule.insertIntoField(R.string.add_new_player, "Thao")
+        composeTestRule.clickNode(R.string.add_player)
+        composeTestRule.insertIntoField(R.string.add_new_player, "Rikke")
+        composeTestRule.clickNode(R.string.add_player)
+        composeTestRule.clickNode(R.string.start_game)
+
+        navController shouldHaveCurrentRouteName Screen.PlayerRound.name
+    }
+
+    @Test
+    fun afterNextPlayerPressed_currentScreenShouldBeSecondPlayerRoundScreen() {
+        composeTestRule.navigateToFirstPlayerRoundScreen()
+        composeTestRule.clickNode(R.string.next_player)
+
+        navController shouldHaveCurrentRouteName Screen.PlayerRound.name
+    }
+
+    @Test
+    fun afterNextPlayerPressed_currentScreenShouldBeThirdPlayerRoundScreen() {
+        composeTestRule.navigateToSecondPlayerRoundScreen()
+        composeTestRule.clickNode(R.string.next_player)
+
+        navController shouldHaveCurrentRouteName Screen.PlayerRound.name
+    }
+
+    @Test
+    fun afterResultsPressed_currentScreenShouldBeResultsScreen() {
+        composeTestRule.navigateToThirdPlayerRoundScreen()
+        composeTestRule.clickNode(R.string.results)
+
+        navController shouldHaveCurrentRouteName Screen.Results.name
+    }
+
+
 
 }

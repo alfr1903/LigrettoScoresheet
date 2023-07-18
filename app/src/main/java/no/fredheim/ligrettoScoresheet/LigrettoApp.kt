@@ -20,7 +20,7 @@ import no.fredheim.ligrettoScoresheet.ui.screens.WelcomeScreen
 enum class Screen {
     Welcome,
     Players,
-    PlayerRoundScore,
+    PlayerRound,
     Results
 }
 
@@ -56,12 +56,12 @@ fun LigrettoApp(
                 onPlayerCreated = { viewModel.addPlayer(it) },
                 onWriteResultsButtonClick = {
                     viewModel.initNextRoundAllPlayers(firstTime = true)
-                    navController.navigate(Screen.PlayerRoundScore.name)
+                    navController.navigate(Screen.PlayerRound.name)
                 },
                 modifier = Modifier.screenBorder()
             )
         }
-        composable(route = Screen.PlayerRoundScore.name) {
+        composable(route = Screen.PlayerRound.name) {
             val currentPlayer = viewModel.currentPlayer()
             PlayerRoundScoreScreen(
                 player = currentPlayer,
@@ -69,14 +69,14 @@ fun LigrettoApp(
                 numPlayers = viewModel.numPlayers(),
                 onNextPlayerButtonClick = {
                     viewModel.addRoundCurrentPlayer(it)
-                    navController.navigate(Screen.PlayerRoundScore.name)
+                    navController.navigate(Screen.PlayerRound.name)
                 },
                 onResultsButtonClick = {
                     viewModel.addRoundCurrentPlayer(it)
                     navController.navigate(Screen.Results.name)
                 },
                 onBack = {
-                    viewModel.handleBackPress(Screen.PlayerRoundScore)
+                    viewModel.handleBackPress(Screen.PlayerRound)
                     navController.popBackStack()
                 },
                 modifier = Modifier.screenBorder()
@@ -88,7 +88,7 @@ fun LigrettoApp(
                 round = viewModel.currentRound,
                 onNextRoundButtonClick = {
                     viewModel.initNextRoundAllPlayers(firstTime = false)
-                    navController.navigate(Screen.PlayerRoundScore.name)
+                    navController.navigate(Screen.PlayerRound.name)
                 },
                 onBack = {
                     viewModel.handleBackPress(Screen.Results)

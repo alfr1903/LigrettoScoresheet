@@ -3,6 +3,34 @@
   <component name="AndroidTestResultsUserPreferences">
     <option name="androidTestResultsTableState">
       <map>
+        <entry key="-2065274326">
+          <value>
+            <AndroidTestResultsTableState>
+              <option name="preferredColumnWidths">
+                <map>
+                  <entry key="Duration" value="90" />
+                  <entry key="R3CT203Z41T" value="120" />
+                  <entry key="Tests" value="360" />
+                  <entry key="samsung&#10; SM-S908B" value="120" />
+                </map>
+              </option>
+            </AndroidTestResultsTableState>
+          </value>
+        </entry>
+        <entry key="-472296552">
+          <value>
+            <AndroidTestResultsTableState>
+              <option name="preferredColumnWidths">
+                <map>
+                  <entry key="Duration" value="90" />
+                  <entry key="R3CT203Z41T" value="120" />
+                  <entry key="Tests" value="360" />
+                  <entry key="samsung&#10; SM-S908B" value="120" />
+                </map>
+              </option>
+            </AndroidTestResultsTableState>
+          </value>
+        </entry>
         <entry key="-215218179">
           <value>
             <AndroidTestResultsTableState>
@@ -23,7 +51,9 @@
                 <map>
                   <entry key="Duration" value="90" />
                   <entry key="Pixel_4_API_33" value="120" />
+                  <entry key="R3CT203Z41T" value="120" />
                   <entry key="Tests" value="360" />
+                  <entry key="samsung&#10; SM-S908B" value="120" />
                 </map>
               </option>
             </AndroidTestResultsTableState>

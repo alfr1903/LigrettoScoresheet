@@ -86,7 +86,7 @@ class LigrettoViewModel : ViewModel() {
             Screen.Welcome,
             Screen.Players,
             Screen.Results -> Unit
-            Screen.PlayerRoundScore -> {
+            Screen.PlayerRound -> {
                 when {
                     currentPlayerIndex == 1 && currentRound == 1 -> Unit
                     currentPlayerIndex == 1 -> { currentPlayerIndex = numPlayers(); currentRound-- }
