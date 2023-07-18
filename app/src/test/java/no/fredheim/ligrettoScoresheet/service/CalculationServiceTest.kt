@@ -63,22 +63,22 @@ internal class CalculationServiceTest {
 
             @Test
             fun `given illegal input in the tens pile the points for that pile should be 0`() {
-                CalculationService.points(CardType.Ten, "") shouldBe "0"
+                CalculationService.points(CardType.Ten, "") shouldBe 0
             }
 
             @Test
             fun `given 0 card in the tens pile the points for that pile should be 0`() {
-                CalculationService.points(CardType.Ten, "0") shouldBe "0"
+                CalculationService.points(CardType.Ten, "0") shouldBe 0
             }
 
             @Test
             fun `given 1 card in the tens pile the points for that pile should be 2`() {
-                CalculationService.points(CardType.Ten, "1") shouldBe "2"
+                CalculationService.points(CardType.Ten, "1") shouldBe 2
             }
 
             @Test
             fun `given 2 cards in the tens pile the points for that pile should be 4`() {
-                CalculationService.points(CardType.Ten, "2") shouldBe "4"
+                CalculationService.points(CardType.Ten, "2") shouldBe 4
             }
         }
 
@@ -87,22 +87,22 @@ internal class CalculationServiceTest {
 
             @Test
             fun `given illegal input in the center pile the points for that pile should be 0`() {
-                CalculationService.points(CardType.Center, "") shouldBe "0"
+                CalculationService.points(CardType.Center, "") shouldBe 0
             }
 
             @Test
             fun `given 0 card in the center pile the points for that pile should be 0`() {
-                CalculationService.points(CardType.Center, "0") shouldBe "0"
+                CalculationService.points(CardType.Center, "0") shouldBe 0
             }
 
             @Test
             fun `given 1 card in the center pile the points for that pile should be 1`() {
-                CalculationService.points(CardType.Center, "1") shouldBe "1"
+                CalculationService.points(CardType.Center, "1") shouldBe 1
             }
 
             @Test
             fun `given 2 cards in the center pile the points for that pile should be 2`() {
-                CalculationService.points(CardType.Center, "2") shouldBe "2"
+                CalculationService.points(CardType.Center, "2") shouldBe 2
             }
         }
 
@@ -111,22 +111,22 @@ internal class CalculationServiceTest {
 
             @Test
             fun `given illegal input in the ligretto pile the points for that pile should be 0`() {
-                CalculationService.points(CardType.Ligretto, "") shouldBe "0"
+                CalculationService.points(CardType.Ligretto, "") shouldBe 0
             }
 
             @Test
             fun `given 0 card in the ligretto pile the points for that pile should be 0`() {
-                CalculationService.points(CardType.Ligretto, "0") shouldBe "0"
+                CalculationService.points(CardType.Ligretto, "0") shouldBe 0
             }
 
             @Test
             fun `given 1 card in the ligretto pile the points for that pile should be minus 2`() {
-                CalculationService.points(CardType.Ligretto, "1") shouldBe "-2"
+                CalculationService.points(CardType.Ligretto, "1") shouldBe -2
             }
 
             @Test
             fun `given 2 cards in the ligretto pile the points for that pile should be minus 4`() {
-                CalculationService.points(CardType.Ligretto, "2") shouldBe "-4"
+                CalculationService.points(CardType.Ligretto, "2") shouldBe -4
             }
         }
     }

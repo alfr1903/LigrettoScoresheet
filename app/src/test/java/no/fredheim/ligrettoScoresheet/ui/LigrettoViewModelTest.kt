@@ -71,8 +71,8 @@ internal class LigrettoViewModelTest {
         @Test
         fun `rounds with default values can be created for all participants`() {
             viewModel.initNextRoundAllPlayers()
-            viewModel.gameState.value.players[1]!!.round[1] shouldBe Round()
-            viewModel.gameState.value.players[2]!!.round[1] shouldBe Round()
+            viewModel.gameState.value.players[1]!!.round[1] shouldBe Round(1)
+            viewModel.gameState.value.players[2]!!.round[1] shouldBe Round(1)
         }
 
         @Test
@@ -87,16 +87,16 @@ internal class LigrettoViewModelTest {
         fun `adding a player round should increment player index by 1`() {
             viewModel.currentPlayerIndex shouldBe 1
 
-            viewModel.addRoundCurrentPlayer(Round("1", "13", "0"))
+            viewModel.addRoundCurrentPlayer(Round(1, "1", "13", "0"))
             viewModel.currentPlayerIndex shouldBe 2
         }
 
         @Test
         fun `adding a player round for the last player should not increment player index`() {
-            viewModel.addRoundCurrentPlayer(Round("1", "13", "0"))
+            viewModel.addRoundCurrentPlayer(Round(1, "1", "13", "0"))
             viewModel.currentPlayerIndex shouldBe 2
 
-            viewModel.addRoundCurrentPlayer(Round("1", "13", "0"))
+            viewModel.addRoundCurrentPlayer(Round(1, "1", "13", "0"))
             viewModel.currentPlayerIndex shouldBe 2
         }
     }
