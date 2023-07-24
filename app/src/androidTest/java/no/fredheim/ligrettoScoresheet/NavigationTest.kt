@@ -33,7 +33,7 @@ class NavigationTest {
 
     @Test
     fun afterStartGamePressed_currentScreenShouldBePlayersScreen() {
-        composeTestRule.clickNode(R.string.start_game)
+        composeTestRule.clickNode(R.string.start_ligretto_calculator)
         navController shouldHaveCurrentRouteName Screen.Players.name
     }
 
@@ -47,7 +47,7 @@ class NavigationTest {
         composeTestRule.clickNode(R.string.add_player)
         composeTestRule.insertIntoField(R.string.add_new_player, "Rikke")
         composeTestRule.clickNode(R.string.add_player)
-        composeTestRule.clickNode(R.string.start_game)
+        composeTestRule.clickNode(R.string.start_ligretto_calculator)
 
         navController shouldHaveCurrentRouteName Screen.PlayerRound.name
     }

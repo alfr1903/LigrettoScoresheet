@@ -42,59 +42,57 @@ fun WelcomeScreen(
 ) {
     var currentMax by remember { mutableStateOf(maxScore) }
 
-    Box {
-        Image(
-            painter = painterResource(id = R.drawable.ligrettored_background),
-            contentDescription = null,
-            contentScale = ContentScale.FillBounds
-        )
-        Column(modifier = modifier) {
-            Box(
-                modifier = Modifier.weight(9f),
-                contentAlignment = Alignment.BottomCenter
+    Image(
+        painter = painterResource(id = R.drawable.ligrettored_background),
+        contentDescription = null,
+        contentScale = ContentScale.FillBounds
+    )
+    Column {
+        Box(
+            modifier = Modifier.weight(9f),
+            contentAlignment = Alignment.BottomCenter
+        ) {
+            Image(
+                painter = painterResource(id = R.drawable.ligretto_calculator_logo),
+                contentDescription = stringResource(R.string.logo)
+            )
+        }
+        Spacer(modifier = Modifier.weight(2f))
+        Column(
+            modifier = Modifier.weight(9f),
+            horizontalAlignment = Alignment.CenterHorizontally,
+        ) {
+            Text(
+                text = stringResource(R.string.count_points),
+                modifier = Modifier.padding(bottom = 16.dp),
+                color = MaterialTheme.colorScheme.onPrimary,
+                textAlign = TextAlign.Center,
+                style = MaterialTheme.typography.headlineMedium
+            )
+            TextField(
+                value = currentMax,
+                onValueChange = { currentMax = it },
+                label = { Text(text = stringResource(R.string.type_total_amount)) },
+                isError = !currentMax.isDigitsOnly(),
+                keyboardOptions = KeyboardOptions.Default.copy(
+                    keyboardType = KeyboardType.Number,
+                    imeAction = ImeAction.Done
+                ),
+                singleLine = true,
+            )
+            Text(
+                text = stringResource(R.string.can_start_without_total_amount),
+                color = MaterialTheme.colorScheme.onPrimary,
+                textAlign = TextAlign.Center,
+                style = MaterialTheme.typography.bodySmall
+            )
+            Spacer(modifier = Modifier.weight(1f))
+            Button(
+                onClick = { onStartGameButtonClick(currentMax) },
+                modifier = Modifier.padding(bottom = 16.dp),
+                colors = ButtonDefaults.buttonColors(containerColor = ButtonDarkBlue)
             ) {
-                Image(
-                    painter = painterResource(id = R.drawable.ligretto_calculator_logo),
-                    contentDescription = stringResource(R.string.logo)
-                )
-            }
-            Spacer(modifier = Modifier.weight(2f))
-            Column(
-                modifier = Modifier.weight(9f),
-                horizontalAlignment = Alignment.CenterHorizontally,
-            ) {
-                Text(
-                    text = stringResource(R.string.count_points),
-                    modifier = Modifier.padding(bottom = 16.dp),
-                    color = MaterialTheme.colorScheme.onPrimary,
-                    textAlign = TextAlign.Center,
-                    style = MaterialTheme.typography.headlineMedium
-                )
-                TextField(
-                    value = currentMax,
-                    onValueChange = { currentMax = it },
-                    label = { Text(text = stringResource(R.string.type_total_amount)) },
-                    isError = !currentMax.isDigitsOnly(),
-                    keyboardOptions = KeyboardOptions.Default.copy(
-                        keyboardType = KeyboardType.Number,
-                        imeAction = ImeAction.Done
-                    ),
-                    singleLine = true,
-                )
-                Text(
-                    text = stringResource(R.string.can_start_without_total_amount),
-                    color = MaterialTheme.colorScheme.onPrimary,
-                    textAlign = TextAlign.Center,
-                    style = MaterialTheme.typography.bodySmall
-                )
-                Spacer(modifier = Modifier.weight(1f))
-                Button(
-                    onClick = { onStartGameButtonClick(currentMax) },
-                    modifier = Modifier.padding(bottom = 16.dp),
-                    colors = ButtonDefaults.buttonColors(containerColor = ButtonDarkBlue)
-                ) {
-                    Text(text = stringResource(R.string.start_ligretto_calculator))
-                }
+                Text(text = stringResource(R.string.start_ligretto_calculator))
             }
         }
     }

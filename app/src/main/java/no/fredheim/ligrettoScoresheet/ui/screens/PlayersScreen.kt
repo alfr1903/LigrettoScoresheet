@@ -1,6 +1,7 @@
 package no.fredheim.ligrettoScoresheet.ui.screens
 
 import android.annotation.SuppressLint
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
@@ -8,16 +9,13 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
-import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
@@ -26,16 +24,17 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import no.fredheim.ligrettoScoresheet.R
 import no.fredheim.ligrettoScoresheet.Util
-import no.fredheim.ligrettoScoresheet.common.PlayerRow
 import no.fredheim.ligrettoScoresheet.model.Player
-import no.fredheim.ligrettoScoresheet.ui.theme.PlayerColors
 import no.fredheim.ligrettoScoresheet.ui.theme.LigrettoScoresheetTheme
+import no.fredheim.ligrettoScoresheet.ui.theme.PlayerColors
 
 @Composable
 fun PlayersScreen(
@@ -47,9 +46,42 @@ fun PlayersScreen(
     onChosenColorChange: (Color) -> Unit,
     onPlayerCreated: (Player) -> Unit,
     onWriteResultsButtonClick: () -> Unit,
+    onBack: () -> Unit,
     modifier: Modifier = Modifier
 ) {
-    Column(
+    Image(
+        painter = painterResource(id = R.drawable.ligrettoblue_background),
+        contentDescription = null,
+        contentScale = ContentScale.FillBounds
+    )
+    Column {
+        Box(
+            modifier = Modifier.weight(7f),
+            contentAlignment = Alignment.BottomStart
+        ) {
+            Image(
+                painter = painterResource(id = R.drawable.arrow_back),
+                contentDescription = stringResource(
+                    R.string.arrow_back
+                ),
+                modifier = Modifier
+                    .padding(start = 32.dp)
+                    .clickable { onBack() }
+            )
+        }
+        Column(
+            modifier = modifier.weight(33f),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Text(
+                text = stringResource(R.string.players),
+            )
+        }
+
+    }
+
+    /*
+        Column(
         modifier = modifier
             .fillMaxSize()
             .padding(16.dp),
@@ -79,6 +111,8 @@ fun PlayersScreen(
             Text(text = stringResource(R.string.start_ligretto_calculator))
         }
     }
+
+    */
 }
 
 @SuppressLint("UnrememberedMutableState")
@@ -182,7 +216,9 @@ fun PlayersScreenPreview() {
             onNameChange = { },
             onChosenColorChange = { },
             onPlayerCreated = { },
-            onWriteResultsButtonClick = { }
+            onWriteResultsButtonClick = { },
+            onBack = { },
+            modifier = Modifier.fillMaxSize()
         )
     }
 }

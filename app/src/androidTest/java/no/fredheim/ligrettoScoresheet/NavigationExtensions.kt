@@ -5,7 +5,7 @@ import androidx.compose.ui.test.junit4.AndroidComposeTestRule
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 
 fun AndroidComposeTestRule<ActivityScenarioRule<ComponentActivity>, ComponentActivity>
-        .navigateToPlayersScreen() = this.clickNode(R.string.start_game)
+        .navigateToPlayersScreen() = this.clickNode(R.string.start_ligretto_calculator)
 
 fun AndroidComposeTestRule<ActivityScenarioRule<ComponentActivity>, ComponentActivity>
         .navigateToFirstPlayerRoundScreen() {
@@ -16,7 +16,7 @@ fun AndroidComposeTestRule<ActivityScenarioRule<ComponentActivity>, ComponentAct
     this.clickNode(R.string.add_player)
     this.insertIntoField(R.string.add_new_player, "Rikke")
     this.clickNode(R.string.add_player)
-    this.clickNode(R.string.start_game)
+    this.clickNode(R.string.start_ligretto_calculator)
 }
 
 fun AndroidComposeTestRule<ActivityScenarioRule<ComponentActivity>, ComponentActivity>

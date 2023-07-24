@@ -41,8 +41,7 @@ fun LigrettoApp(
                 onStartGameButtonClick = { maxScore ->
                     viewModel.updateMaxScore(maxScore)
                     navController.navigate(Screen.Players.name)
-                },
-                modifier = Modifier.screenBorder()
+                }
             )
         }
         composable(route = Screen.Players.name) {
@@ -58,6 +57,7 @@ fun LigrettoApp(
                     viewModel.initNextRoundAllPlayers(firstTime = true)
                     navController.navigate(Screen.PlayerRound.name)
                 },
+                onBack = { navController.popBackStack() },
                 modifier = Modifier.screenBorder()
             )
         }

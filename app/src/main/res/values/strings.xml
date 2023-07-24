@@ -26,4 +26,6 @@
     <string name="can_start_without_total_amount">You can also start without a total amount</string>
     <string name="start_ligretto_calculator">Start Ligretto Calculator</string>
     <string name="only_numbers">Only numbers are valid input</string>
+    <string name="arrow_back">Arrow back</string>
+    <string name="players">Players</string>
 </resources>
