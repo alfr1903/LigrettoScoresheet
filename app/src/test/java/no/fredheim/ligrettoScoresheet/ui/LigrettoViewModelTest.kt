@@ -5,7 +5,7 @@ import io.kotest.matchers.maps.shouldContain
 import io.kotest.matchers.shouldBe
 import no.fredheim.ligrettoScoresheet.Util
 import no.fredheim.ligrettoScoresheet.model.Round
-import no.fredheim.ligrettoScoresheet.ui.theme.Colors
+import no.fredheim.ligrettoScoresheet.ui.theme.PlayerColors
 import no.fredheim.ligrettoScoresheet.ui.theme.LigrettoBlue
 import no.fredheim.ligrettoScoresheet.ui.theme.LigrettoOrange
 import org.junit.jupiter.api.BeforeEach
@@ -33,11 +33,11 @@ internal class LigrettoViewModelTest {
 
     @Test
     fun `adding a player removes the players chosen color from available colors`() {
-        viewModel.gameState.value.playersUiState.availableColors shouldBe  Colors
+        viewModel.gameState.value.playersUiState.availableColors shouldBe  PlayerColors
 
         viewModel.addPlayer(Util.alex)
         viewModel.gameState.value.playersUiState.availableColors shouldBe
-                Colors.minus(Util.alex.color)
+                PlayerColors.minus(Util.alex.color)
     }
 
     @Nested

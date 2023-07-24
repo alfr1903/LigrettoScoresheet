@@ -1,7 +1,5 @@
 <resources>
     <string name="app_name">Ligretto Scoresheet</string>
-    <string name="choose_max_score">Choose max score</string>
-    <string name="start_game">Start Game</string>
     <string name="player">Player %d</string>
     <string name="add_new_player">Add new player</string>
     <string name="add_player">Add player</string>
@@ -12,9 +10,7 @@
     <string name="center">Center</string>
     <string name="ligretto">Ligretto</string>
     <string name="add">Add</string>
-    <string name="welcome">Welcome to the ligretto score sheet app</string>
-    <string name="add_max_score">Add max score</string>
-    <string name="max_score_rules">Game can be started with or without a max score</string>
+    <string name="count_points">Count your points with the Ligretto calculator</string>
     <string name="next_player">Next player</string>
     <string name="results">See results</string>
     <string name="scoreboard">Scoreboard</string>
@@ -25,4 +21,9 @@
     <string name="abort_game">Abort game</string>
     <string name="prev_player">Prev player</string>
     <string name="after_round">after %d round</string>
+    <string name="logo">logo</string>
+    <string name="type_total_amount">Type a total amount</string>
+    <string name="can_start_without_total_amount">You can also start without a total amount</string>
+    <string name="start_ligretto_calculator">Start Ligretto Calculator</string>
+    <string name="only_numbers">Only numbers are valid input</string>
 </resources>

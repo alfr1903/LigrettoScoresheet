@@ -34,7 +34,7 @@ import no.fredheim.ligrettoScoresheet.R
 import no.fredheim.ligrettoScoresheet.Util
 import no.fredheim.ligrettoScoresheet.common.PlayerRow
 import no.fredheim.ligrettoScoresheet.model.Player
-import no.fredheim.ligrettoScoresheet.ui.theme.Colors
+import no.fredheim.ligrettoScoresheet.ui.theme.PlayerColors
 import no.fredheim.ligrettoScoresheet.ui.theme.LigrettoScoresheetTheme
 
 @Composable
@@ -76,7 +76,7 @@ fun PlayersScreen(
             onClick = onWriteResultsButtonClick,
             modifier = Modifier.padding(top = 32.dp)
         ) {
-            Text(text = stringResource(R.string.start_game))
+            Text(text = stringResource(R.string.start_ligretto_calculator))
         }
     }
 }
@@ -177,8 +177,8 @@ fun PlayersScreenPreview() {
         PlayersScreen(
             players = Util.players,
             name = "",
-            availableColors = Colors.drop(2).toSet(),
-            chosenColor = Colors.elementAt(2),
+            availableColors = PlayerColors.drop(2).toSet(),
+            chosenColor = PlayerColors.elementAt(2),
             onNameChange = { },
             onChosenColorChange = { },
             onPlayerCreated = { },
