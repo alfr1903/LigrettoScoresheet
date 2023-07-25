@@ -1,7 +1,6 @@
 package no.fredheim.ligrettoScoresheet.service
 
 import io.kotest.matchers.shouldBe
-import no.fredheim.ligrettoScoresheet.Util
 import no.fredheim.ligrettoScoresheet.model.CardType
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test

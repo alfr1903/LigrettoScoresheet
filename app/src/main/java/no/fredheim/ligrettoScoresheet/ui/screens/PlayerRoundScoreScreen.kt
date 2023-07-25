@@ -28,11 +28,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import no.fredheim.ligrettoScoresheet.R
-import no.fredheim.ligrettoScoresheet.Util
+import no.fredheim.ligrettoScoresheet.util.Players
 import no.fredheim.ligrettoScoresheet.common.Counter
 import no.fredheim.ligrettoScoresheet.common.Points
 import no.fredheim.ligrettoScoresheet.model.CardType
@@ -178,8 +177,8 @@ fun CardPointsCalculator(
 fun PlayerRoundScoreFirstRoundFirstPlayerScreenPreview() {
     LigrettoScoresheetTheme {
         PlayerRoundScoreScreen(
-            player = Util.alex,
-            round = Util.alex.round[1]!!,
+            player = Players.alex,
+            round = Players.alex.round[1]!!,
             numPlayers = 3,
             onNextPlayerButtonClick = { },
             onResultsButtonClick = { },
@@ -196,8 +195,8 @@ fun PlayerRoundScoreFirstRoundFirstPlayerScreenPreview() {
 fun PlayerRoundScoreSecondRoundFirstPlayerScreenPreview() {
     LigrettoScoresheetTheme {
         PlayerRoundScoreScreen(
-            player = Util.alex,
-            round = Util.alex.round[2]!!,
+            player = Players.alex,
+            round = Players.alex.round[2]!!,
             numPlayers = 3,
             onNextPlayerButtonClick = { },
             onResultsButtonClick = { },
@@ -214,8 +213,8 @@ fun PlayerRoundScoreSecondRoundFirstPlayerScreenPreview() {
 fun PlayerRoundScoreMiddlePlayerScreenPreview() {
     LigrettoScoresheetTheme {
         PlayerRoundScoreScreen(
-            player = Util.thao,
-            round = Util.thao.round[2]!!,
+            player = Players.thao,
+            round = Players.thao.round[2]!!,
             numPlayers = 3,
             onNextPlayerButtonClick = { },
             onResultsButtonClick = { },
@@ -232,8 +231,8 @@ fun PlayerRoundScoreMiddlePlayerScreenPreview() {
 fun PlayerRoundScoreLastPlayerScreenPreview() {
     LigrettoScoresheetTheme {
         PlayerRoundScoreScreen(
-            player = Util.rikke,
-            round = Util.rikke.round[2]!!,
+            player = Players.rikke,
+            round = Players.rikke.round[2]!!,
             numPlayers = 3,
             onNextPlayerButtonClick = { },
             onResultsButtonClick = { },

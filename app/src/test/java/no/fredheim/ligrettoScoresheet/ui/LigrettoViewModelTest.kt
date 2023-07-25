@@ -3,7 +3,7 @@ package no.fredheim.ligrettoScoresheet.ui
 import io.kotest.matchers.maps.shouldBeEmpty
 import io.kotest.matchers.maps.shouldContain
 import io.kotest.matchers.shouldBe
-import no.fredheim.ligrettoScoresheet.Util
+import no.fredheim.ligrettoScoresheet.util.Util
 import no.fredheim.ligrettoScoresheet.model.Round
 import no.fredheim.ligrettoScoresheet.ui.theme.PlayerColors
 import no.fredheim.ligrettoScoresheet.ui.theme.LigrettoBlue

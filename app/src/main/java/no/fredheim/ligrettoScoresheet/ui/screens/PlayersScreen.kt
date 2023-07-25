@@ -6,17 +6,21 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
@@ -27,11 +31,13 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import no.fredheim.ligrettoScoresheet.R
-import no.fredheim.ligrettoScoresheet.Util
+import no.fredheim.ligrettoScoresheet.util.Players
+import no.fredheim.ligrettoScoresheet.common.PlayerRow
 import no.fredheim.ligrettoScoresheet.model.Player
 import no.fredheim.ligrettoScoresheet.ui.theme.LigrettoScoresheetTheme
 import no.fredheim.ligrettoScoresheet.ui.theme.PlayerColors
@@ -55,9 +61,9 @@ fun PlayersScreen(
         contentScale = ContentScale.FillBounds
     )
     Column {
-        Box(
-            modifier = Modifier.weight(7f),
-            contentAlignment = Alignment.BottomStart
+        Row(
+            modifier = Modifier.weight(18f),
+            verticalAlignment = Alignment.Bottom
         ) {
             Image(
                 painter = painterResource(id = R.drawable.arrow_back),
@@ -68,14 +74,23 @@ fun PlayersScreen(
                     .padding(start = 32.dp)
                     .clickable { onBack() }
             )
-        }
-        Column(
-            modifier = modifier.weight(33f),
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
             Text(
                 text = stringResource(R.string.players),
+                color = MaterialTheme.colorScheme.onPrimary,
+                style = MaterialTheme.typography.headlineMedium,
+                fontWeight = FontWeight.Bold,
+                modifier = Modifier.padding(start = 68.dp)
             )
+        }
+        Column(
+            modifier = modifier.weight(82f),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            LazyColumn(Modifier.padding(start = 40.dp, end = 52.dp)) {
+                itemsIndexed(players) { num, player ->
+                    PlayerRow(number = num + 1, player = player, modifier.padding(4.dp))
+                }
+            }
         }
 
     }
@@ -88,9 +103,7 @@ fun PlayersScreen(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         LazyColumn {
-            itemsIndexed(players) { num, player ->
-                PlayerRow(number = num + 1, player = player, modifier.padding(4.dp))
-            }
+
         }
         Divider(modifier = Modifier.padding(top = 16.dp))
         PlayerAdder(
@@ -209,7 +222,7 @@ fun ColorPicker(
 fun PlayersScreenPreview() {
     LigrettoScoresheetTheme {
         PlayersScreen(
-            players = Util.players,
+            players = Players.playersSimple(),
             name = "",
             availableColors = PlayerColors.drop(2).toSet(),
             chosenColor = PlayerColors.elementAt(2),

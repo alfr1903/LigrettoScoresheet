@@ -1,8 +1,7 @@
 package no.fredheim.ligrettoScoresheet.service
 
-import no.fredheim.ligrettoScoresheet.isDigitsOnly
+import no.fredheim.ligrettoScoresheet.util.isDigitsOnly
 import no.fredheim.ligrettoScoresheet.model.CardType
-import no.fredheim.ligrettoScoresheet.model.Player
 
 object CalculationService {
     fun increment(value: String): String =

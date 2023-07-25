@@ -20,7 +20,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import no.fredheim.ligrettoScoresheet.R
-import no.fredheim.ligrettoScoresheet.Util
+import no.fredheim.ligrettoScoresheet.util.Players
 import no.fredheim.ligrettoScoresheet.common.PlayerScoreRow
 import no.fredheim.ligrettoScoresheet.model.Player
 import no.fredheim.ligrettoScoresheet.ui.theme.LigrettoScoresheetTheme
@@ -78,7 +78,7 @@ fun ResultsScreen(
 fun ResultsScreenRound1Preview() {
     LigrettoScoresheetTheme {
         ResultsScreen(
-            players = Util.players,
+            players = Players.players,
             round = 1,
             modifier = Modifier.padding(4.dp),
             onNextRoundButtonClick = { },
@@ -95,7 +95,7 @@ fun ResultsScreenRound1Preview() {
 fun ResultsScreenRound2Preview() {
     LigrettoScoresheetTheme {
         ResultsScreen(
-            players = Util.players,
+            players = Players.players,
             round = 2,
             modifier = Modifier.padding(4.dp),
             onNextRoundButtonClick = { },

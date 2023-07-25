@@ -1,7 +1,7 @@
 package no.fredheim.ligrettoScoresheet.model
 
 import io.kotest.matchers.shouldBe
-import no.fredheim.ligrettoScoresheet.Util
+import no.fredheim.ligrettoScoresheet.util.Util
 import org.junit.jupiter.api.Test
 
 internal class PlayerTest {

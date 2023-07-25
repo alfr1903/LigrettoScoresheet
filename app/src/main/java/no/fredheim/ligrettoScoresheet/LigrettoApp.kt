@@ -58,7 +58,6 @@ fun LigrettoApp(
                     navController.navigate(Screen.PlayerRound.name)
                 },
                 onBack = { navController.popBackStack() },
-                modifier = Modifier.screenBorder()
             )
         }
         composable(route = Screen.PlayerRound.name) {
@@ -79,7 +78,6 @@ fun LigrettoApp(
                     viewModel.handleBackPress(Screen.PlayerRound)
                     navController.popBackStack()
                 },
-                modifier = Modifier.screenBorder()
             )
         }
         composable(route = Screen.Results.name) {
@@ -94,10 +92,7 @@ fun LigrettoApp(
                     viewModel.handleBackPress(Screen.Results)
                     navController.popBackStack()
                 },
-                modifier = Modifier.screenBorder()
             )
         }
     }
 }
-
-private fun Modifier.screenBorder() = this.padding(4.dp)

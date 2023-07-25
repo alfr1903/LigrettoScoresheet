@@ -2,24 +2,28 @@ package no.fredheim.ligrettoScoresheet.common
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import no.fredheim.ligrettoScoresheet.R
-import no.fredheim.ligrettoScoresheet.Util
 import no.fredheim.ligrettoScoresheet.model.Player
 import no.fredheim.ligrettoScoresheet.ui.theme.LigrettoScoresheetTheme
+import no.fredheim.ligrettoScoresheet.util.Players
 
 @Composable
 fun PlayerRow(
@@ -28,23 +32,36 @@ fun PlayerRow(
     modifier: Modifier = Modifier
 ) {
     Row(
-        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.SpaceBetween,
         modifier = modifier
     ) {
-        Text(
-            text = stringResource(R.string.player, number),
-            modifier = Modifier.weight(3f)
-        )
-        Box(
-            modifier = Modifier
-                .size(16.dp)
-                .background(color = player.color, shape = CircleShape)
-        )
+        Row(verticalAlignment = Alignment.CenterVertically) {
+            CircleHighlighted(color = player.color)
+            Text(
+                text = stringResource(R.string.player, number),
+                modifier = Modifier.padding(start = 12.dp),
+                color = MaterialTheme.colorScheme.onPrimary,
+            )
+        }
         Text(
             text = player.name,
+            color = MaterialTheme.colorScheme.onPrimary
+        )
+    }
+}
+
+@Composable
+fun CircleHighlighted(color: Color) {
+    Box(
+        modifier = Modifier
+            .size(24.dp)
+            .background(color = Color.White, shape = CircleShape),
+        contentAlignment = Alignment.Center
+    ) {
+        Box(
             modifier = Modifier
-                .weight(1f)
-                .padding(start = 8.dp)
+                .size(20.dp)
+                .background(color = color, shape = CircleShape),
         )
     }
 }
@@ -62,8 +79,6 @@ fun PlayerScoreRow(
     ) {
         Text(
             text = "$number.",
-            modifier = Modifier
-                .weight(1f)
         )
         Box(
             modifier = Modifier
@@ -87,12 +102,13 @@ fun PlayerScoreRow(
 
 @Preview(
     showBackground = true,
+    backgroundColor = 0xFF0f6bb9,
     device = "id:pixel_4"
 )
 @Composable
 fun PlayerRowPreview() {
     LigrettoScoresheetTheme {
-        PlayerRow(number = 1, player = Util.alex, modifier = Modifier.padding(4.dp))
+        PlayerRow(number = 1, player = Players.alex, modifier = Modifier.fillMaxWidth())
     }
 }
 
@@ -105,7 +121,7 @@ fun PlayerScoreRowPreview() {
     LigrettoScoresheetTheme {
         PlayerScoreRow(
             number = 1,
-            player = Util.alex,
+            player = Players.alex,
             round = 1,
             modifier = Modifier.padding(4.dp)
         )
