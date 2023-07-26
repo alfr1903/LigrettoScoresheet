@@ -1,11 +1,8 @@
 package no.fredheim.ligrettoScoresheet
 
-import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
@@ -51,9 +48,9 @@ fun LigrettoApp(
                 availableColors = state.playersUiState.availableColors,
                 chosenColor = state.playersUiState.chosenColor,
                 onNameChange = { viewModel.updateName(it) },
-                onChosenColorChange = { viewModel.updateChosenColor(it) },
-                onPlayerCreated = { viewModel.addPlayer(it) },
-                onWriteResultsButtonClick = {
+                onChosenColor = { viewModel.updateChosenColor(it) },
+                onPlayerAdded = { viewModel.addPlayer(it) },
+                onStartGameClick = {
                     viewModel.initNextRoundAllPlayers(firstTime = true)
                     navController.navigate(Screen.PlayerRound.name)
                 },

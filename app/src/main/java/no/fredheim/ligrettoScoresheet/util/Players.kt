@@ -1,14 +1,11 @@
 package no.fredheim.ligrettoScoresheet.util
 
-import android.provider.CalendarContract.Colors
 import no.fredheim.ligrettoScoresheet.model.Player
 import no.fredheim.ligrettoScoresheet.model.Round
 import no.fredheim.ligrettoScoresheet.ui.theme.LigrettoLightBlue
 import no.fredheim.ligrettoScoresheet.ui.theme.LigrettoOrange
 import no.fredheim.ligrettoScoresheet.ui.theme.LigrettoPurple
 import no.fredheim.ligrettoScoresheet.ui.theme.PlayerColors
-import java.util.Deque
-import java.util.Queue
 
 object Players {
     val alex = Player(
@@ -41,9 +38,9 @@ object Players {
         )
     )
 
-    val players = listOf(alex, thao, rikke)
+    fun threePlayers() = listOf(alex, thao, rikke)
 
-    fun playersSimple(): List<Player> {
+    fun allPlayers(): List<Player> {
         val names = ArrayDeque(
             listOf(
                 "Alex", "Thao", "Rikke", "OJ", "Lili", "Andrea",

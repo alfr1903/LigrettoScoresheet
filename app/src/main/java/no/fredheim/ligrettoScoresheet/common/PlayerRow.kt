@@ -15,7 +15,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -36,7 +35,7 @@ fun PlayerRow(
         modifier = modifier
     ) {
         Row(verticalAlignment = Alignment.CenterVertically) {
-            CircleHighlighted(color = player.color)
+            HighlightedCircle(color = player.color)
             Text(
                 text = stringResource(R.string.player, number),
                 modifier = Modifier.padding(start = 12.dp),
@@ -46,22 +45,6 @@ fun PlayerRow(
         Text(
             text = player.name,
             color = MaterialTheme.colorScheme.onPrimary
-        )
-    }
-}
-
-@Composable
-fun CircleHighlighted(color: Color) {
-    Box(
-        modifier = Modifier
-            .size(24.dp)
-            .background(color = Color.White, shape = CircleShape),
-        contentAlignment = Alignment.Center
-    ) {
-        Box(
-            modifier = Modifier
-                .size(20.dp)
-                .background(color = color, shape = CircleShape),
         )
     }
 }

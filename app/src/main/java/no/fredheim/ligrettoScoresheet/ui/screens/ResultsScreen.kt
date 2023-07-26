@@ -78,7 +78,7 @@ fun ResultsScreen(
 fun ResultsScreenRound1Preview() {
     LigrettoScoresheetTheme {
         ResultsScreen(
-            players = Players.players,
+            players = Players.threePlayers(),
             round = 1,
             modifier = Modifier.padding(4.dp),
             onNextRoundButtonClick = { },
@@ -95,7 +95,7 @@ fun ResultsScreenRound1Preview() {
 fun ResultsScreenRound2Preview() {
     LigrettoScoresheetTheme {
         ResultsScreen(
-            players = Players.players,
+            players = Players.threePlayers(),
             round = 2,
             modifier = Modifier.padding(4.dp),
             onNextRoundButtonClick = { },

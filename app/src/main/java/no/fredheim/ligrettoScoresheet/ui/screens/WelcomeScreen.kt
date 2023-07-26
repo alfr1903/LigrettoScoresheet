@@ -21,6 +21,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
@@ -32,6 +33,10 @@ import androidx.core.text.isDigitsOnly
 import no.fredheim.ligrettoScoresheet.R
 import no.fredheim.ligrettoScoresheet.ui.theme.ButtonDarkBlue
 import no.fredheim.ligrettoScoresheet.ui.theme.LigrettoScoresheetTheme
+
+private const val logoWeight = 45f
+private const val spacerWeight = 8f
+private const val restOfScreenWeight = 47f
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -47,9 +52,9 @@ fun WelcomeScreen(
         contentDescription = null,
         contentScale = ContentScale.FillBounds
     )
-    Column {
+    Column(modifier = modifier) {
         Box(
-            modifier = Modifier.weight(9f),
+            modifier = Modifier.weight(logoWeight),
             contentAlignment = Alignment.BottomCenter
         ) {
             Image(
@@ -57,9 +62,9 @@ fun WelcomeScreen(
                 contentDescription = stringResource(R.string.logo)
             )
         }
-        Spacer(modifier = Modifier.weight(2f))
+        Spacer(modifier = Modifier.weight(spacerWeight))
         Column(
-            modifier = Modifier.weight(9f),
+            modifier = Modifier.weight(restOfScreenWeight),
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             Text(
@@ -83,13 +88,12 @@ fun WelcomeScreen(
             Text(
                 text = stringResource(R.string.can_start_without_total_amount),
                 color = MaterialTheme.colorScheme.onPrimary,
-                textAlign = TextAlign.Center,
                 style = MaterialTheme.typography.bodySmall
             )
             Spacer(modifier = Modifier.weight(1f))
             Button(
                 onClick = { onStartGameButtonClick(currentMax) },
-                modifier = Modifier.padding(bottom = 16.dp),
+                modifier = Modifier.padding(dimensionResource(id = R.dimen.button_padding_bottom)),
                 colors = ButtonDefaults.buttonColors(containerColor = ButtonDarkBlue)
             ) {
                 Text(text = stringResource(R.string.start_ligretto_calculator))

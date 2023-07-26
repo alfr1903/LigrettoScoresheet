@@ -2,23 +2,23 @@ package no.fredheim.ligrettoScoresheet.ui.screens
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.itemsIndexed
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -27,8 +27,10 @@ import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -36,12 +38,22 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import no.fredheim.ligrettoScoresheet.R
-import no.fredheim.ligrettoScoresheet.util.Players
+import no.fredheim.ligrettoScoresheet.common.Circle
+import no.fredheim.ligrettoScoresheet.common.HighlightedCircle
 import no.fredheim.ligrettoScoresheet.common.PlayerRow
 import no.fredheim.ligrettoScoresheet.model.Player
+import no.fredheim.ligrettoScoresheet.ui.theme.ButtonGreen
+import no.fredheim.ligrettoScoresheet.ui.theme.ButtonYellow
 import no.fredheim.ligrettoScoresheet.ui.theme.LigrettoScoresheetTheme
 import no.fredheim.ligrettoScoresheet.ui.theme.PlayerColors
+import no.fredheim.ligrettoScoresheet.util.Players
 
+private const val topRowWeight = 18f
+private const val playersColumnWeight = 39f
+private const val spacerWeight = 6f
+private const val RestOfScreenWeight = 37f
+
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun PlayersScreen(
     players: List<Player>,
@@ -49,20 +61,21 @@ fun PlayersScreen(
     onNameChange: (String) -> Unit,
     availableColors: Set<Color>,
     chosenColor: Color?,
-    onChosenColorChange: (Color) -> Unit,
-    onPlayerCreated: (Player) -> Unit,
-    onWriteResultsButtonClick: () -> Unit,
+    onChosenColor: (Color) -> Unit,
+    onPlayerAdded: (Player) -> Unit,
+    onStartGameClick: () -> Unit,
     onBack: () -> Unit,
     modifier: Modifier = Modifier
 ) {
+
     Image(
         painter = painterResource(id = R.drawable.ligrettoblue_background),
         contentDescription = null,
         contentScale = ContentScale.FillBounds
     )
-    Column {
+    Column(modifier = modifier) {
         Row(
-            modifier = Modifier.weight(18f),
+            modifier = Modifier.weight(topRowWeight),
             verticalAlignment = Alignment.Bottom
         ) {
             Image(
@@ -82,29 +95,101 @@ fun PlayersScreen(
                 modifier = Modifier.padding(start = 68.dp)
             )
         }
-        Column(
-            modifier = modifier.weight(82f),
-            horizontalAlignment = Alignment.CenterHorizontally
+        LazyColumn(
+            Modifier
+                .padding(start = 44.dp, top = 12.dp, end = 58.dp)
+                .weight(playersColumnWeight)
         ) {
-            LazyColumn(Modifier.padding(start = 40.dp, end = 52.dp)) {
-                itemsIndexed(players) { num, player ->
-                    PlayerRow(number = num + 1, player = player, modifier.padding(4.dp))
+            itemsIndexed(players) { num, player ->
+                PlayerRow(
+                    number = num + 1,
+                    player = player,
+                    Modifier
+                        .padding(top = 12.dp)
+                        .fillMaxWidth()
+                )
+            }
+        }
+        Spacer(modifier = Modifier.weight(spacerWeight))
+        Column(modifier = Modifier.weight(RestOfScreenWeight)) {
+            Column(
+                modifier = Modifier
+                    .alpha(if (chosenColor != null) 1f else 0f),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                Text(
+                    text = stringResource(R.string.choose_color),
+                    color = MaterialTheme.colorScheme.onPrimary,
+                    style = MaterialTheme.typography.bodySmall
+                )
+                LazyRow(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(start = 20.dp, end = 20.dp),
+                    horizontalArrangement = Arrangement.SpaceEvenly,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    items(availableColors.toList()) { color ->
+                        if (chosenColor == color)
+                            HighlightedCircle(color = color, onClick = { onChosenColor(color) })
+                        else
+                            Circle(color = color, onClick = { onChosenColor(color) })
+                    }
                 }
+                TextField(
+                    value = name,
+                    onValueChange = { onNameChange(it) },
+                    modifier = Modifier.padding(top = 12.dp),
+                    label = { Text(text = stringResource(R.string.type_name)) },
+                    keyboardActions = KeyboardActions(
+                        onDone = { onPlayerAdded(
+                            Player(number = players.size + 1, name = name, color = chosenColor!!)
+                        ) }
+                    ),
+                    singleLine = true,
+                )
+                Button(
+                    onClick = {
+                        onPlayerAdded(
+                            Player(number = players.size + 1, name = name, color = chosenColor!!)
+                        )
+                    },
+                    modifier = Modifier.padding(top = 16.dp),
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = ButtonYellow,
+                        contentColor = Color.Black
+                    )
+                ) {
+                    Text(
+                        text = stringResource(id = R.string.add_player),
+                        modifier = Modifier.padding(
+                            start = dimensionResource(id = R.dimen.button_text_padding_start),
+                            end = dimensionResource(id = R.dimen.button_text_padding_end),
+                        )
+                    )
+                }
+            }
+            Spacer(modifier = Modifier.weight(1f))
+            Button(
+                onClick = { onStartGameClick() },
+                modifier = Modifier
+                    .align(Alignment.CenterHorizontally)
+                    .padding(bottom = dimensionResource(id = R.dimen.button_padding_bottom)),
+                colors = ButtonDefaults.buttonColors(containerColor = ButtonGreen)
+            ) {
+                Text(
+                    text = stringResource(R.string.start_game),
+                    modifier = Modifier.padding(
+                        start = dimensionResource(id = R.dimen.button_text_padding_start),
+                        end = dimensionResource(id = R.dimen.button_text_padding_end),
+                    )
+                )
             }
         }
 
     }
 
     /*
-        Column(
-        modifier = modifier
-            .fillMaxSize()
-            .padding(16.dp),
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        LazyColumn {
-
-        }
         Divider(modifier = Modifier.padding(top = 16.dp))
         PlayerAdder(
             number = players.size + 1,
@@ -174,14 +259,6 @@ fun PlayerAdder(
                 modifier = Modifier.padding(16.dp)
             )
         }
-        LazyRow {
-            items(availableColors.toList()) { color ->
-                ColorPicker(
-                    color = color,
-                    onColorChosen = { onChosenColorChange(it) }
-                )
-            }
-        }
         Button(
             enabled = chosenColor != null && name.isNotEmpty(),
             onClick = {
@@ -200,18 +277,49 @@ fun PlayerAdder(
     }
 }
 
+@Preview(
+    showBackground = true,
+    device = "id:pixel_4"
+)
 @Composable
-fun ColorPicker(
-    color: Color,
-    onColorChosen: (Color) -> Unit
-) {
-    Box(
-        modifier = Modifier
-            .padding(4.dp)
-            .size(20.dp)
-            .background(color = color, shape = CircleShape)
-            .clickable { onColorChosen(color) }
-    )
+fun PlayersScreenNoPlayersPreview() {
+    LigrettoScoresheetTheme {
+        PlayersScreen(
+            players = emptyList(),
+            name = "",
+            availableColors = PlayerColors,
+            chosenColor = PlayerColors.elementAt(0),
+            onNameChange = { },
+            onChosenColor = { },
+            onPlayerAdded = { },
+            onStartGameClick = { },
+            onBack = { },
+            modifier = Modifier.fillMaxSize()
+        )
+    }
+}
+
+
+@Preview(
+    showBackground = true,
+    device = "id:pixel_4"
+)
+@Composable
+fun PlayersScreenThreePlayersPreview() {
+    LigrettoScoresheetTheme {
+        PlayersScreen(
+            players = Players.threePlayers(),
+            name = "OJ",
+            availableColors = PlayerColors.drop(2).toSet(),
+            chosenColor = PlayerColors.elementAt(2),
+            onNameChange = { },
+            onChosenColor = { },
+            onPlayerAdded = { },
+            onStartGameClick = { },
+            onBack = { },
+            modifier = Modifier.fillMaxSize()
+        )
+    }
 }
 
 @Preview(
@@ -219,17 +327,17 @@ fun ColorPicker(
     device = "id:pixel_4"
 )
 @Composable
-fun PlayersScreenPreview() {
+fun PlayersScreenAllPlayersPreview() {
     LigrettoScoresheetTheme {
         PlayersScreen(
-            players = Players.playersSimple(),
+            players = Players.allPlayers(),
             name = "",
-            availableColors = PlayerColors.drop(2).toSet(),
-            chosenColor = PlayerColors.elementAt(2),
+            availableColors = emptySet(),
+            chosenColor = null,
             onNameChange = { },
-            onChosenColorChange = { },
-            onPlayerCreated = { },
-            onWriteResultsButtonClick = { },
+            onChosenColor = { },
+            onPlayerAdded = { },
+            onStartGameClick = { },
             onBack = { },
             modifier = Modifier.fillMaxSize()
         )

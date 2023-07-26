@@ -28,4 +28,7 @@
     <string name="only_numbers">Only numbers are valid input</string>
     <string name="arrow_back">Arrow back</string>
     <string name="players">Players</string>
+    <string name="type_name">Type in a name</string>
+    <string name="choose_color">Choose a color for each player</string>
+    <string name="start_game">Start game</string>
 </resources>

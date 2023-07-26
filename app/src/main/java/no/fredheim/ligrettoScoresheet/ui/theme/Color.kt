@@ -36,3 +36,5 @@ val PlayerColors = setOf(
 )
 
 val ButtonDarkBlue = Color(0xFF1655A6)
+val ButtonYellow = Color(0xFFFCCD04)
+val ButtonGreen = Color(0xFF65B238)
