@@ -1,44 +1,37 @@
 package no.fredheim.ligrettoScoresheet.ui.screens
 
-import androidx.activity.compose.BackHandler
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material3.Button
-import androidx.compose.material3.Divider
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import no.fredheim.ligrettoScoresheet.R
-import no.fredheim.ligrettoScoresheet.util.Players
 import no.fredheim.ligrettoScoresheet.common.Counter
 import no.fredheim.ligrettoScoresheet.common.Points
-import no.fredheim.ligrettoScoresheet.model.CardType
 import no.fredheim.ligrettoScoresheet.model.Player
 import no.fredheim.ligrettoScoresheet.model.Round
-import no.fredheim.ligrettoScoresheet.service.CalculationService
 import no.fredheim.ligrettoScoresheet.ui.theme.LigrettoScoresheetTheme
+import no.fredheim.ligrettoScoresheet.util.Players
+
+private const val topRowWeight = 22f
+private const val cardCountersColumnWeight = 46f
+private const val restOfScreenWeight = 32f
+
+
 
 @Composable
 fun PlayerRoundScoreScreen(
@@ -50,6 +43,60 @@ fun PlayerRoundScoreScreen(
     onBack: () -> Unit,
     modifier: Modifier = Modifier
 ) {
+    Image(
+        painter = painterResource(id = R.drawable.ligrettogreen_background),
+        contentDescription = null,
+        contentScale = ContentScale.FillBounds
+    )
+    Column(modifier = modifier) {
+        Row(
+            modifier = Modifier
+                .weight(topRowWeight)
+                .fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceEvenly,
+            verticalAlignment = Alignment.Bottom,
+        ) {
+            Image(
+                painter = painterResource(id = R.drawable.home),
+                contentDescription = stringResource(R.string.home)
+            )
+            Image(
+                painter = painterResource(id = R.drawable.blackcard_name),
+                contentDescription = stringResource(R.string.player_card),
+            )
+            Image(
+                painter = painterResource(id = R.drawable.list),
+                contentDescription = stringResource(R.string.list_of_players),
+            )
+        }
+        Column(
+            modifier = Modifier
+                .weight(cardCountersColumnWeight)
+                .padding(top = 12.dp)
+        ) {
+            CardCounterRow(
+                cardTypeImageId = R.drawable.tens_cards,
+                cardTypeDescriptionId = R.string.number_10s_center,
+                cardTypeTextId = R.string.tens,
+                modifier = Modifier.weight(1f)
+            )
+            CardCounterRow(
+                cardTypeImageId = R.drawable.center_pile_cards,
+                cardTypeDescriptionId = R.string.number_cards_center_excluding_10s,
+                cardTypeTextId = R.string.center_pile,
+                modifier = Modifier.weight(1f)
+            )
+            CardCounterRow(
+                cardTypeImageId = R.drawable.minus_pile_cards,
+                cardTypeDescriptionId = R.string.number_cards_minus_pile,
+                cardTypeTextId = R.string.minus_pile,
+                modifier = Modifier.weight(1f)
+            )
+
+        }
+        Spacer(modifier = Modifier.weight(restOfScreenWeight))
+    }
+    /*
     var currentNum10s by remember { mutableStateOf(round.num10s) }
     var currentNumCenter by remember { mutableStateOf(round.numCenter) }
     var currentNumLigretto by remember { mutableStateOf(round.numLigretto) }
@@ -141,6 +188,45 @@ fun PlayerRoundScoreScreen(
         }
     }
     BackHandler(onBack = onBack)
+     */
+}
+
+@Composable
+private fun CardCounterRow(
+    @DrawableRes cardTypeImageId: Int,
+    @StringRes cardTypeDescriptionId: Int,
+    @StringRes cardTypeTextId: Int,
+    modifier: Modifier = Modifier,
+) {
+    Row(
+        modifier = modifier.padding(top = 24.dp),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Column(
+            modifier = Modifier.weight(1f),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Image(
+                painter = painterResource(cardTypeImageId),
+                contentDescription = stringResource(cardTypeDescriptionId),
+                modifier = Modifier.weight(1f)
+            )
+            Text(
+                text = stringResource(cardTypeTextId),
+                color = MaterialTheme.colorScheme.onPrimary
+            )
+        }
+        Image(
+            painter = painterResource(id = R.drawable.subtract),
+            contentDescription = stringResource(id = R.string.subtract),
+            modifier = Modifier.weight(1f)
+        )
+        Image(
+            painter = painterResource(id = R.drawable.add),
+            contentDescription = stringResource(id = R.string.add),
+            modifier = Modifier.weight(1f)
+        )
+    }
 }
 
 @Composable

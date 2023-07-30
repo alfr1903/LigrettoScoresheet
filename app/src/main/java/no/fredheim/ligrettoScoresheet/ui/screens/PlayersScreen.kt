@@ -67,7 +67,6 @@ fun PlayersScreen(
     onBack: () -> Unit,
     modifier: Modifier = Modifier
 ) {
-
     Image(
         painter = painterResource(id = R.drawable.ligrettoblue_background),
         contentDescription = null,
@@ -80,9 +79,7 @@ fun PlayersScreen(
         ) {
             Image(
                 painter = painterResource(id = R.drawable.arrow_back),
-                contentDescription = stringResource(
-                    R.string.arrow_back
-                ),
+                contentDescription = stringResource(R.string.arrow_back),
                 modifier = Modifier
                     .padding(start = 32.dp)
                     .clickable { onBack() }
@@ -187,93 +184,6 @@ fun PlayersScreen(
             }
         }
 
-    }
-
-    /*
-        Divider(modifier = Modifier.padding(top = 16.dp))
-        PlayerAdder(
-            number = players.size + 1,
-            name = name,
-            onNameChange = onNameChange,
-            availableColors = availableColors,
-            chosenColor = chosenColor,
-            onChosenColorChange = onChosenColorChange,
-            onPlayerCreate = onPlayerCreated,
-            modifier = Modifier.padding(top = 16.dp)
-        )
-        Button(
-            enabled = players.isNotEmpty(),
-            onClick = onWriteResultsButtonClick,
-            modifier = Modifier.padding(top = 32.dp)
-        ) {
-            Text(text = stringResource(R.string.start_ligretto_calculator))
-        }
-    }
-
-    */
-}
-
-@SuppressLint("UnrememberedMutableState")
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-fun PlayerAdder(
-    number: Int,
-    name: String,
-    onNameChange: (String) -> Unit,
-    availableColors: Set<Color>,
-    chosenColor: Color?,
-    onChosenColorChange: (Color) -> Unit,
-    onPlayerCreate: (Player) -> Unit,
-    modifier: Modifier = Modifier
-) {
-    Column(
-        modifier = modifier,
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        if (chosenColor != null) {
-            TextField(
-                value = name,
-                placeholder = { Text(text = stringResource(R.string.add_new_player)) },
-                colors = TextFieldDefaults.textFieldColors(
-                    containerColor = chosenColor,
-                    focusedIndicatorColor = Color.Transparent,
-                    unfocusedIndicatorColor = Color.Transparent
-                ),
-                shape = RoundedCornerShape(16.dp),
-                keyboardOptions = KeyboardOptions.Default.copy(imeAction = ImeAction.Done),
-                keyboardActions = KeyboardActions(
-                    onDone = {
-                        if (name.isNotEmpty()) {
-                            onPlayerCreate(
-                                Player(
-                                    number = number,
-                                    name = name,
-                                    color = chosenColor
-                                )
-                            )
-                        }
-                    }
-                ),
-                singleLine = true,
-                onValueChange = { onNameChange(it) },
-                modifier = Modifier.padding(16.dp)
-            )
-        }
-        Button(
-            enabled = chosenColor != null && name.isNotEmpty(),
-            onClick = {
-                onPlayerCreate(
-                    Player(
-                        number = number,
-                        name = name,
-                        color = chosenColor!!
-                    )
-                )
-            },
-            modifier = Modifier.padding(top = 16.dp)
-        ) {
-            Text(text = stringResource(R.string.add_player))
-        }
     }
 }
 
