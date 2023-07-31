@@ -1,6 +1,6 @@
 package no.fredheim.ligrettoScoresheet.model
 
-import no.fredheim.ligrettoScoresheet.service.CalculationService
+import no.fredheim.ligrettoScoresheet.service.Calculate
 
 data class Round(
     val number: Int,
@@ -8,5 +8,5 @@ data class Round(
     val numCenter: String = "",
     val numLigretto: String = ""
 ) {
-    fun points(): Int = CalculationService.points(num10s, numCenter, numLigretto)
+    fun points(): Int = Calculate.points(num10s, numCenter, numLigretto)
 }

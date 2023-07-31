@@ -79,7 +79,6 @@ fun PlayerScoreRow(
             )
         }
         Spacer(modifier = Modifier.weight(5f))
-        Points(points = player.score(untilRound = round))
     }
 }
 

@@ -25,7 +25,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import no.fredheim.ligrettoScoresheet.R
-import no.fredheim.ligrettoScoresheet.service.CalculationService
+import no.fredheim.ligrettoScoresheet.service.Calculate
 import no.fredheim.ligrettoScoresheet.ui.theme.LigrettoScoresheetTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -43,7 +43,7 @@ fun Counter(
             painter = painterResource(id = R.drawable.subtract),
             contentDescription = stringResource(R.string.subtract),
             modifier = Modifier.clickable {
-                onValueChange(CalculationService.decrement(value))
+                onValueChange(Calculate.decrement(value))
             }
         )
         TextField(
@@ -76,7 +76,7 @@ fun Counter(
             painter = painterResource(id = R.drawable.add),
             contentDescription = stringResource(R.string.add),
             modifier = Modifier.clickable {
-                onValueChange(CalculationService.increment(value))
+                onValueChange(Calculate.increment(value))
             }
         )
     }

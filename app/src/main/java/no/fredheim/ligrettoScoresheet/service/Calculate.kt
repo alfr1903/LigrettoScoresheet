@@ -3,7 +3,7 @@ package no.fredheim.ligrettoScoresheet.service
 import no.fredheim.ligrettoScoresheet.util.isDigitsOnly
 import no.fredheim.ligrettoScoresheet.model.CardType
 
-object CalculationService {
+object Calculate {
     fun increment(value: String): String =
         if (!value.isDigitsOnly()) "1" else value.toInt().inc().toString()
 
@@ -18,7 +18,7 @@ object CalculationService {
             CardType.Center -> {
                 if (!numCards.isDigitsOnly()) 0 else numCards.toInt()
             }
-            CardType.Ligretto -> {
+            CardType.Minus -> {
                 if (!numCards.isDigitsOnly()) 0 else numCards.toInt() * -2
             }
         }
@@ -26,5 +26,5 @@ object CalculationService {
     fun points(num10s: String, numCenter: String, numLigretto: String): Int =
         points(CardType.Ten, num10s) +
         points(CardType.Center, numCenter) +
-        points(CardType.Ligretto, numLigretto)
+        points(CardType.Minus, numLigretto)
 }

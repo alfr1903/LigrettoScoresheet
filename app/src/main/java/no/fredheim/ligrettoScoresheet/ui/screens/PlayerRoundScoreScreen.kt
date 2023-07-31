@@ -9,21 +9,30 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import no.fredheim.ligrettoScoresheet.R
-import no.fredheim.ligrettoScoresheet.common.Counter
-import no.fredheim.ligrettoScoresheet.common.Points
+import no.fredheim.ligrettoScoresheet.model.CardType
 import no.fredheim.ligrettoScoresheet.model.Player
 import no.fredheim.ligrettoScoresheet.model.Round
+import no.fredheim.ligrettoScoresheet.service.Calculate
 import no.fredheim.ligrettoScoresheet.ui.theme.LigrettoScoresheetTheme
 import no.fredheim.ligrettoScoresheet.util.Players
 
@@ -43,6 +52,10 @@ fun PlayerRoundScoreScreen(
     onBack: () -> Unit,
     modifier: Modifier = Modifier
 ) {
+    var currentNum10s by remember { mutableStateOf(round.num10s) }
+    var currentNumCenter by remember { mutableStateOf(round.numCenter) }
+    var currentNumMinus by remember { mutableStateOf(round.numLigretto) }
+
     Image(
         painter = painterResource(id = R.drawable.ligrettogreen_background),
         contentDescription = null,
@@ -78,18 +91,27 @@ fun PlayerRoundScoreScreen(
                 cardTypeImageId = R.drawable.tens_cards,
                 cardTypeDescriptionId = R.string.number_10s_center,
                 cardTypeTextId = R.string.tens,
+                cardType = CardType.Ten,
+                value = currentNum10s,
+                onValueChange = { currentNum10s = it },
                 modifier = Modifier.weight(1f)
             )
             CardCounterRow(
                 cardTypeImageId = R.drawable.center_pile_cards,
                 cardTypeDescriptionId = R.string.number_cards_center_excluding_10s,
                 cardTypeTextId = R.string.center_pile,
+                cardType = CardType.Center,
+                value = currentNumCenter,
+                onValueChange = { currentNumCenter = it },
                 modifier = Modifier.weight(1f)
             )
             CardCounterRow(
                 cardTypeImageId = R.drawable.minus_pile_cards,
                 cardTypeDescriptionId = R.string.number_cards_minus_pile,
                 cardTypeTextId = R.string.minus_pile,
+                cardType = CardType.Minus,
+                value = currentNumMinus,
+                onValueChange = { currentNumMinus = it },
                 modifier = Modifier.weight(1f)
             )
 
@@ -97,9 +119,6 @@ fun PlayerRoundScoreScreen(
         Spacer(modifier = Modifier.weight(restOfScreenWeight))
     }
     /*
-    var currentNum10s by remember { mutableStateOf(round.num10s) }
-    var currentNumCenter by remember { mutableStateOf(round.numCenter) }
-    var currentNumLigretto by remember { mutableStateOf(round.numLigretto) }
 
     val lastPlayer = player.number == numPlayers
 
@@ -191,16 +210,21 @@ fun PlayerRoundScoreScreen(
      */
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun CardCounterRow(
     @DrawableRes cardTypeImageId: Int,
     @StringRes cardTypeDescriptionId: Int,
     @StringRes cardTypeTextId: Int,
+    cardType: CardType,
+    value: String,
+    onValueChange: (String) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     Row(
         modifier = modifier.padding(top = 24.dp),
-        verticalAlignment = Alignment.CenterVertically
+        verticalAlignment = Alignment.CenterVertically,
+
     ) {
         Column(
             modifier = Modifier.weight(1f),
@@ -216,42 +240,60 @@ private fun CardCounterRow(
                 color = MaterialTheme.colorScheme.onPrimary
             )
         }
-        Image(
-            painter = painterResource(id = R.drawable.subtract),
-            contentDescription = stringResource(id = R.string.subtract),
-            modifier = Modifier.weight(1f)
-        )
-        Image(
-            painter = painterResource(id = R.drawable.add),
-            contentDescription = stringResource(id = R.string.add),
-            modifier = Modifier.weight(1f)
+        Row(
+            modifier = Modifier.weight(1f),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Image(
+                painter = painterResource(id = R.drawable.subtract),
+                contentDescription = stringResource(id = R.string.subtract),
+                modifier = Modifier
+                    .weight(1f)
+                    .padding(end = 4.dp)
+            )
+            TextField(
+                value = value,
+                onValueChange = { onValueChange(it) },
+                placeholder = { Text(text = "0") },
+                modifier = Modifier.weight(3f),
+                singleLine = true
+            )
+            Image(
+                painter = painterResource(id = R.drawable.add),
+                contentDescription = stringResource(id = R.string.add),
+                modifier = Modifier
+                    .weight(1f)
+                    .padding(start = 4.dp)
+            )
+        }
+        Text(
+            text = stringResource(id = R.string.points, Calculate.points(cardType, value)),
+            modifier = Modifier
+                .weight(1f)
+                .padding(end = 24.dp),
+            color = Color.White,
+            fontWeight = FontWeight.Bold,
+            textAlign = TextAlign.End,
+            style = MaterialTheme.typography.titleMedium
         )
     }
 }
 
+@Preview(
+    showBackground = true,
+    device = "id:pixel_4"
+)
 @Composable
-fun CardPointsCalculator(
-    @DrawableRes image: Int,
-    @StringRes imageDescription: Int,
-    @StringRes description: Int,
-    numCards: String,
-    points: Int,
-    onNumCardsChange: (String) -> Unit,
-    modifier: Modifier = Modifier
-) {
-    Row(
-        verticalAlignment = Alignment.CenterVertically,
-        modifier = modifier
-    ) {
-        Column(horizontalAlignment = Alignment.CenterHorizontally) {
-            Image(
-                painter = painterResource(image),
-                contentDescription = stringResource(imageDescription)
-            )
-            Text(text = stringResource(description))
-        }
-        Counter(value = numCards, onValueChange = { onNumCardsChange(it) })
-        Points(points = points)
+fun PlayerRoundScoreFirstRoundFirstPlayerNoDataScreenPreview() {
+    LigrettoScoresheetTheme {
+        PlayerRoundScoreScreen(
+            player = Players.alex,
+            round = Round(1),
+            numPlayers = 3,
+            onNextPlayerButtonClick = { },
+            onResultsButtonClick = { },
+            onBack = { }
+        )
     }
 }
 
