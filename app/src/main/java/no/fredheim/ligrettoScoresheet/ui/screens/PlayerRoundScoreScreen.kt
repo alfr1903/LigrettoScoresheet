@@ -9,6 +9,9 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -22,6 +25,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -33,12 +37,16 @@ import no.fredheim.ligrettoScoresheet.model.CardType
 import no.fredheim.ligrettoScoresheet.model.Player
 import no.fredheim.ligrettoScoresheet.model.Round
 import no.fredheim.ligrettoScoresheet.service.Calculate
+import no.fredheim.ligrettoScoresheet.ui.theme.ButtonBlue
+import no.fredheim.ligrettoScoresheet.ui.theme.ButtonOrange
+import no.fredheim.ligrettoScoresheet.ui.theme.ButtonRed
 import no.fredheim.ligrettoScoresheet.ui.theme.LigrettoScoresheetTheme
 import no.fredheim.ligrettoScoresheet.util.Players
 
 private const val topRowWeight = 22f
-private const val cardCountersColumnWeight = 46f
-private const val restOfScreenWeight = 32f
+private const val cardCountersColumnWeight = 50f
+private const val navigationRowWeight = 18f
+private const val restOfScreenWeight = 10f
 
 
 
@@ -47,14 +55,16 @@ fun PlayerRoundScoreScreen(
     player: Player,
     round: Round,
     numPlayers: Int,
-    onNextPlayerButtonClick: (Round) -> Unit,
-    onResultsButtonClick: (Round) -> Unit,
+    onNext: (Round) -> Unit,
+    onResults: (Round) -> Unit,
     onBack: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     var currentNum10s by remember { mutableStateOf(round.num10s) }
     var currentNumCenter by remember { mutableStateOf(round.numCenter) }
     var currentNumMinus by remember { mutableStateOf(round.numLigretto) }
+
+    val lastPlayer = player.number == numPlayers
 
     Image(
         painter = painterResource(id = R.drawable.ligrettogreen_background),
@@ -82,11 +92,7 @@ fun PlayerRoundScoreScreen(
                 contentDescription = stringResource(R.string.list_of_players),
             )
         }
-        Column(
-            modifier = Modifier
-                .weight(cardCountersColumnWeight)
-                .padding(top = 12.dp)
-        ) {
+        Column(modifier = Modifier.weight(cardCountersColumnWeight)) {
             CardCounterRow(
                 cardTypeImageId = R.drawable.tens_cards,
                 cardTypeDescriptionId = R.string.number_10s_center,
@@ -94,7 +100,9 @@ fun PlayerRoundScoreScreen(
                 cardType = CardType.Ten,
                 value = currentNum10s,
                 onValueChange = { currentNum10s = it },
-                modifier = Modifier.weight(1f)
+                modifier = Modifier
+                    .weight(1f)
+                    .padding(top = 24.dp)
             )
             CardCounterRow(
                 cardTypeImageId = R.drawable.center_pile_cards,
@@ -103,7 +111,9 @@ fun PlayerRoundScoreScreen(
                 cardType = CardType.Center,
                 value = currentNumCenter,
                 onValueChange = { currentNumCenter = it },
-                modifier = Modifier.weight(1f)
+                modifier = Modifier
+                    .weight(1f)
+                    .padding(top = 24.dp)
             )
             CardCounterRow(
                 cardTypeImageId = R.drawable.minus_pile_cards,
@@ -112,102 +122,55 @@ fun PlayerRoundScoreScreen(
                 cardType = CardType.Minus,
                 value = currentNumMinus,
                 onValueChange = { currentNumMinus = it },
-                modifier = Modifier.weight(1f)
+                modifier = Modifier
+                    .weight(1f)
+                    .padding(top = 24.dp)
             )
 
         }
-        Spacer(modifier = Modifier.weight(restOfScreenWeight))
-    }
-    /*
-
-    val lastPlayer = player.number == numPlayers
-
-    Column(
-        modifier = modifier
-            .fillMaxSize()
-            .padding(top = 60.dp, start = 16.dp, end = 16.dp),
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        Box(
-            contentAlignment = Alignment.Center,
-            modifier = Modifier
-                .width(240.dp)
-                .height(40.dp)
-                .background(color = player.color, shape = CircleShape)
-        ) {
-            Text(
-                text = player.name
-            )
-        }
-        Divider(Modifier.padding(top = 32.dp, bottom = 32.dp))
-        CardPointsCalculator(
-            image = R.drawable.playing_cards,
-            imageDescription = R.string.playing_cards,
-            description = R.string.tens,
-            numCards = currentNum10s,
-            points = CalculationService.points(CardType.Ten, currentNum10s),
-            onNumCardsChange = { currentNum10s = it }
-        )
-        CardPointsCalculator(
-            image = R.drawable.playing_cards,
-            imageDescription = R.string.playing_cards,
-            description = R.string.center,
-            numCards = currentNumCenter,
-            points = CalculationService.points(CardType.Center, currentNumCenter),
-            onNumCardsChange = { currentNumCenter = it }
-        )
-        CardPointsCalculator(
-            image = R.drawable.playing_cards,
-            imageDescription = R.string.playing_cards,
-            description = R.string.ligretto,
-            numCards = currentNumLigretto,
-            points = CalculationService.points(CardType.Ligretto, currentNumLigretto),
-            onNumCardsChange = { currentNumLigretto = it }
-        )
-        Text(
-            text = stringResource(
-                R.string.round_points,
-                CalculationService.points(currentNum10s, currentNumCenter, currentNumLigretto)
-            )
-        )
         Row(
             modifier = Modifier
-                .padding(top = 16.dp)
+                .weight(navigationRowWeight)
                 .fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceEvenly
+            horizontalArrangement = Arrangement.SpaceEvenly,
+            verticalAlignment = Alignment.CenterVertically
         ) {
-            Button(onClick = onBack) {
-                if (player.number == 1) {
-                    if (round.number == 1) Text(text = stringResource(R.string.abort_game))
-                    else Text(text = stringResource(R.string.last_round_results))
-                }
-                else Text(text = stringResource(R.string.prev_player))
-            }
             Button(
-                onClick = {
-                    val roundData = Round(
-                        number = round.number,
-                        num10s = currentNum10s,
-                        numCenter = currentNumCenter,
-                        numLigretto = currentNumLigretto
-                    )
-                    if (!lastPlayer) onNextPlayerButtonClick(roundData)
-                    else onResultsButtonClick(roundData)
-                },
+                onClick = { onBack() },
+                colors = ButtonDefaults.buttonColors(containerColor = ButtonBlue),
             ) {
-                if(!lastPlayer) Text(text = stringResource(R.string.next_player))
-                else Text(text = stringResource(R.string.results))
+                Text(text = stringResource(id = R.string.prev_player))
+            }
+            Text(text = "${player.number}/$numPlayers", color = Color.White)
+            Button(
+                onClick = { onNext(
+                    Round(round.number, currentNum10s, currentNumCenter, currentNumMinus)
+                ) },
+                colors = ButtonDefaults.buttonColors(containerColor = ButtonRed),
+            ) {
+                Text(text = stringResource(id = R.string.prev_player))
             }
         }
-        Box(Modifier.weight(1f), contentAlignment = Alignment.Center) {
-            Text(
-                text = "${player.number}/$numPlayers",
-                color = Color.Gray
-            )
+        Column(
+            modifier = Modifier
+                .weight(restOfScreenWeight)
+                .fillMaxWidth(),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Spacer(modifier = Modifier.weight(1f))
+            Button(
+                onClick = { onResults(
+                    Round(round.number, currentNum10s, currentNumCenter, currentNumMinus)
+                ) },
+                modifier = Modifier
+                    .padding(bottom = dimensionResource(id = R.dimen.button_padding_bottom)),
+                colors = ButtonDefaults.buttonColors(containerColor = ButtonOrange),
+            ) {
+                Text(text = stringResource(R.string.see_results))
+            }
+
         }
     }
-    BackHandler(onBack = onBack)
-     */
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -222,7 +185,7 @@ private fun CardCounterRow(
     modifier: Modifier = Modifier,
 ) {
     Row(
-        modifier = modifier.padding(top = 24.dp),
+        modifier = modifier,
         verticalAlignment = Alignment.CenterVertically,
 
     ) {
@@ -290,8 +253,8 @@ fun PlayerRoundScoreFirstRoundFirstPlayerNoDataScreenPreview() {
             player = Players.alex,
             round = Round(1),
             numPlayers = 3,
-            onNextPlayerButtonClick = { },
-            onResultsButtonClick = { },
+            onNext = { },
+            onResults = { },
             onBack = { }
         )
     }
@@ -308,8 +271,8 @@ fun PlayerRoundScoreFirstRoundFirstPlayerScreenPreview() {
             player = Players.alex,
             round = Players.alex.round[1]!!,
             numPlayers = 3,
-            onNextPlayerButtonClick = { },
-            onResultsButtonClick = { },
+            onNext = { },
+            onResults = { },
             onBack = { }
         )
     }
@@ -326,8 +289,8 @@ fun PlayerRoundScoreSecondRoundFirstPlayerScreenPreview() {
             player = Players.alex,
             round = Players.alex.round[2]!!,
             numPlayers = 3,
-            onNextPlayerButtonClick = { },
-            onResultsButtonClick = { },
+            onNext = { },
+            onResults = { },
             onBack = { }
         )
     }
@@ -344,8 +307,8 @@ fun PlayerRoundScoreMiddlePlayerScreenPreview() {
             player = Players.thao,
             round = Players.thao.round[2]!!,
             numPlayers = 3,
-            onNextPlayerButtonClick = { },
-            onResultsButtonClick = { },
+            onNext = { },
+            onResults = { },
             onBack = { }
         )
     }
@@ -362,8 +325,8 @@ fun PlayerRoundScoreLastPlayerScreenPreview() {
             player = Players.rikke,
             round = Players.rikke.round[2]!!,
             numPlayers = 3,
-            onNextPlayerButtonClick = { },
-            onResultsButtonClick = { },
+            onNext = { },
+            onResults = { },
             onBack = { }
         )
     }

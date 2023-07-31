@@ -63,11 +63,11 @@ fun LigrettoApp(
                 player = currentPlayer,
                 round = viewModel.currentRound(currentPlayer),
                 numPlayers = viewModel.numPlayers(),
-                onNextPlayerButtonClick = {
+                onNext = {
                     viewModel.addRoundCurrentPlayer(it)
                     navController.navigate(Screen.PlayerRound.name)
                 },
-                onResultsButtonClick = {
+                onResults = {
                     viewModel.addRoundCurrentPlayer(it)
                     navController.navigate(Screen.Results.name)
                 },

@@ -1,6 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="button_text_padding_start">20dp</dimen>
-    <dimen name="button_text_padding_end">20dp</dimen>
     <dimen name="button_padding_bottom">48dp</dimen>
 </resources>

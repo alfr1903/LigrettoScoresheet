@@ -96,7 +96,10 @@ fun WelcomeScreen(
                 modifier = Modifier.padding(dimensionResource(id = R.dimen.button_padding_bottom)),
                 colors = ButtonDefaults.buttonColors(containerColor = ButtonDarkBlue)
             ) {
-                Text(text = stringResource(R.string.start_ligretto_calculator))
+                Text(
+                    text = stringResource(R.string.start_ligretto_calculator),
+                    textAlign = TextAlign.Center
+                )
             }
         }
     }
