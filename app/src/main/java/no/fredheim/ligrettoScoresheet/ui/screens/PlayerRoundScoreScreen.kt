@@ -23,6 +23,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.dimensionResource
@@ -64,6 +65,7 @@ fun PlayerRoundScoreScreen(
     var currentNumCenter by remember { mutableStateOf(round.numCenter) }
     var currentNumMinus by remember { mutableStateOf(round.numLigretto) }
 
+    val firstPlayer = player.number == 1
     val lastPlayer = player.number == numPlayers
 
     Image(
@@ -132,23 +134,36 @@ fun PlayerRoundScoreScreen(
             modifier = Modifier
                 .weight(navigationRowWeight)
                 .fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceEvenly,
             verticalAlignment = Alignment.CenterVertically
         ) {
             Button(
                 onClick = { onBack() },
+                modifier = Modifier
+                    .weight(7f)
+                    .alpha(if (firstPlayer) 0f else 1f)
+                    .padding(start = 16.dp),
                 colors = ButtonDefaults.buttonColors(containerColor = ButtonBlue),
             ) {
                 Text(text = stringResource(id = R.string.prev_player))
             }
-            Text(text = "${player.number}/$numPlayers", color = Color.White)
+            Text(
+                text = "${player.number}/$numPlayers",
+                modifier = Modifier.weight(4f),
+                color = Color.White,
+                textAlign = TextAlign.Center
+
+            )
             Button(
                 onClick = { onNext(
                     Round(round.number, currentNum10s, currentNumCenter, currentNumMinus)
                 ) },
+                modifier = Modifier
+                    .weight(7f)
+                    .alpha(if (lastPlayer) 0f else 1f)
+                    .padding(end = 16.dp),
                 colors = ButtonDefaults.buttonColors(containerColor = ButtonRed),
             ) {
-                Text(text = stringResource(id = R.string.prev_player))
+                Text(text = stringResource(id = R.string.next_player))
             }
         }
         Column(
@@ -163,7 +178,8 @@ fun PlayerRoundScoreScreen(
                     Round(round.number, currentNum10s, currentNumCenter, currentNumMinus)
                 ) },
                 modifier = Modifier
-                    .padding(bottom = dimensionResource(id = R.dimen.button_padding_bottom)),
+                    .padding(bottom = dimensionResource(id = R.dimen.button_bottom_padding))
+                    .width(dimensionResource(id = R.dimen.button_long_width)),
                 colors = ButtonDefaults.buttonColors(containerColor = ButtonOrange),
             ) {
                 Text(text = stringResource(R.string.see_results))

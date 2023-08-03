@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -93,7 +94,9 @@ fun WelcomeScreen(
             Spacer(modifier = Modifier.weight(1f))
             Button(
                 onClick = { onStartGameButtonClick(currentMax) },
-                modifier = Modifier.padding(dimensionResource(id = R.dimen.button_padding_bottom)),
+                modifier = Modifier
+                    .padding(dimensionResource(id = R.dimen.button_bottom_padding))
+                    .width(dimensionResource(id = R.dimen.button_long_width)),
                 colors = ButtonDefaults.buttonColors(containerColor = ButtonDarkBlue)
             ) {
                 Text(

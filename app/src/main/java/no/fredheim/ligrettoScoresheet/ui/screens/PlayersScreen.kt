@@ -1,6 +1,5 @@
 package no.fredheim.ligrettoScoresheet.ui.screens
 
-import android.annotation.SuppressLint
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -15,16 +14,13 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.itemsIndexed
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
-import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
-import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -35,7 +31,6 @@ import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -153,7 +148,9 @@ fun PlayersScreen(
                             Player(number = players.size + 1, name = name, color = chosenColor!!)
                         )
                     },
-                    modifier = Modifier.padding(top = 16.dp),
+                    modifier = Modifier
+                        .padding(top = 16.dp)
+                        .width(dimensionResource(id = R.dimen.button_long_width)),
                     colors = ButtonDefaults.buttonColors(
                         containerColor = ButtonYellow,
                         contentColor = Color.Black
@@ -170,7 +167,8 @@ fun PlayersScreen(
                 onClick = { onStartGameClick() },
                 modifier = Modifier
                     .align(Alignment.CenterHorizontally)
-                    .padding(bottom = dimensionResource(id = R.dimen.button_padding_bottom)),
+                    .padding(bottom = dimensionResource(id = R.dimen.button_bottom_padding))
+                    .width(dimensionResource(id = R.dimen.button_long_width)),
                 colors = ButtonDefaults.buttonColors(containerColor = ButtonGreen)
             ) {
                 Text(

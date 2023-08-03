@@ -12,3 +12,11 @@
 - Think about layout when 12th player added
 - Think about possibility to edit player
 
+## Player Round Score Screen
+- "Name" must be removed from the vector art
+- Should total points for the round be displayed somewhere?
+- Should round number be displayed somewhere?
+- Add fitting Text to replace "Name"
+- Add logic to choose correct vector art based on player color
+
+## Results Screen
