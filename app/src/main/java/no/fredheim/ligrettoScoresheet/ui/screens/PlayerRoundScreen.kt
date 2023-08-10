@@ -38,9 +38,9 @@ import no.fredheim.ligrettoScoresheet.model.CardType
 import no.fredheim.ligrettoScoresheet.model.Player
 import no.fredheim.ligrettoScoresheet.model.Round
 import no.fredheim.ligrettoScoresheet.service.Calculate
-import no.fredheim.ligrettoScoresheet.ui.theme.ButtonBlue
-import no.fredheim.ligrettoScoresheet.ui.theme.ButtonOrange
-import no.fredheim.ligrettoScoresheet.ui.theme.ButtonRed
+import no.fredheim.ligrettoScoresheet.ui.theme.ThemeBlue
+import no.fredheim.ligrettoScoresheet.ui.theme.ThemeOrange
+import no.fredheim.ligrettoScoresheet.ui.theme.ThemeRed
 import no.fredheim.ligrettoScoresheet.ui.theme.LigrettoScoresheetTheme
 import no.fredheim.ligrettoScoresheet.util.Players
 
@@ -52,7 +52,7 @@ private const val restOfScreenWeight = 10f
 
 
 @Composable
-fun PlayerRoundScoreScreen(
+fun PlayerRoundScreen(
     player: Player,
     round: Round,
     numPlayers: Int,
@@ -142,7 +142,7 @@ fun PlayerRoundScoreScreen(
                     .weight(7f)
                     .alpha(if (firstPlayer) 0f else 1f)
                     .padding(start = 16.dp),
-                colors = ButtonDefaults.buttonColors(containerColor = ButtonBlue),
+                colors = ButtonDefaults.buttonColors(containerColor = ThemeBlue),
             ) {
                 Text(text = stringResource(id = R.string.prev_player))
             }
@@ -161,7 +161,7 @@ fun PlayerRoundScoreScreen(
                     .weight(7f)
                     .alpha(if (lastPlayer) 0f else 1f)
                     .padding(end = 16.dp),
-                colors = ButtonDefaults.buttonColors(containerColor = ButtonRed),
+                colors = ButtonDefaults.buttonColors(containerColor = ThemeRed),
             ) {
                 Text(text = stringResource(id = R.string.next_player))
             }
@@ -180,7 +180,7 @@ fun PlayerRoundScoreScreen(
                 modifier = Modifier
                     .padding(bottom = dimensionResource(id = R.dimen.button_bottom_padding))
                     .width(dimensionResource(id = R.dimen.button_long_width)),
-                colors = ButtonDefaults.buttonColors(containerColor = ButtonOrange),
+                colors = ButtonDefaults.buttonColors(containerColor = ThemeOrange),
             ) {
                 Text(text = stringResource(R.string.see_results))
             }
@@ -263,9 +263,9 @@ private fun CardCounterRow(
     device = "id:pixel_4"
 )
 @Composable
-fun PlayerRoundScoreFirstRoundFirstPlayerNoDataScreenPreview() {
+fun PlayerRoundFirstRoundFirstPlayerNoDataScreenPreview() {
     LigrettoScoresheetTheme {
-        PlayerRoundScoreScreen(
+        PlayerRoundScreen(
             player = Players.alex,
             round = Round(1),
             numPlayers = 3,
@@ -281,9 +281,9 @@ fun PlayerRoundScoreFirstRoundFirstPlayerNoDataScreenPreview() {
     device = "id:pixel_4"
 )
 @Composable
-fun PlayerRoundScoreFirstRoundFirstPlayerScreenPreview() {
+fun PlayerRoundFirstRoundFirstPlayerScreenPreview() {
     LigrettoScoresheetTheme {
-        PlayerRoundScoreScreen(
+        PlayerRoundScreen(
             player = Players.alex,
             round = Players.alex.round[1]!!,
             numPlayers = 3,
@@ -301,7 +301,7 @@ fun PlayerRoundScoreFirstRoundFirstPlayerScreenPreview() {
 @Composable
 fun PlayerRoundScoreSecondRoundFirstPlayerScreenPreview() {
     LigrettoScoresheetTheme {
-        PlayerRoundScoreScreen(
+        PlayerRoundScreen(
             player = Players.alex,
             round = Players.alex.round[2]!!,
             numPlayers = 3,
@@ -317,9 +317,9 @@ fun PlayerRoundScoreSecondRoundFirstPlayerScreenPreview() {
     device = "id:pixel_4"
 )
 @Composable
-fun PlayerRoundScoreMiddlePlayerScreenPreview() {
+fun PlayerRoundMiddlePlayerScreenPreview() {
     LigrettoScoresheetTheme {
-        PlayerRoundScoreScreen(
+        PlayerRoundScreen(
             player = Players.thao,
             round = Players.thao.round[2]!!,
             numPlayers = 3,
@@ -335,9 +335,9 @@ fun PlayerRoundScoreMiddlePlayerScreenPreview() {
     device = "id:pixel_4"
 )
 @Composable
-fun PlayerRoundScoreLastPlayerScreenPreview() {
+fun PlayerRoundLastPlayerScreenPreview() {
     LigrettoScoresheetTheme {
-        PlayerRoundScoreScreen(
+        PlayerRoundScreen(
             player = Players.rikke,
             round = Players.rikke.round[2]!!,
             numPlayers = 3,

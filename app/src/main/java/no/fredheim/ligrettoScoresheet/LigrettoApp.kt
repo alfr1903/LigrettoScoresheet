@@ -9,7 +9,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import no.fredheim.ligrettoScoresheet.ui.LigrettoViewModel
-import no.fredheim.ligrettoScoresheet.ui.screens.PlayerRoundScoreScreen
+import no.fredheim.ligrettoScoresheet.ui.screens.PlayerRoundScreen
 import no.fredheim.ligrettoScoresheet.ui.screens.PlayersScreen
 import no.fredheim.ligrettoScoresheet.ui.screens.ResultsScreen
 import no.fredheim.ligrettoScoresheet.ui.screens.WelcomeScreen
@@ -59,7 +59,7 @@ fun LigrettoApp(
         }
         composable(route = Screen.PlayerRound.name) {
             val currentPlayer = viewModel.currentPlayer()
-            PlayerRoundScoreScreen(
+            PlayerRoundScreen(
                 player = currentPlayer,
                 round = viewModel.currentRound(currentPlayer),
                 numPlayers = viewModel.numPlayers(),
@@ -81,14 +81,11 @@ fun LigrettoApp(
             ResultsScreen(
                 players = state.players.values.toList(),
                 round = viewModel.currentRound,
-                onNextRoundButtonClick = {
+                onNewRound = {
                     viewModel.initNextRoundAllPlayers(firstTime = false)
                     navController.navigate(Screen.PlayerRound.name)
                 },
-                onBack = {
-                    viewModel.handleBackPress(Screen.Results)
-                    navController.popBackStack()
-                },
+                onEnd = {}
             )
         }
     }

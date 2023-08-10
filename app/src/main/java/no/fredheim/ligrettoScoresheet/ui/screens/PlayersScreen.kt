@@ -37,10 +37,10 @@ import androidx.compose.ui.unit.dp
 import no.fredheim.ligrettoScoresheet.R
 import no.fredheim.ligrettoScoresheet.common.Circle
 import no.fredheim.ligrettoScoresheet.common.HighlightedCircle
-import no.fredheim.ligrettoScoresheet.common.PlayerRow
+import no.fredheim.ligrettoScoresheet.common.PlayerNameRow
 import no.fredheim.ligrettoScoresheet.model.Player
-import no.fredheim.ligrettoScoresheet.ui.theme.ButtonGreen
-import no.fredheim.ligrettoScoresheet.ui.theme.ButtonYellow
+import no.fredheim.ligrettoScoresheet.ui.theme.ThemeGreen
+import no.fredheim.ligrettoScoresheet.ui.theme.ThemeYellow
 import no.fredheim.ligrettoScoresheet.ui.theme.LigrettoScoresheetTheme
 import no.fredheim.ligrettoScoresheet.ui.theme.PlayerColors
 import no.fredheim.ligrettoScoresheet.util.Players
@@ -91,11 +91,15 @@ fun PlayersScreen(
         }
         LazyColumn(
             Modifier
-                .padding(start = 44.dp, top = 12.dp, end = 58.dp)
+                .padding(
+                    start = dimensionResource(id = R.dimen.list_padding_start),
+                    top = 12.dp,
+                    end = dimensionResource(id = R.dimen.list_padding_end)
+                )
                 .weight(playersColumnWeight)
         ) {
             itemsIndexed(players) { num, player ->
-                PlayerRow(
+                PlayerNameRow(
                     number = num + 1,
                     player = player,
                     Modifier
@@ -152,7 +156,7 @@ fun PlayersScreen(
                         .padding(top = 16.dp)
                         .width(dimensionResource(id = R.dimen.button_long_width)),
                     colors = ButtonDefaults.buttonColors(
-                        containerColor = ButtonYellow,
+                        containerColor = ThemeYellow,
                         contentColor = Color.Black
                     )
                 ) {
@@ -169,7 +173,7 @@ fun PlayersScreen(
                     .align(Alignment.CenterHorizontally)
                     .padding(bottom = dimensionResource(id = R.dimen.button_bottom_padding))
                     .width(dimensionResource(id = R.dimen.button_long_width)),
-                colors = ButtonDefaults.buttonColors(containerColor = ButtonGreen)
+                colors = ButtonDefaults.buttonColors(containerColor = ThemeGreen)
             ) {
                 Text(
                     text = stringResource(R.string.start_game),

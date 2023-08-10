@@ -35,14 +35,16 @@ val PlayerColors = setOf(
     LigrettoPink
 )
 
-val ButtonDarkBlue = Color(0xFF1655A6)
-val ButtonYellow = Color(0xFFFCCD04)
-val ButtonGreen = Color(0xFF65B238)
-val ButtonBlue = Color(0xFF0B7CC8)
-val ButtonRed = Color(0xFFDA2427)
-val ButtonOrange = Color(0xFFF27F34)
-val ButtonDarkRed = Color(0xFF891715)
-val ButtonDarkGreen = Color(0xFF017938)
+val ThemeDarkBlue = Color(0xFF1655A6)
+val ThemeYellow = Color(0xFFFCCD04)
+val ThemeGreen = Color(0xFF65B238)
+val ThemeBlue = Color(0xFF0B7CC8)
+val ThemeRed = Color(0xFFDA2427)
+val ThemeOrange = Color(0xFFF27F34)
+val ThemeDarkRed = Color(0xFF891715)
+val ThemeDarkGreen = Color(0xFF017938)
+
+const val PreviewThemeOrange = 0xFFF29634
 
 
 

@@ -1,4 +1,4 @@
-#Notes
+# Notes
 
 ## General
 - Background image contents don't have the correct corners
@@ -20,3 +20,8 @@
 - Add logic to choose correct vector art based on player color
 
 ## Results Screen
+- Implement Edit popup
+- Implement back functionality 
+
+## Results Screen + Players Screen
+- Common width of button and padding on "Small buttons"

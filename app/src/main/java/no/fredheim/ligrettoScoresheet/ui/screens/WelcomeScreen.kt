@@ -32,7 +32,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.core.text.isDigitsOnly
 import no.fredheim.ligrettoScoresheet.R
-import no.fredheim.ligrettoScoresheet.ui.theme.ButtonDarkBlue
+import no.fredheim.ligrettoScoresheet.ui.theme.ThemeDarkBlue
 import no.fredheim.ligrettoScoresheet.ui.theme.LigrettoScoresheetTheme
 
 private const val logoWeight = 45f
@@ -97,7 +97,7 @@ fun WelcomeScreen(
                 modifier = Modifier
                     .padding(dimensionResource(id = R.dimen.button_bottom_padding))
                     .width(dimensionResource(id = R.dimen.button_long_width)),
-                colors = ButtonDefaults.buttonColors(containerColor = ButtonDarkBlue)
+                colors = ButtonDefaults.buttonColors(containerColor = ThemeDarkBlue)
             ) {
                 Text(
                     text = stringResource(R.string.start_ligretto_calculator),
