@@ -49,39 +49,6 @@ fun PlayerRow(
     }
 }
 
-@Composable
-fun PlayerScoreRow(
-    number: Int,
-    player: Player,
-    round: Int,
-    modifier: Modifier = Modifier
-) {
-    Row(
-        verticalAlignment = Alignment.CenterVertically,
-        modifier = modifier
-    ) {
-        Text(
-            text = "$number.",
-        )
-        Box(
-            modifier = Modifier
-                .size(16.dp)
-                .background(color = player.color, shape = CircleShape)
-        )
-        Text(
-            text = player.name,
-            modifier = Modifier.padding(start = 8.dp)
-        )
-        if (number == 1) {
-            Image(
-                painter = painterResource(id = R.drawable.trophy),
-                contentDescription = stringResource(R.string.trophy),
-            )
-        }
-        Spacer(modifier = Modifier.weight(5f))
-    }
-}
-
 @Preview(
     showBackground = true,
     backgroundColor = 0xFF0f6bb9,
@@ -91,21 +58,5 @@ fun PlayerScoreRow(
 fun PlayerRowPreview() {
     LigrettoScoresheetTheme {
         PlayerRow(number = 1, player = Players.alex, modifier = Modifier.fillMaxWidth())
-    }
-}
-
-@Preview(
-    showBackground = true,
-    device = "id:pixel_4"
-)
-@Composable
-fun PlayerScoreRowPreview() {
-    LigrettoScoresheetTheme {
-        PlayerScoreRow(
-            number = 1,
-            player = Players.alex,
-            round = 1,
-            modifier = Modifier.padding(4.dp)
-        )
     }
 }
