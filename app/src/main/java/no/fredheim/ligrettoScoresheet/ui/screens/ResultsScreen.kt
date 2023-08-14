@@ -149,7 +149,6 @@ fun ResultsScreenRound1Preview() {
         ResultsScreen(
             players = Players.threePlayers(),
             round = 1,
-            modifier = Modifier.padding(4.dp),
             onNewRound = { },
             onEnd = { }
         )
@@ -166,7 +165,6 @@ fun ResultsScreenRound2Preview() {
         ResultsScreen(
             players = Players.threePlayers(),
             round = 2,
-            modifier = Modifier.padding(4.dp),
             onNewRound = { },
             onEnd = { }
         )
@@ -183,7 +181,6 @@ fun ResultsScreen12PlayersPreview() {
         ResultsScreen(
             players = Players.allPlayers(),
             round = 2,
-            modifier = Modifier.padding(4.dp),
             onNewRound = { },
             onEnd = { }
         )

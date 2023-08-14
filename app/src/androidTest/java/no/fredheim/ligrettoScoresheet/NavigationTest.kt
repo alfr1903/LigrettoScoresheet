@@ -41,13 +41,13 @@ class NavigationTest {
     fun afterPlayersAdded_and_StartGamePressed_currentScreenShouldBeFirstPlayerRoundScreen() {
         composeTestRule.navigateToPlayersScreen()
 
-        composeTestRule.insertIntoField(R.string.add_new_player, "Alex")
+        composeTestRule.insertIntoField(R.string.type_name, "Alex")
         composeTestRule.clickNode(R.string.add_player)
-        composeTestRule.insertIntoField(R.string.add_new_player, "Thao")
+        composeTestRule.insertIntoField(R.string.type_name, "Thao")
         composeTestRule.clickNode(R.string.add_player)
-        composeTestRule.insertIntoField(R.string.add_new_player, "Rikke")
+        composeTestRule.insertIntoField(R.string.type_name, "Rikke")
         composeTestRule.clickNode(R.string.add_player)
-        composeTestRule.clickNode(R.string.start_ligretto_calculator)
+        composeTestRule.clickNode(R.string.start_game)
 
         navController shouldHaveCurrentRouteName Screen.PlayerRound.name
     }

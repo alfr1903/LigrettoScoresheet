@@ -10,13 +10,13 @@ fun AndroidComposeTestRule<ActivityScenarioRule<ComponentActivity>, ComponentAct
 fun AndroidComposeTestRule<ActivityScenarioRule<ComponentActivity>, ComponentActivity>
         .navigateToFirstPlayerRoundScreen() {
     this.navigateToPlayersScreen()
-    this.insertIntoField(R.string.add_new_player, "Alex")
+    this.insertIntoField(R.string.type_name, "Alex")
     this.clickNode(R.string.add_player)
-    this.insertIntoField(R.string.add_new_player, "Thao")
+    this.insertIntoField(R.string.type_name, "Thao")
     this.clickNode(R.string.add_player)
-    this.insertIntoField(R.string.add_new_player, "Rikke")
+    this.insertIntoField(R.string.type_name, "Rikke")
     this.clickNode(R.string.add_player)
-    this.clickNode(R.string.start_ligretto_calculator)
+    this.clickNode(R.string.start_game)
 }
 
 fun AndroidComposeTestRule<ActivityScenarioRule<ComponentActivity>, ComponentActivity>

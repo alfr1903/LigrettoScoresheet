@@ -3,11 +3,11 @@ package no.fredheim.ligrettoScoresheet.ui
 import io.kotest.matchers.maps.shouldBeEmpty
 import io.kotest.matchers.maps.shouldContain
 import io.kotest.matchers.shouldBe
-import no.fredheim.ligrettoScoresheet.util.Util
 import no.fredheim.ligrettoScoresheet.model.Round
-import no.fredheim.ligrettoScoresheet.ui.theme.PlayerColors
 import no.fredheim.ligrettoScoresheet.ui.theme.LigrettoBlue
-import no.fredheim.ligrettoScoresheet.ui.theme.LigrettoOrange
+import no.fredheim.ligrettoScoresheet.ui.theme.LigrettoLightPink
+import no.fredheim.ligrettoScoresheet.ui.theme.PlayerColors
+import no.fredheim.ligrettoScoresheet.util.Players
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
@@ -27,17 +27,17 @@ internal class LigrettoViewModelTest {
     fun `player is added correctly`() {
         viewModel.gameState.value.players.shouldBeEmpty()
 
-        viewModel.addPlayer(Util.alex)
-        viewModel.gameState.value.players.shouldContain(1, Util.alex)
+        viewModel.addPlayer(Players.alex)
+        viewModel.gameState.value.players.shouldContain(1, Players.alex)
     }
 
     @Test
     fun `adding a player removes the players chosen color from available colors`() {
         viewModel.gameState.value.playersUiState.availableColors shouldBe  PlayerColors
 
-        viewModel.addPlayer(Util.alex)
+        viewModel.addPlayer(Players.alex)
         viewModel.gameState.value.playersUiState.availableColors shouldBe
-                PlayerColors.minus(Util.alex.color)
+                PlayerColors.minus(Players.alex.color)
     }
 
     @Nested
@@ -53,7 +53,7 @@ internal class LigrettoViewModelTest {
 
         @Test
         fun `chosen color is stored in gameState`() {
-            viewModel.gameState.value.playersUiState.chosenColor shouldBe LigrettoOrange
+            viewModel.gameState.value.playersUiState.chosenColor shouldBe LigrettoLightPink
 
             viewModel.updateChosenColor(LigrettoBlue)
             viewModel.gameState.value.playersUiState.chosenColor shouldBe LigrettoBlue
@@ -64,8 +64,8 @@ internal class LigrettoViewModelTest {
 
         @BeforeEach
         fun `add two players`() {
-            viewModel.addPlayer(Util.alex.copy(round = mutableMapOf()))
-            viewModel.addPlayer(Util.thao.copy(round = mutableMapOf()))
+            viewModel.addPlayer(Players.alex.copy(round = mutableMapOf()))
+            viewModel.addPlayer(Players.thao.copy(round = mutableMapOf()))
         }
 
         @Test

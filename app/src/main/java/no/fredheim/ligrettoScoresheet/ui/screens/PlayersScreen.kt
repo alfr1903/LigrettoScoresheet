@@ -202,7 +202,6 @@ fun PlayersScreenNoPlayersPreview() {
             onPlayerAdded = { },
             onStartGameClick = { },
             onBack = { },
-            modifier = Modifier.fillMaxSize()
         )
     }
 }
@@ -225,7 +224,6 @@ fun PlayersScreenThreePlayersPreview() {
             onPlayerAdded = { },
             onStartGameClick = { },
             onBack = { },
-            modifier = Modifier.fillMaxSize()
         )
     }
 }
@@ -247,7 +245,6 @@ fun PlayersScreenAllPlayersPreview() {
             onPlayerAdded = { },
             onStartGameClick = { },
             onBack = { },
-            modifier = Modifier.fillMaxSize()
         )
     }
 }
