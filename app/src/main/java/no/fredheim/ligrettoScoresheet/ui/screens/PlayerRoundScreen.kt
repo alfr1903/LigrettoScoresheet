@@ -3,6 +3,7 @@ package no.fredheim.ligrettoScoresheet.ui.screens
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -56,9 +57,10 @@ fun PlayerRoundScreen(
     player: Player,
     round: Round,
     numPlayers: Int,
+    onHome: () -> Unit,
     onNext: (Round) -> Unit,
     onResults: (Round) -> Unit,
-    onBack: () -> Unit,
+    onPrevious: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     var currentNum10s by remember { mutableStateOf(round.num10s) }
@@ -83,7 +85,8 @@ fun PlayerRoundScreen(
         ) {
             Image(
                 painter = painterResource(id = R.drawable.home),
-                contentDescription = stringResource(R.string.home)
+                contentDescription = stringResource(R.string.home),
+                modifier = Modifier.clickable { onHome() }
             )
             Image(
                 painter = painterResource(id = R.drawable.blackcard_name),
@@ -138,7 +141,7 @@ fun PlayerRoundScreen(
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
             Button(
-                onClick = { onBack() },
+                onClick = { onPrevious() },
                 modifier = Modifier
                     .padding(horizontal = dimensionResource(id = R.dimen.button_short_padding_horizontal))
                     .width(dimensionResource(id = R.dimen.button_short_width))
@@ -269,9 +272,10 @@ fun PlayerRoundFirstRoundFirstPlayerNoDataScreenPreview() {
             player = Players.alex,
             round = Round(1),
             numPlayers = 3,
+            onHome = { },
             onNext = { },
             onResults = { },
-            onBack = { }
+            onPrevious = { }
         )
     }
 }
@@ -287,9 +291,10 @@ fun PlayerRoundFirstRoundFirstPlayerScreenPreview() {
             player = Players.alex,
             round = Players.alex.round[1]!!,
             numPlayers = 3,
+            onHome = { },
             onNext = { },
             onResults = { },
-            onBack = { }
+            onPrevious = { }
         )
     }
 }
@@ -305,9 +310,10 @@ fun PlayerRoundScoreSecondRoundFirstPlayerScreenPreview() {
             player = Players.alex,
             round = Players.alex.round[2]!!,
             numPlayers = 3,
+            onHome = { },
             onNext = { },
             onResults = { },
-            onBack = { }
+            onPrevious = { }
         )
     }
 }
@@ -323,9 +329,10 @@ fun PlayerRoundMiddlePlayerScreenPreview() {
             player = Players.thao,
             round = Players.thao.round[2]!!,
             numPlayers = 3,
+            onHome = { },
             onNext = { },
             onResults = { },
-            onBack = { }
+            onPrevious = { }
         )
     }
 }
@@ -341,9 +348,10 @@ fun PlayerRoundMiddlePlayerTwelvePlayersScreenPreview() {
             player = Players.thao.copy(number = 11),
             round = Players.thao.round[2]!!,
             numPlayers = 12,
+            onHome = { },
             onNext = { },
             onResults = { },
-            onBack = { }
+            onPrevious = { }
         )
     }
 }
@@ -359,9 +367,10 @@ fun PlayerRoundLastPlayerScreenPreview() {
             player = Players.rikke,
             round = Players.rikke.round[2]!!,
             numPlayers = 3,
+            onHome = { },
             onNext = { },
             onResults = { },
-            onBack = { }
+            onPrevious = { }
         )
     }
 }

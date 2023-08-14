@@ -63,6 +63,9 @@ fun LigrettoApp(
                 player = currentPlayer,
                 round = viewModel.currentRound(currentPlayer),
                 numPlayers = viewModel.numPlayers(),
+                onHome = {
+                    navController.popBackStack(route = Screen.Players.name, inclusive = false)
+                },
                 onNext = {
                     viewModel.addRoundCurrentPlayer(it)
                     navController.navigate(Screen.PlayerRound.name)
@@ -71,7 +74,7 @@ fun LigrettoApp(
                     viewModel.addRoundCurrentPlayer(it)
                     navController.navigate(Screen.Results.name)
                 },
-                onBack = {
+                onPrevious = {
                     viewModel.handleBackPress(Screen.PlayerRound)
                     navController.popBackStack()
                 },
