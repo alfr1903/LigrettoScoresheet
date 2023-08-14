@@ -2,7 +2,8 @@
 <resources>
     <dimen name="button_bottom_padding">48dp</dimen>
     <dimen name="button_long_width">200dp</dimen>
-    <dimen name="button_short_width">160dp</dimen>
+    <dimen name="button_short_width">140dp</dimen>
+    <dimen name="button_short_padding_horizontal">16dp</dimen>
     <dimen name="icon_size">32dp</dimen>
     <dimen name="icon_screen_border_padding">28dp</dimen>
     <dimen name="list_padding_start">44dp</dimen>

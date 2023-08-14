@@ -134,21 +134,21 @@ fun PlayerRoundScreen(
             modifier = Modifier
                 .weight(navigationRowWeight)
                 .fillMaxWidth(),
-            verticalAlignment = Alignment.CenterVertically
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.SpaceBetween
         ) {
             Button(
                 onClick = { onBack() },
                 modifier = Modifier
-                    .weight(7f)
-                    .alpha(if (firstPlayer) 0f else 1f)
-                    .padding(start = 16.dp),
+                    .padding(horizontal = dimensionResource(id = R.dimen.button_short_padding_horizontal))
+                    .width(dimensionResource(id = R.dimen.button_short_width))
+                    .alpha(if (firstPlayer) 0f else 1f),
                 colors = ButtonDefaults.buttonColors(containerColor = ThemeBlue),
             ) {
                 Text(text = stringResource(id = R.string.prev_player))
             }
             Text(
                 text = "${player.number}/$numPlayers",
-                modifier = Modifier.weight(4f),
                 color = Color.White,
                 textAlign = TextAlign.Center
 
@@ -158,9 +158,9 @@ fun PlayerRoundScreen(
                     Round(round.number, currentNum10s, currentNumCenter, currentNumMinus)
                 ) },
                 modifier = Modifier
-                    .weight(7f)
-                    .alpha(if (lastPlayer) 0f else 1f)
-                    .padding(end = 16.dp),
+                    .padding(horizontal = dimensionResource(id = R.dimen.button_short_padding_horizontal))
+                    .width(dimensionResource(id = R.dimen.button_short_width))
+                    .alpha(if (lastPlayer) 0f else 1f),
                 colors = ButtonDefaults.buttonColors(containerColor = ThemeRed),
             ) {
                 Text(text = stringResource(id = R.string.next_player))
@@ -323,6 +323,24 @@ fun PlayerRoundMiddlePlayerScreenPreview() {
             player = Players.thao,
             round = Players.thao.round[2]!!,
             numPlayers = 3,
+            onNext = { },
+            onResults = { },
+            onBack = { }
+        )
+    }
+}
+
+@Preview(
+    showBackground = true,
+    device = "id:pixel_4"
+)
+@Composable
+fun PlayerRoundMiddlePlayerTwelvePlayersScreenPreview() {
+    LigrettoScoresheetTheme {
+        PlayerRoundScreen(
+            player = Players.thao.copy(number = 11),
+            round = Players.thao.round[2]!!,
+            numPlayers = 12,
             onNext = { },
             onResults = { },
             onBack = { }

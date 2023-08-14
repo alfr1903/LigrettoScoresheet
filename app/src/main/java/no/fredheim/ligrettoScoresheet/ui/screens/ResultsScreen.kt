@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material3.Button
@@ -98,23 +99,37 @@ fun ResultsScreen(
                         player = player,
                         modifier = Modifier
                             .fillMaxWidth()
-                            .padding(start = 16.dp, top = 8.dp, bottom = 8.dp, end = 16.dp)
+                            .padding(horizontal = 16.dp, vertical = 8.dp)
                     )
                 }
             }
             Spacer(modifier = Modifier.weight(1f))
             Row(
-                modifier = Modifier.fillMaxWidth(),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(bottom = dimensionResource(id = R.dimen.button_bottom_padding)),
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
                 Button(
                     onClick = { onEnd() },
+                    modifier = Modifier
+                        .padding(
+                            horizontal = dimensionResource(
+                                id = R.dimen.button_short_padding_horizontal
+                            )
+                        )
+                        .width(dimensionResource(id = R.dimen.button_short_width)),
                     colors = ButtonDefaults.buttonColors(containerColor = ThemeDarkRed)
                 ) {
                     Text(text = stringResource(R.string.end_game))
                 }
                 Button(
                     onClick = { onNewRound() },
+                    modifier = Modifier
+                        .padding(horizontal = dimensionResource(
+                            id = R.dimen.button_short_padding_horizontal)
+                        )
+                        .width(dimensionResource(id = R.dimen.button_short_width)),
                     colors = ButtonDefaults.buttonColors(containerColor = ThemeDarkGreen)
                 ) {
                     Text(text = stringResource(R.string.new_round))
