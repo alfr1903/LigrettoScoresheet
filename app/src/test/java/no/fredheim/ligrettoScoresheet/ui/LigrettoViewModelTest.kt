@@ -70,7 +70,7 @@ internal class LigrettoViewModelTest {
 
         @Test
         fun `rounds with default values can be created for all participants`() {
-            viewModel.initNextRoundAllPlayers(firstTime = true)
+            viewModel.initNextRoundAllPlayers(firstRound = true)
             viewModel.gameState.value.players[1]!!.round[1] shouldBe Round(1)
             viewModel.gameState.value.players[2]!!.round[1] shouldBe Round(1)
         }

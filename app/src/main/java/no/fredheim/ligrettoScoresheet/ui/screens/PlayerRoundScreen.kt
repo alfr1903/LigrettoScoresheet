@@ -45,10 +45,10 @@ import no.fredheim.ligrettoScoresheet.ui.theme.ThemeRed
 import no.fredheim.ligrettoScoresheet.ui.theme.LigrettoScoresheetTheme
 import no.fredheim.ligrettoScoresheet.util.Players
 
-private const val topRowWeight = 22f
-private const val cardCountersColumnWeight = 50f
-private const val navigationRowWeight = 18f
-private const val restOfScreenWeight = 10f
+private const val TOP_ROW_WEIGHT = 22f
+private const val CARD_COUNTERS_COLUMN_WEIGHT = 50f
+private const val NAVIGATION_ROW_WEIGHT = 18f
+private const val REST_OF_SCREEN_WEIGHT = 10f
 
 
 
@@ -78,7 +78,7 @@ fun PlayerRoundScreen(
     Column(modifier = modifier) {
         Row(
             modifier = Modifier
-                .weight(topRowWeight)
+                .weight(TOP_ROW_WEIGHT)
                 .fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceEvenly,
             verticalAlignment = Alignment.Bottom,
@@ -97,7 +97,7 @@ fun PlayerRoundScreen(
                 contentDescription = stringResource(R.string.list_of_players),
             )
         }
-        Column(modifier = Modifier.weight(cardCountersColumnWeight)) {
+        Column(modifier = Modifier.weight(CARD_COUNTERS_COLUMN_WEIGHT)) {
             CardCounterRow(
                 cardTypeImageId = R.drawable.tens_cards,
                 cardTypeDescriptionId = R.string.number_10s_center,
@@ -135,7 +135,7 @@ fun PlayerRoundScreen(
         }
         Row(
             modifier = Modifier
-                .weight(navigationRowWeight)
+                .weight(NAVIGATION_ROW_WEIGHT)
                 .fillMaxWidth(),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.SpaceBetween
@@ -171,7 +171,7 @@ fun PlayerRoundScreen(
         }
         Column(
             modifier = Modifier
-                .weight(restOfScreenWeight)
+                .weight(REST_OF_SCREEN_WEIGHT)
                 .fillMaxWidth(),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
@@ -232,6 +232,7 @@ private fun CardCounterRow(
                 modifier = Modifier
                     .weight(1f)
                     .padding(end = 4.dp)
+                    .clickable { onValueChange(Calculate.decrement(value)) }
             )
             TextField(
                 value = value,
@@ -246,6 +247,7 @@ private fun CardCounterRow(
                 modifier = Modifier
                     .weight(1f)
                     .padding(start = 4.dp)
+                    .clickable { onValueChange(Calculate.increment(value)) }
             )
         }
         Text(

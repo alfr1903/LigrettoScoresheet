@@ -51,7 +51,7 @@ fun LigrettoApp(
                 onChosenColor = { viewModel.updateChosenColor(it) },
                 onPlayerAdded = { viewModel.addPlayer(it) },
                 onStartGameClick = {
-                    viewModel.initNextRoundAllPlayers(firstTime = true)
+                    viewModel.initNextRoundAllPlayers(firstRound = true)
                     navController.navigate(Screen.PlayerRound.name)
                 },
                 onBack = { navController.popBackStack() },
@@ -85,10 +85,12 @@ fun LigrettoApp(
                 players = state.players.values.toList(),
                 round = viewModel.currentRound,
                 onNewRound = {
-                    viewModel.initNextRoundAllPlayers(firstTime = false)
+                    viewModel.initNextRoundAllPlayers(firstRound = false)
                     navController.navigate(Screen.PlayerRound.name)
                 },
-                onEnd = {}
+                onEnd = {
+                    navController.popBackStack(route = Screen.Welcome.name, inclusive = false)
+                },
             )
         }
     }

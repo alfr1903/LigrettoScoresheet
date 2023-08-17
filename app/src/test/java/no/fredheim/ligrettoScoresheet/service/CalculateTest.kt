@@ -11,12 +11,18 @@ internal class CalculateTest {
     inner class Incrementing {
 
         @Test
-        fun `given non number input increment function should set score to 1`() {
+        fun `given non number input increment function should return input`() {
+            Calculate.increment(",") shouldBe ","
+        }
+
+        @Test
+        fun `given empty input increment function should set score to 1`() {
             Calculate.increment("") shouldBe "1"
-            Calculate.increment(",") shouldBe "1"
-            Calculate.increment(".") shouldBe "1"
-            Calculate.increment("-") shouldBe "1"
-            Calculate.increment(" ") shouldBe "1"
+        }
+
+        @Test
+        fun `given zero input increment function should set score to 1`() {
+            Calculate.increment("0") shouldBe "1"
         }
 
         @Test

@@ -5,10 +5,18 @@ import no.fredheim.ligrettoScoresheet.model.CardType
 
 object Calculate {
     fun increment(value: String): String =
-        if (!value.isDigitsOnly()) "1" else value.toInt().inc().toString()
+        when {
+            value == "" || value == "0" -> "1"
+            !value.isDigitsOnly() -> value
+            else -> value.toInt().inc().toString()
+        }
 
     fun decrement(value: String): String =
-        if (!value.isDigitsOnly() || value == "1") "" else value.toInt().dec().toString()
+        when {
+            value == "" || value == "0" -> value
+            !value.isDigitsOnly() -> value
+            else -> value.toInt().dec().toString()
+        }
 
     fun points(cardType: CardType, numCards: String): Int =
         when (cardType) {

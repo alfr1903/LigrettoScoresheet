@@ -59,8 +59,8 @@ class LigrettoViewModel : ViewModel() {
             it.copy(playersUiState = newUiState)
         }
     }
-    fun initNextRoundAllPlayers(firstTime: Boolean) {
-        if (!firstTime) {
+    fun initNextRoundAllPlayers(firstRound: Boolean) {
+        if (!firstRound) {
             currentPlayerIndex = 1
             currentRound++
         }

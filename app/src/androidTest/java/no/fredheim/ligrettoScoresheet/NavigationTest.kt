@@ -100,6 +100,14 @@ class NavigationTest {
         navController shouldHaveCurrentRouteName Screen.PlayerRound.name
     }
 
+    @Test
+    fun afterEndGamePressed_currentScreenShouldBeWelcomeScreen() {
+        composeTestRule.navigateToResultsScreen()
+        composeTestRule.clickTextNode(R.string.end_game)
+
+        navController shouldHaveCurrentRouteName Screen.Welcome.name
+    }
+
 
 
 }
