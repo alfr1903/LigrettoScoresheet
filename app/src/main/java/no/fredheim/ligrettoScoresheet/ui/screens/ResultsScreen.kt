@@ -1,6 +1,7 @@
 package no.fredheim.ligrettoScoresheet.ui.screens
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -28,24 +29,25 @@ import androidx.compose.ui.unit.dp
 import no.fredheim.ligrettoScoresheet.R
 import no.fredheim.ligrettoScoresheet.common.PlayerScoreRow
 import no.fredheim.ligrettoScoresheet.model.Player
+import no.fredheim.ligrettoScoresheet.model.PlayerScore
+import no.fredheim.ligrettoScoresheet.model.Round
 import no.fredheim.ligrettoScoresheet.ui.theme.ThemeDarkGreen
 import no.fredheim.ligrettoScoresheet.ui.theme.ThemeDarkRed
 import no.fredheim.ligrettoScoresheet.ui.theme.LigrettoScoresheetTheme
 import no.fredheim.ligrettoScoresheet.util.Players
 
-private const val topRowWeight = 15f
-private const val headlineWeight = 5f
-private const val restOfScreenWeight = 80f
+private const val TOP_ROW_WEIGHT = 15f
+private const val HEADLINE_WEIGHT = 5f
+private const val REST_OF_SCREEN_WEIGHT = 80f
 
 @Composable
 fun ResultsScreen(
-    players: List<Player>,
-    round: Int,
+    playersScore: List<PlayerScore>,
+    onHome: () -> Unit,
     onNewRound: () -> Unit,
     onEnd: () -> Unit,
     modifier: Modifier = Modifier
 ) {
-    val playersSorted = players.sortedByDescending { it.score(untilRound = round) }
 
     Image(
         painter = painterResource(id = R.drawable.ligrettoyellow_background),
@@ -55,7 +57,7 @@ fun ResultsScreen(
     Column(modifier = modifier) {
         Row(
             modifier = Modifier
-                .weight(topRowWeight)
+                .weight(TOP_ROW_WEIGHT)
                 .fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.Bottom,
@@ -66,6 +68,7 @@ fun ResultsScreen(
                 modifier = Modifier
                     .padding(start = dimensionResource(id = R.dimen.icon_screen_border_padding))
                     .size(dimensionResource(id = R.dimen.icon_size))
+                    .clickable { onHome() }
             )
             Image(
                 painter = painterResource(id = R.drawable.edit_square),
@@ -79,12 +82,12 @@ fun ResultsScreen(
             text = stringResource(id = R.string.scoreboard),
             modifier = Modifier
                 .align(Alignment.CenterHorizontally)
-                .weight(headlineWeight),
+                .weight(HEADLINE_WEIGHT),
             color = MaterialTheme.colorScheme.onPrimary,
             fontWeight = FontWeight.Bold,
             style = MaterialTheme.typography.headlineMedium,
         )
-        Column(modifier = Modifier.weight(restOfScreenWeight)) {
+        Column(modifier = Modifier.weight(REST_OF_SCREEN_WEIGHT)) {
             LazyColumn(modifier = Modifier
                 .padding(
                 start = dimensionResource(id = R.dimen.list_padding_start),
@@ -92,11 +95,11 @@ fun ResultsScreen(
                 end = dimensionResource(id = R.dimen.list_padding_end)
                 )
             ) {
-                itemsIndexed(playersSorted) { num, player ->
+                itemsIndexed(playersScore) { num, playerScore ->
                     PlayerScoreRow(
-                        round = round,
                         number = num + 1,
-                        player = player,
+                        player = playerScore.player,
+                        score = playerScore.score,
                         modifier = Modifier
                             .fillMaxWidth()
                             .padding(horizontal = 16.dp, vertical = 8.dp)
@@ -147,8 +150,8 @@ fun ResultsScreen(
 fun ResultsScreenRound1Preview() {
     LigrettoScoresheetTheme {
         ResultsScreen(
-            players = Players.threePlayers(),
-            round = 1,
+            Players.threePlayers().map { PlayerScore(it, 0) },
+            onHome = { },
             onNewRound = { },
             onEnd = { }
         )
@@ -163,8 +166,8 @@ fun ResultsScreenRound1Preview() {
 fun ResultsScreenRound2Preview() {
     LigrettoScoresheetTheme {
         ResultsScreen(
-            players = Players.threePlayers(),
-            round = 2,
+            Players.threePlayers().map { PlayerScore(it, 0) },
+            onHome = { },
             onNewRound = { },
             onEnd = { }
         )
@@ -179,8 +182,8 @@ fun ResultsScreenRound2Preview() {
 fun ResultsScreen12PlayersPreview() {
     LigrettoScoresheetTheme {
         ResultsScreen(
-            players = Players.allPlayers(),
-            round = 2,
+            Players.allPlayers().map { PlayerScore(it, 0) },
+            onHome = { },
             onNewRound = { },
             onEnd = { }
         )

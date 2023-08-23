@@ -3,7 +3,8 @@ package no.fredheim.ligrettoScoresheet.model
 import no.fredheim.ligrettoScoresheet.service.Calculate
 
 data class Round(
-    val number: Int,
+    val playerId: Int,
+    val id: Int,
     val num10s: String = "",
     val numCenter: String = "",
     val numLigretto: String = ""

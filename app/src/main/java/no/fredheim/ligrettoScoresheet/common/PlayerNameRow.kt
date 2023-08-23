@@ -63,9 +63,9 @@ fun PlayerNameRowPreview() {
 
 @Composable
 fun PlayerScoreRow(
-    round: Int,
     number: Int,
     player: Player,
+    score: Int,
     modifier: Modifier = Modifier
 ) {
     Card(
@@ -87,7 +87,7 @@ fun PlayerScoreRow(
                 )
             }
             Text(
-                text = "${player.score(round)}",
+                text = "$score",
                 color = MaterialTheme.colorScheme.onPrimary
             )
         }
@@ -104,8 +104,8 @@ fun PlayerScoreRow(
 fun PlayerScoreRowFirstRoundPreview() {
     LigrettoScoresheetTheme {
         PlayerScoreRow(
-            round = 1,
             number = 1,
+            score = 12,
             player = Players.thao,
             modifier = Modifier
                 .fillMaxWidth()
@@ -123,8 +123,8 @@ fun PlayerScoreRowFirstRoundPreview() {
 fun PlayerScoreRowSecondRoundPreview() {
     LigrettoScoresheetTheme {
         PlayerScoreRow(
-            round = 2,
             number = 2,
+            score = 9,
             player = Players.thao,
             modifier = Modifier.fillMaxWidth()
         )

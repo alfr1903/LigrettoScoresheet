@@ -6,7 +6,6 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
@@ -24,7 +23,6 @@ import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.dimensionResource
@@ -55,11 +53,11 @@ private const val RestOfScreenWeight = 37f
 fun PlayersScreen(
     players: List<Player>,
     name: String,
-    onNameChange: (String) -> Unit,
+    onName: (String) -> Unit,
     availableColors: Set<Color>,
     chosenColor: Color?,
     onChosenColor: (Color) -> Unit,
-    onPlayerAdded: (Player) -> Unit,
+    onPlayerAdd: (Player) -> Unit,
     onStartGameClick: () -> Unit,
     onBack: () -> Unit,
     modifier: Modifier = Modifier
@@ -110,11 +108,7 @@ fun PlayersScreen(
         }
         Spacer(modifier = Modifier.weight(spacerWeight))
         Column(modifier = Modifier.weight(RestOfScreenWeight)) {
-            Column(
-                modifier = Modifier
-                    .alpha(if (chosenColor != null) 1f else 0f),
-                horizontalAlignment = Alignment.CenterHorizontally
-            ) {
+            Column(horizontalAlignment = Alignment.CenterHorizontally) {
                 Text(
                     text = stringResource(R.string.choose_color),
                     color = MaterialTheme.colorScheme.onPrimary,
@@ -123,7 +117,7 @@ fun PlayersScreen(
                 LazyRow(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(start = 20.dp, end = 20.dp),
+                        .padding(horizontal = 20.dp),
                     horizontalArrangement = Arrangement.SpaceEvenly,
                     verticalAlignment = Alignment.CenterVertically
                 ) {
@@ -136,25 +130,27 @@ fun PlayersScreen(
                 }
                 TextField(
                     value = name,
-                    onValueChange = { onNameChange(it) },
+                    onValueChange = { onName(it) },
                     modifier = Modifier.padding(top = 12.dp),
+                    enabled = chosenColor != null,
                     label = { Text(text = stringResource(R.string.type_name)) },
                     keyboardActions = KeyboardActions(
-                        onDone = { onPlayerAdded(
-                            Player(number = players.size + 1, name = name, color = chosenColor!!)
+                        onDone = { onPlayerAdd(
+                            Player(id = players.size + 1, name = name, color = chosenColor!!)
                         ) }
                     ),
                     singleLine = true,
                 )
                 Button(
                     onClick = {
-                        onPlayerAdded(
-                            Player(number = players.size + 1, name = name, color = chosenColor!!)
+                        onPlayerAdd(
+                            Player(id = players.size + 1, name = name, color = chosenColor!!)
                         )
                     },
                     modifier = Modifier
                         .padding(top = 16.dp)
                         .width(dimensionResource(id = R.dimen.button_long_width)),
+                    enabled = chosenColor != null,
                     colors = ButtonDefaults.buttonColors(
                         containerColor = ThemeYellow,
                         contentColor = Color.Black
@@ -197,9 +193,9 @@ fun PlayersScreenNoPlayersPreview() {
             name = "",
             availableColors = PlayerColors,
             chosenColor = PlayerColors.elementAt(0),
-            onNameChange = { },
+            onName = { },
             onChosenColor = { },
-            onPlayerAdded = { },
+            onPlayerAdd = { },
             onStartGameClick = { },
             onBack = { },
         )
@@ -219,9 +215,9 @@ fun PlayersScreenThreePlayersPreview() {
             name = "OJ",
             availableColors = PlayerColors.drop(2).toSet(),
             chosenColor = PlayerColors.elementAt(2),
-            onNameChange = { },
+            onName = { },
             onChosenColor = { },
-            onPlayerAdded = { },
+            onPlayerAdd = { },
             onStartGameClick = { },
             onBack = { },
         )
@@ -240,9 +236,9 @@ fun PlayersScreenAllPlayersPreview() {
             name = "",
             availableColors = emptySet(),
             chosenColor = null,
-            onNameChange = { },
+            onName = { },
             onChosenColor = { },
-            onPlayerAdded = { },
+            onPlayerAdd = { },
             onStartGameClick = { },
             onBack = { },
         )

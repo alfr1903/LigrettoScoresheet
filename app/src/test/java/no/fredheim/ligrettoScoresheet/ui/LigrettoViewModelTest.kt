@@ -16,14 +16,6 @@ internal class LigrettoViewModelTest {
     private val viewModel = LigrettoViewModel()
 
     @Test
-    fun `max score is updated correctly`() {
-        viewModel.gameState.value.maxScore shouldBe ""
-
-        viewModel.updateMaxScore("40")
-        viewModel.gameState.value.maxScore shouldBe "40"
-    }
-
-    @Test
     fun `player is added correctly`() {
         viewModel.gameState.value.players.shouldBeEmpty()
 
@@ -33,30 +25,30 @@ internal class LigrettoViewModelTest {
 
     @Test
     fun `adding a player removes the players chosen color from available colors`() {
-        viewModel.gameState.value.playersUiState.availableColors shouldBe  PlayerColors
+        viewModel.gameState.value.colorPickerState.availableColors shouldBe  PlayerColors
 
         viewModel.addPlayer(Players.alex)
-        viewModel.gameState.value.playersUiState.availableColors shouldBe
+        viewModel.gameState.value.colorPickerState.availableColors shouldBe
                 PlayerColors.minus(Players.alex.color)
     }
 
     @Nested
-    inner class PlayersUiState {
+    inner class ColorPickerState {
 
         @Test
         fun `name input is stored in gameState`() {
-            viewModel.gameState.value.playersUiState.name shouldBe ""
+            viewModel.gameState.value.colorPickerState.name shouldBe ""
 
             viewModel.updateName("Alex")
-            viewModel.gameState.value.playersUiState.name shouldBe "Alex"
+            viewModel.gameState.value.colorPickerState.name shouldBe "Alex"
         }
 
         @Test
         fun `chosen color is stored in gameState`() {
-            viewModel.gameState.value.playersUiState.chosenColor shouldBe LigrettoLightPink
+            viewModel.gameState.value.colorPickerState.chosenColor shouldBe LigrettoLightPink
 
             viewModel.updateChosenColor(LigrettoBlue)
-            viewModel.gameState.value.playersUiState.chosenColor shouldBe LigrettoBlue
+            viewModel.gameState.value.colorPickerState.chosenColor shouldBe LigrettoBlue
         }
     }
     @Nested
@@ -70,7 +62,7 @@ internal class LigrettoViewModelTest {
 
         @Test
         fun `rounds with default values can be created for all participants`() {
-            viewModel.initNextRoundAllPlayers(firstRound = true)
+            viewModel.nextRound(firstRound = true)
             viewModel.gameState.value.players[1]!!.round[1] shouldBe Round(1)
             viewModel.gameState.value.players[2]!!.round[1] shouldBe Round(1)
         }

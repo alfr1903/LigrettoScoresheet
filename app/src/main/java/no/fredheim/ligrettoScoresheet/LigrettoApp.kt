@@ -26,7 +26,8 @@ fun LigrettoApp(
     navController: NavHostController = rememberNavController(),
     viewModel: LigrettoViewModel = viewModel()
 ) {
-    val state by viewModel.gameState.collectAsState()
+    val players by viewModel.playersState.collectAsState()
+    val colorPicker by viewModel.colorPickerState.collectAsState()
 
     NavHost(
         navController = navController,
@@ -34,27 +35,26 @@ fun LigrettoApp(
     ) {
         composable(route = Screen.Welcome.name) {
             WelcomeScreen(
-                maxScore = state.maxScore,
-                onStartGameButtonClick = { maxScore ->
-                    viewModel.updateMaxScore(maxScore)
-                    navController.navigate(Screen.Players.name)
-                }
+                onStartGameButtonClick = { navController.navigate(Screen.Players.name) }
             )
         }
         composable(route = Screen.Players.name) {
             PlayersScreen(
-                players = state.players.values.toList(),
-                name = state.playersUiState.name,
-                availableColors = state.playersUiState.availableColors,
-                chosenColor = state.playersUiState.chosenColor,
-                onNameChange = { viewModel.updateName(it) },
+                players = players.values.toList(),
+                name = colorPicker.name,
+                availableColors = colorPicker.availableColors,
+                chosenColor = colorPicker.chosenColor,
+                onName = { viewModel.updateName(it) },
                 onChosenColor = { viewModel.updateChosenColor(it) },
-                onPlayerAdded = { viewModel.addPlayer(it) },
+                onPlayerAdd = { viewModel.addPlayer(it) },
                 onStartGameClick = {
-                    viewModel.initNextRoundAllPlayers(firstRound = true)
+                    viewModel.nextRound(firstRound = true)
                     navController.navigate(Screen.PlayerRound.name)
                 },
-                onBack = { navController.popBackStack() },
+                onBack = {
+                    viewModel.reset()
+                    navController.popBackStack()
+                },
             )
         }
         composable(route = Screen.PlayerRound.name) {
@@ -64,31 +64,38 @@ fun LigrettoApp(
                 round = viewModel.currentRound(currentPlayer),
                 numPlayers = viewModel.numPlayers(),
                 onHome = {
+                    viewModel.resetRoundData()
                     navController.popBackStack(route = Screen.Players.name, inclusive = false)
                 },
                 onNext = {
-                    viewModel.addRoundCurrentPlayer(it)
+                    viewModel.addRound(it, currentPlayer)
+                    viewModel.incrementPlayer()
                     navController.navigate(Screen.PlayerRound.name)
                 },
                 onResults = {
-                    viewModel.addRoundCurrentPlayer(it)
+                    viewModel.addRound(it, currentPlayer)
                     navController.navigate(Screen.Results.name)
                 },
                 onPrevious = {
-                    viewModel.handleBackPress(Screen.PlayerRound)
+                    viewModel.addRound(it, currentPlayer)
+                    viewModel.decrementPlayer()
                     navController.popBackStack()
                 },
             )
         }
         composable(route = Screen.Results.name) {
             ResultsScreen(
-                players = state.players.values.toList(),
-                round = viewModel.currentRound,
+                playersScore = viewModel.playersScore(),
+                onHome = {
+                    viewModel.resetRoundData()
+                    navController.popBackStack(route = Screen.Players.name, inclusive = false)
+                },
                 onNewRound = {
-                    viewModel.initNextRoundAllPlayers(firstRound = false)
+                    viewModel.nextRound(firstRound = false)
                     navController.navigate(Screen.PlayerRound.name)
                 },
                 onEnd = {
+                    viewModel.reset()
                     navController.popBackStack(route = Screen.Welcome.name, inclusive = false)
                 },
             )

@@ -60,15 +60,15 @@ fun PlayerRoundScreen(
     onHome: () -> Unit,
     onNext: (Round) -> Unit,
     onResults: (Round) -> Unit,
-    onPrevious: () -> Unit,
+    onPrevious: (Round) -> Unit,
     modifier: Modifier = Modifier
 ) {
     var currentNum10s by remember { mutableStateOf(round.num10s) }
     var currentNumCenter by remember { mutableStateOf(round.numCenter) }
     var currentNumMinus by remember { mutableStateOf(round.numLigretto) }
 
-    val firstPlayer = player.number == 1
-    val lastPlayer = player.number == numPlayers
+    val firstPlayer = player.id == 1
+    val lastPlayer = player.id == numPlayers
 
     Image(
         painter = painterResource(id = R.drawable.ligrettogreen_background),
@@ -141,7 +141,9 @@ fun PlayerRoundScreen(
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
             Button(
-                onClick = { onPrevious() },
+                onClick = { onPrevious(
+                    Round(player.id, round.id, currentNum10s, currentNumCenter, currentNumMinus)
+                ) },
                 modifier = Modifier
                     .padding(horizontal = dimensionResource(id = R.dimen.button_short_padding_horizontal))
                     .width(dimensionResource(id = R.dimen.button_short_width))
@@ -151,14 +153,14 @@ fun PlayerRoundScreen(
                 Text(text = stringResource(id = R.string.prev_player))
             }
             Text(
-                text = "${player.number}/$numPlayers",
+                text = "${player.id}/$numPlayers",
                 color = Color.White,
                 textAlign = TextAlign.Center
 
             )
             Button(
                 onClick = { onNext(
-                    Round(round.number, currentNum10s, currentNumCenter, currentNumMinus)
+                    Round(player.id, round.id, currentNum10s, currentNumCenter, currentNumMinus)
                 ) },
                 modifier = Modifier
                     .padding(horizontal = dimensionResource(id = R.dimen.button_short_padding_horizontal))
@@ -178,7 +180,7 @@ fun PlayerRoundScreen(
             Spacer(modifier = Modifier.weight(1f))
             Button(
                 onClick = { onResults(
-                    Round(round.number, currentNum10s, currentNumCenter, currentNumMinus)
+                    Round(player.id, round.id, currentNum10s, currentNumCenter, currentNumMinus)
                 ) },
                 modifier = Modifier
                     .padding(bottom = dimensionResource(id = R.dimen.button_bottom_padding))
@@ -272,7 +274,7 @@ fun PlayerRoundFirstRoundFirstPlayerNoDataScreenPreview() {
     LigrettoScoresheetTheme {
         PlayerRoundScreen(
             player = Players.alex,
-            round = Round(1),
+            round = Round(playerId = 1, id = 1),
             numPlayers = 3,
             onHome = { },
             onNext = { },
@@ -288,10 +290,11 @@ fun PlayerRoundFirstRoundFirstPlayerNoDataScreenPreview() {
 )
 @Composable
 fun PlayerRoundFirstRoundFirstPlayerScreenPreview() {
+    val alex = Players.alex
     LigrettoScoresheetTheme {
         PlayerRoundScreen(
-            player = Players.alex,
-            round = Players.alex.round[1]!!,
+            player = alex,
+            round = Round(alex.id, 1, "1", "2", "3"),
             numPlayers = 3,
             onHome = { },
             onNext = { },
@@ -307,10 +310,11 @@ fun PlayerRoundFirstRoundFirstPlayerScreenPreview() {
 )
 @Composable
 fun PlayerRoundScoreSecondRoundFirstPlayerScreenPreview() {
+    val alex = Players.alex
     LigrettoScoresheetTheme {
         PlayerRoundScreen(
-            player = Players.alex,
-            round = Players.alex.round[2]!!,
+            player = alex,
+            round = Round(alex.id, 2, "3", "2", "1"),
             numPlayers = 3,
             onHome = { },
             onNext = { },
@@ -326,10 +330,11 @@ fun PlayerRoundScoreSecondRoundFirstPlayerScreenPreview() {
 )
 @Composable
 fun PlayerRoundMiddlePlayerScreenPreview() {
+    val thao = Players.thao
     LigrettoScoresheetTheme {
         PlayerRoundScreen(
-            player = Players.thao,
-            round = Players.thao.round[2]!!,
+            player = thao,
+            round = Round(thao.id, 1, "2", "12", "0"),
             numPlayers = 3,
             onHome = { },
             onNext = { },
@@ -345,10 +350,11 @@ fun PlayerRoundMiddlePlayerScreenPreview() {
 )
 @Composable
 fun PlayerRoundMiddlePlayerTwelvePlayersScreenPreview() {
+    val thao = Players.thao
     LigrettoScoresheetTheme {
         PlayerRoundScreen(
-            player = Players.thao.copy(number = 11),
-            round = Players.thao.round[2]!!,
+            player = thao.copy(id = 11),
+            round = Round(thao.id, 1, "1", "1", "1"),
             numPlayers = 12,
             onHome = { },
             onNext = { },
@@ -364,10 +370,11 @@ fun PlayerRoundMiddlePlayerTwelvePlayersScreenPreview() {
 )
 @Composable
 fun PlayerRoundLastPlayerScreenPreview() {
+    val rikke = Players.rikke
     LigrettoScoresheetTheme {
         PlayerRoundScreen(
             player = Players.rikke,
-            round = Players.rikke.round[2]!!,
+            round = Round(rikke.id, 1, "3", "9", "1"),
             numPlayers = 3,
             onHome = { },
             onNext = { },
