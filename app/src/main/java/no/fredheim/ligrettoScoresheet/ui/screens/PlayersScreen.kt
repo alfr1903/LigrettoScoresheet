@@ -36,6 +36,7 @@ import no.fredheim.ligrettoScoresheet.R
 import no.fredheim.ligrettoScoresheet.common.Circle
 import no.fredheim.ligrettoScoresheet.common.HighlightedCircle
 import no.fredheim.ligrettoScoresheet.common.PlayerNameRow
+import no.fredheim.ligrettoScoresheet.model.ColorPickerState
 import no.fredheim.ligrettoScoresheet.model.Player
 import no.fredheim.ligrettoScoresheet.ui.theme.ThemeGreen
 import no.fredheim.ligrettoScoresheet.ui.theme.ThemeYellow
@@ -43,19 +44,17 @@ import no.fredheim.ligrettoScoresheet.ui.theme.LigrettoScoresheetTheme
 import no.fredheim.ligrettoScoresheet.ui.theme.PlayerColors
 import no.fredheim.ligrettoScoresheet.util.Players
 
-private const val topRowWeight = 18f
-private const val playersColumnWeight = 39f
-private const val spacerWeight = 6f
-private const val RestOfScreenWeight = 37f
+private const val TOP_ROW_WEIGHT = 18f
+private const val PLAYERS_COLUMN_WEIGHT = 39f
+private const val SPACER_WEIGHT = 6f
+private const val REST_OF_SCREEN_WEIGHT = 37f
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun PlayersScreen(
     players: List<Player>,
-    name: String,
+    colorPicker: ColorPickerState,
     onName: (String) -> Unit,
-    availableColors: Set<Color>,
-    chosenColor: Color?,
     onChosenColor: (Color) -> Unit,
     onPlayerAdd: (Player) -> Unit,
     onStartGameClick: () -> Unit,
@@ -69,7 +68,7 @@ fun PlayersScreen(
     )
     Column(modifier = modifier) {
         Row(
-            modifier = Modifier.weight(topRowWeight),
+            modifier = Modifier.weight(TOP_ROW_WEIGHT),
             verticalAlignment = Alignment.Bottom
         ) {
             Image(
@@ -94,7 +93,7 @@ fun PlayersScreen(
                     top = 12.dp,
                     end = dimensionResource(id = R.dimen.list_padding_end)
                 )
-                .weight(playersColumnWeight)
+                .weight(PLAYERS_COLUMN_WEIGHT)
         ) {
             itemsIndexed(players) { num, player ->
                 PlayerNameRow(
@@ -106,8 +105,8 @@ fun PlayersScreen(
                 )
             }
         }
-        Spacer(modifier = Modifier.weight(spacerWeight))
-        Column(modifier = Modifier.weight(RestOfScreenWeight)) {
+        Spacer(modifier = Modifier.weight(SPACER_WEIGHT))
+        Column(modifier = Modifier.weight(REST_OF_SCREEN_WEIGHT)) {
             Column(horizontalAlignment = Alignment.CenterHorizontally) {
                 Text(
                     text = stringResource(R.string.choose_color),
@@ -121,22 +120,26 @@ fun PlayersScreen(
                     horizontalArrangement = Arrangement.SpaceEvenly,
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    items(availableColors.toList()) { color ->
-                        if (chosenColor == color)
+                    items(colorPicker.availableColors.toList()) { color ->
+                        if (colorPicker.chosenColor == color)
                             HighlightedCircle(color = color, onClick = { onChosenColor(color) })
                         else
                             Circle(color = color, onClick = { onChosenColor(color) })
                     }
                 }
                 TextField(
-                    value = name,
+                    value = colorPicker.name,
                     onValueChange = { onName(it) },
                     modifier = Modifier.padding(top = 12.dp),
-                    enabled = chosenColor != null,
+                    enabled = colorPicker.chosenColor != null,
                     label = { Text(text = stringResource(R.string.type_name)) },
                     keyboardActions = KeyboardActions(
                         onDone = { onPlayerAdd(
-                            Player(id = players.size + 1, name = name, color = chosenColor!!)
+                            Player(
+                                id = players.size + 1,
+                                name = colorPicker.name,
+                                color = colorPicker.chosenColor!!
+                            )
                         ) }
                     ),
                     singleLine = true,
@@ -144,13 +147,17 @@ fun PlayersScreen(
                 Button(
                     onClick = {
                         onPlayerAdd(
-                            Player(id = players.size + 1, name = name, color = chosenColor!!)
+                            Player(
+                                id = players.size + 1,
+                                name = colorPicker.name,
+                                color = colorPicker.chosenColor!!
+                            )
                         )
                     },
                     modifier = Modifier
                         .padding(top = 16.dp)
                         .width(dimensionResource(id = R.dimen.button_long_width)),
-                    enabled = chosenColor != null,
+                    enabled = colorPicker.chosenColor != null,
                     colors = ButtonDefaults.buttonColors(
                         containerColor = ThemeYellow,
                         contentColor = Color.Black
@@ -190,9 +197,7 @@ fun PlayersScreenNoPlayersPreview() {
     LigrettoScoresheetTheme {
         PlayersScreen(
             players = emptyList(),
-            name = "",
-            availableColors = PlayerColors,
-            chosenColor = PlayerColors.elementAt(0),
+            colorPicker = ColorPickerState(),
             onName = { },
             onChosenColor = { },
             onPlayerAdd = { },
@@ -212,9 +217,11 @@ fun PlayersScreenThreePlayersPreview() {
     LigrettoScoresheetTheme {
         PlayersScreen(
             players = Players.threePlayers(),
-            name = "OJ",
-            availableColors = PlayerColors.drop(2).toSet(),
-            chosenColor = PlayerColors.elementAt(2),
+            colorPicker = ColorPickerState(
+                "OJ",
+                PlayerColors.drop(2).toSet(),
+                PlayerColors.elementAt(2)
+            ),
             onName = { },
             onChosenColor = { },
             onPlayerAdd = { },
@@ -233,9 +240,7 @@ fun PlayersScreenAllPlayersPreview() {
     LigrettoScoresheetTheme {
         PlayersScreen(
             players = Players.allPlayers(),
-            name = "",
-            availableColors = emptySet(),
-            chosenColor = null,
+            colorPicker = ColorPickerState(availableColors =  emptySet(), chosenColor = null),
             onName = { },
             onChosenColor = { },
             onPlayerAdd = { },

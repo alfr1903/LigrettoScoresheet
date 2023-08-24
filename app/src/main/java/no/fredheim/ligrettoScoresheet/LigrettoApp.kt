@@ -41,9 +41,7 @@ fun LigrettoApp(
         composable(route = Screen.Players.name) {
             PlayersScreen(
                 players = players.values.toList(),
-                name = colorPicker.name,
-                availableColors = colorPicker.availableColors,
-                chosenColor = colorPicker.chosenColor,
+                colorPicker = colorPicker,
                 onName = { viewModel.updateName(it) },
                 onChosenColor = { viewModel.updateChosenColor(it) },
                 onPlayerAdd = { viewModel.addPlayer(it) },
