@@ -1,6 +1,5 @@
 package no.fredheim.ligrettoScoresheet.ui.screens
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -17,23 +16,21 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.dimensionResource
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import no.fredheim.ligrettoScoresheet.R
-import no.fredheim.ligrettoScoresheet.common.PlayerScoreRow
+import no.fredheim.ligrettoScoresheet.common.Background
 import no.fredheim.ligrettoScoresheet.common.IconsRow
+import no.fredheim.ligrettoScoresheet.common.PlayerScoreRow
 import no.fredheim.ligrettoScoresheet.model.PlayerScore
+import no.fredheim.ligrettoScoresheet.ui.theme.LigrettoScoresheetTheme
 import no.fredheim.ligrettoScoresheet.ui.theme.ThemeDarkGreen
 import no.fredheim.ligrettoScoresheet.ui.theme.ThemeDarkRed
-import no.fredheim.ligrettoScoresheet.ui.theme.LigrettoScoresheetTheme
 import no.fredheim.ligrettoScoresheet.util.Players
 
-private const val TOP_ROW_WEIGHT = 10f
 private const val HEADLINE_WEIGHT = 5f
 private const val REST_OF_SCREEN_WEIGHT = 85f
 
@@ -47,11 +44,7 @@ fun ResultsScreen(
 ) {
     val onEdit = { }
 
-    Image(
-        painter = painterResource(id = R.drawable.ligrettoyellow_background),
-        contentDescription = null,
-        contentScale = ContentScale.FillBounds
-    )
+    Background(resId = R.drawable.ligrettoyellow_background)
     Column(modifier = modifier) {
         IconsRow(
             leftIconResId = R.drawable.home,

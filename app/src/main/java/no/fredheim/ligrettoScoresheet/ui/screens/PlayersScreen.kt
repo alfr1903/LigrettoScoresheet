@@ -33,6 +33,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import no.fredheim.ligrettoScoresheet.R
+import no.fredheim.ligrettoScoresheet.common.Background
 import no.fredheim.ligrettoScoresheet.common.Circle
 import no.fredheim.ligrettoScoresheet.common.HighlightedCircle
 import no.fredheim.ligrettoScoresheet.common.IconsRow
@@ -57,11 +58,7 @@ fun PlayersScreen(
     onBack: () -> Unit,
     modifier: Modifier = Modifier
 ) {
-    Image(
-        painter = painterResource(id = R.drawable.ligrettoblue_background),
-        contentDescription = null,
-        contentScale = ContentScale.FillBounds
-    )
+    Background(resId = R.drawable.ligrettoblue_background)
     Column(
         modifier = modifier,
         horizontalAlignment = Alignment.CenterHorizontally

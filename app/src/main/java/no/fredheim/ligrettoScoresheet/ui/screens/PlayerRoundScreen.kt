@@ -31,6 +31,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import no.fredheim.ligrettoScoresheet.R
+import no.fredheim.ligrettoScoresheet.common.Background
 import no.fredheim.ligrettoScoresheet.model.CardType
 import no.fredheim.ligrettoScoresheet.model.Player
 import no.fredheim.ligrettoScoresheet.model.Round
@@ -63,11 +64,8 @@ fun PlayerRoundScreen(
     val firstPlayer = player.id == 1
     val lastPlayer = player.id == numPlayers
 
-    Image(
-        painter = painterResource(id = R.drawable.ligrettogreen_background),
-        contentDescription = null,
-        contentScale = ContentScale.FillBounds
-    )
+
+    Background(resId = R.drawable.ligrettogreen_background)
     Column(modifier = modifier) {
         Row(
             modifier = Modifier
