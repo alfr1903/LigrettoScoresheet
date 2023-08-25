@@ -45,6 +45,7 @@ val ThemeDarkRed = Color(0xFF891715)
 val ThemeDarkGreen = Color(0xFF017938)
 
 const val PreviewThemeOrange = 0xFFF29634
+const val PreviewThemeBlue = 0xFF0B7CC8
 
 
 

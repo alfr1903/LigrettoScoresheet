@@ -1,43 +1,59 @@
 package no.fredheim.ligrettoScoresheet.ui
 
-import androidx.compose.ui.graphics.Color
 import androidx.lifecycle.ViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
-import no.fredheim.ligrettoScoresheet.model.Player
 import no.fredheim.ligrettoScoresheet.model.ColorPickerState
+import no.fredheim.ligrettoScoresheet.model.Player
 import no.fredheim.ligrettoScoresheet.model.PlayerScore
 import no.fredheim.ligrettoScoresheet.model.Round
 
+typealias RoundMap = MutableMap<Int, Round>
+typealias PlayerId = Int
+
 class LigrettoViewModel : ViewModel() {
-    private val _playersState = MutableStateFlow(mutableMapOf<Int, Player>())
+    private var currentRound = 1
+    private var idCurrentPlayer: PlayerId = 1
+
+
+    private val _playersState = MutableStateFlow(mutableMapOf<PlayerId, Player>())
     val playersState = _playersState.asStateFlow()
 
-    private val _colorPickerState = MutableStateFlow(ColorPickerState())
-    val colorPickerState = _colorPickerState.asStateFlow()
+    private val _playerCreatorState = MutableStateFlow(ColorPickerState())
 
-    private var rounds = mutableMapOf<Int, MutableMap<Int, Round>>()
+    val playerCreatorState = _playerCreatorState.asStateFlow()
 
-    private var currentRound = 1
+    private val _roundState = MutableStateFlow(Round(idCurrentPlayer, currentRound))
+    val roundState = _roundState.asStateFlow()
 
-    var currentPlayerIndex = 1
-        private set
+    private var playerRound = mutableMapOf<PlayerId, RoundMap>()
 
-    fun reset() {
-        _playersState.update { mutableMapOf() }
-        _colorPickerState.update { ColorPickerState() }
-        rounds = mutableMapOf()
+    fun resetData(deletePlayers: Boolean = true) {
+        if (deletePlayers) _playersState.update { mutableMapOf() }
+        _playerCreatorState.update { ColorPickerState() }
+        if (deletePlayers) playerRound = mutableMapOf()
+        else playerRound.mapValues { mutableMapOf<Int, Round>() }
         currentRound = 1
-        currentPlayerIndex = 1
+        idCurrentPlayer = 1
+        updateRoundState()
+
     }
 
-    fun resetRoundData() { rounds = mutableMapOf() }
+    private fun updateRoundState() {
+        _roundState.update {
+            playerRound[idCurrentPlayer]?.get(currentRound) ?: Round(idCurrentPlayer, currentRound)
+        }
+    }
+
+    fun updatePlayerCreatorState(colorPicker: ColorPickerState) {
+        _playerCreatorState.value = colorPicker
+    }
 
     fun addPlayer(player: Player) {
-        _playersState.value[player.id] = player
-        rounds[player.id] = mutableMapOf()
-        _colorPickerState.update {
+        _playersState.update { it.apply { it[player.id] = player }}
+        playerRound[player.id] = mutableMapOf()
+        _playerCreatorState.update {
             it.copy(
                 name = "",
                 availableColors = it.availableColors.minus(player.color),
@@ -46,42 +62,48 @@ class LigrettoViewModel : ViewModel() {
         }
     }
 
-    fun updateName(name: String) { _colorPickerState.update { it.copy(name = name) } }
-
-    fun updateChosenColor(color: Color) {
-        _colorPickerState.update { it.copy(chosenColor = color) }
-    }
-    fun nextRound(firstRound: Boolean) {
-        if (!firstRound) {
-            currentPlayerIndex = 1
-            currentRound++
-        }
-        (1..numPlayers()).forEach {
-            if(!rounds[it]!!.containsKey(currentRound))
-                rounds[it]!![currentRound] = Round(playerId = it, id = currentRound)
-        }
+    fun updatePlayerRound(player: Player, round: Round) {
+        _roundState.update { round }
+        playerRound[player.id]?.set(round.id, round)
+            ?: throw PlayerRoundDataStructureNotFound(player.id)
     }
 
-    fun currentPlayer(): Player = _playersState.value[currentPlayerIndex]!!
-    fun currentRound(player: Player): Round = rounds[player.id]!![currentRound]!!
-
-    fun addRound(round: Round, player: Player) { rounds[player.id]!![currentRound] = round }
+    fun currentPlayer(): Player = _playersState.value[idCurrentPlayer]
+        ?: throw PlayerRoundDataStructureNotFound(idCurrentPlayer)
 
     fun numPlayers(): Int = _playersState.value.size
 
     fun playersScore(): List<PlayerScore> = players()
-        .map { PlayerScore(it, scoreUntil(it.id, currentRound)) }
+        .map { PlayerScore(it, scoreUntil(it, currentRound)) }
         .sortedByDescending { it.score }
-
     private fun players() = _playersState.value.values.toList()
-    private fun scoreUntil(playerId: Int, round: Int): Int =
-        rounds[playerId]!!.filterValues { it.id <= round }.values.sumOf { it.points() }
+
+    private fun scoreUntil(player: Player, round: Int): Int =
+        playerRound[player.id]?.filterValues { it.id <= round }?.values?.sumOf { it.points() }
+            ?: throw RoundDataStructureNotFound(player)
 
     fun incrementPlayer() {
-        currentPlayerIndex++
+        idCurrentPlayer++
+        updateRoundState()
     }
 
     fun decrementPlayer() {
-        currentPlayerIndex--
+        idCurrentPlayer--
+        updateRoundState()
+    }
+
+    fun nextRound(firstRound: Boolean = false) {
+        if (!firstRound) { idCurrentPlayer = 1; currentRound++ }
+        updateRoundState()
     }
 }
+
+class RoundDataStructureNotFound(
+    player: Player,
+    message: String = "No round data structure found for player ${player.name}"
+) : Exception(message)
+
+class PlayerRoundDataStructureNotFound(
+    playerId: PlayerId,
+    message: String = "No player-round data structure found for player with id $playerId"
+) : Exception(message)

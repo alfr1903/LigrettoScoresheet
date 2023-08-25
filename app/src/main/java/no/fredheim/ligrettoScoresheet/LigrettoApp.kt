@@ -27,7 +27,8 @@ fun LigrettoApp(
     viewModel: LigrettoViewModel = viewModel()
 ) {
     val players by viewModel.playersState.collectAsState()
-    val colorPicker by viewModel.colorPickerState.collectAsState()
+    val playerCreator by viewModel.playerCreatorState.collectAsState()
+    val round by viewModel.roundState.collectAsState()
 
     NavHost(
         navController = navController,
@@ -35,65 +36,61 @@ fun LigrettoApp(
     ) {
         composable(route = Screen.Welcome.name) {
             WelcomeScreen(
-                onStartGameButtonClick = { navController.navigate(Screen.Players.name) }
+                onStartClick = { navController.navigate(Screen.Players.name) }
             )
         }
         composable(route = Screen.Players.name) {
             PlayersScreen(
                 players = players.values.toList(),
-                colorPicker = colorPicker,
-                onName = { viewModel.updateName(it) },
-                onChosenColor = { viewModel.updateChosenColor(it) },
+                playerCreator = playerCreator,
+                onPlayerCreatorChange = { viewModel.updatePlayerCreatorState(it) },
                 onPlayerAdd = { viewModel.addPlayer(it) },
                 onStartGameClick = {
                     viewModel.nextRound(firstRound = true)
                     navController.navigate(Screen.PlayerRound.name)
                 },
                 onBack = {
-                    viewModel.reset()
+                    viewModel.resetData()
                     navController.popBackStack()
                 },
             )
         }
         composable(route = Screen.PlayerRound.name) {
             val currentPlayer = viewModel.currentPlayer()
+
             PlayerRoundScreen(
                 player = currentPlayer,
-                round = viewModel.currentRound(currentPlayer),
+                round = round,
+                onRoundChange = { player, rnd -> viewModel.updatePlayerRound(player, rnd)},
                 numPlayers = viewModel.numPlayers(),
                 onHome = {
-                    viewModel.resetRoundData()
+                    viewModel.resetData(deletePlayers = false)
                     navController.popBackStack(route = Screen.Players.name, inclusive = false)
                 },
-                onNext = {
-                    viewModel.addRound(it, currentPlayer)
-                    viewModel.incrementPlayer()
-                    navController.navigate(Screen.PlayerRound.name)
-                },
-                onResults = {
-                    viewModel.addRound(it, currentPlayer)
-                    navController.navigate(Screen.Results.name)
-                },
                 onPrevious = {
-                    viewModel.addRound(it, currentPlayer)
                     viewModel.decrementPlayer()
                     navController.popBackStack()
                 },
+                onNext = {
+                    viewModel.incrementPlayer()
+                    navController.navigate(Screen.PlayerRound.name)
+                },
+                onResults = { navController.navigate(Screen.Results.name) },
             )
         }
         composable(route = Screen.Results.name) {
             ResultsScreen(
                 playersScore = viewModel.playersScore(),
                 onHome = {
-                    viewModel.resetRoundData()
+                    viewModel.resetData(deletePlayers = false)
                     navController.popBackStack(route = Screen.Players.name, inclusive = false)
                 },
                 onNewRound = {
-                    viewModel.nextRound(firstRound = false)
+                    viewModel.nextRound()
                     navController.navigate(Screen.PlayerRound.name)
                 },
                 onEnd = {
-                    viewModel.reset()
+                    viewModel.resetData()
                     navController.popBackStack(route = Screen.Welcome.name, inclusive = false)
                 },
             )

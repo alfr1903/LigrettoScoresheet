@@ -13,13 +13,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import no.fredheim.ligrettoScoresheet.R
 import no.fredheim.ligrettoScoresheet.model.Player
 import no.fredheim.ligrettoScoresheet.ui.theme.LigrettoScoresheetTheme
+import no.fredheim.ligrettoScoresheet.ui.theme.PreviewThemeBlue
 import no.fredheim.ligrettoScoresheet.ui.theme.PreviewThemeOrange
 import no.fredheim.ligrettoScoresheet.ui.theme.ThemeOrange
 import no.fredheim.ligrettoScoresheet.util.Players
@@ -51,7 +51,7 @@ fun PlayerNameRow(
 
 @Preview(
     showBackground = true,
-    backgroundColor = PreviewThemeOrange,
+    backgroundColor = PreviewThemeBlue,
     device = "id:pixel_4"
 )
 @Composable

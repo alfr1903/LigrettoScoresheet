@@ -1,14 +1,12 @@
 package no.fredheim.ligrettoScoresheet.ui.screens
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
@@ -28,17 +26,16 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import no.fredheim.ligrettoScoresheet.R
 import no.fredheim.ligrettoScoresheet.common.PlayerScoreRow
-import no.fredheim.ligrettoScoresheet.model.Player
+import no.fredheim.ligrettoScoresheet.common.IconsRow
 import no.fredheim.ligrettoScoresheet.model.PlayerScore
-import no.fredheim.ligrettoScoresheet.model.Round
 import no.fredheim.ligrettoScoresheet.ui.theme.ThemeDarkGreen
 import no.fredheim.ligrettoScoresheet.ui.theme.ThemeDarkRed
 import no.fredheim.ligrettoScoresheet.ui.theme.LigrettoScoresheetTheme
 import no.fredheim.ligrettoScoresheet.util.Players
 
-private const val TOP_ROW_WEIGHT = 15f
+private const val TOP_ROW_WEIGHT = 10f
 private const val HEADLINE_WEIGHT = 5f
-private const val REST_OF_SCREEN_WEIGHT = 80f
+private const val REST_OF_SCREEN_WEIGHT = 85f
 
 @Composable
 fun ResultsScreen(
@@ -48,6 +45,7 @@ fun ResultsScreen(
     onEnd: () -> Unit,
     modifier: Modifier = Modifier
 ) {
+    val onEdit = { }
 
     Image(
         painter = painterResource(id = R.drawable.ligrettoyellow_background),
@@ -55,29 +53,15 @@ fun ResultsScreen(
         contentScale = ContentScale.FillBounds
     )
     Column(modifier = modifier) {
-        Row(
-            modifier = Modifier
-                .weight(TOP_ROW_WEIGHT)
-                .fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.Bottom,
-        ) {
-            Image(
-                painter = painterResource(id = R.drawable.home),
-                contentDescription = stringResource(R.string.home),
-                modifier = Modifier
-                    .padding(start = dimensionResource(id = R.dimen.icon_screen_border_padding))
-                    .size(dimensionResource(id = R.dimen.icon_size))
-                    .clickable { onHome() }
-            )
-            Image(
-                painter = painterResource(id = R.drawable.edit_square),
-                contentDescription = stringResource(R.string.list_of_players),
-                modifier = Modifier
-                    .padding(end = dimensionResource(id = R.dimen.icon_screen_border_padding))
-                    .size(dimensionResource(id = R.dimen.icon_size))
-            )
-        }
+        IconsRow(
+            leftIconResId = R.drawable.home,
+            lefIconDescriptionId = R.string.home,
+            onLeft = { onHome() },
+            rightIconResId = R.drawable.edit,
+            rightIconDescriptionId = R.string.edit,
+            onRight = { onEdit() },
+        )
+
         Text(
             text = stringResource(id = R.string.scoreboard),
             modifier = Modifier
@@ -110,7 +94,7 @@ fun ResultsScreen(
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(bottom = dimensionResource(id = R.dimen.button_bottom_padding)),
+                    .padding(bottom = dimensionResource(id = R.dimen.screen_bottom_button_bottom_padding)),
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
                 Button(
@@ -129,8 +113,10 @@ fun ResultsScreen(
                 Button(
                     onClick = { onNewRound() },
                     modifier = Modifier
-                        .padding(horizontal = dimensionResource(
-                            id = R.dimen.button_short_padding_horizontal)
+                        .padding(
+                            horizontal = dimensionResource(
+                                id = R.dimen.button_short_padding_horizontal
+                            )
                         )
                         .width(dimensionResource(id = R.dimen.button_short_width)),
                     colors = ButtonDefaults.buttonColors(containerColor = ThemeDarkGreen)
@@ -144,6 +130,7 @@ fun ResultsScreen(
 
 @Preview(
     showBackground = true,
+    showSystemUi = true,
     device = "id:pixel_4"
 )
 @Composable
@@ -160,6 +147,7 @@ fun ResultsScreenRound1Preview() {
 
 @Preview(
     showBackground = true,
+    showSystemUi = true,
     device = "id:pixel_4"
 )
 @Composable
@@ -176,6 +164,7 @@ fun ResultsScreenRound2Preview() {
 
 @Preview(
     showBackground = true,
+    showSystemUi = true,
     device = "id:pixel_4"
 )
 @Composable

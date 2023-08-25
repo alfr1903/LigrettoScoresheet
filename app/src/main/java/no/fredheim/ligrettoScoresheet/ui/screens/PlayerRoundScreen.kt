@@ -18,10 +18,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
@@ -56,17 +52,14 @@ private const val REST_OF_SCREEN_WEIGHT = 10f
 fun PlayerRoundScreen(
     player: Player,
     round: Round,
+    onRoundChange: (Player, Round) -> Unit,
     numPlayers: Int,
     onHome: () -> Unit,
-    onNext: (Round) -> Unit,
-    onResults: (Round) -> Unit,
-    onPrevious: (Round) -> Unit,
+    onPrevious: () -> Unit,
+    onNext: () -> Unit,
+    onResults: () -> Unit,
     modifier: Modifier = Modifier
 ) {
-    var currentNum10s by remember { mutableStateOf(round.num10s) }
-    var currentNumCenter by remember { mutableStateOf(round.numCenter) }
-    var currentNumMinus by remember { mutableStateOf(round.numLigretto) }
-
     val firstPlayer = player.id == 1
     val lastPlayer = player.id == numPlayers
 
@@ -103,8 +96,8 @@ fun PlayerRoundScreen(
                 cardTypeDescriptionId = R.string.number_10s_center,
                 cardTypeTextId = R.string.tens,
                 cardType = CardType.Ten,
-                value = currentNum10s,
-                onValueChange = { currentNum10s = it },
+                value = round.num10s,
+                onValueChange = { onRoundChange(player, round.copy(num10s = it)) },
                 modifier = Modifier
                     .weight(1f)
                     .padding(top = 24.dp)
@@ -114,8 +107,8 @@ fun PlayerRoundScreen(
                 cardTypeDescriptionId = R.string.number_cards_center_excluding_10s,
                 cardTypeTextId = R.string.center_pile,
                 cardType = CardType.Center,
-                value = currentNumCenter,
-                onValueChange = { currentNumCenter = it },
+                value = round.numCenter,
+                onValueChange = { onRoundChange(player, round.copy(numCenter = it)) },
                 modifier = Modifier
                     .weight(1f)
                     .padding(top = 24.dp)
@@ -125,8 +118,8 @@ fun PlayerRoundScreen(
                 cardTypeDescriptionId = R.string.number_cards_minus_pile,
                 cardTypeTextId = R.string.minus_pile,
                 cardType = CardType.Minus,
-                value = currentNumMinus,
-                onValueChange = { currentNumMinus = it },
+                value = round.numMinus,
+                onValueChange = { onRoundChange(player, round.copy(numMinus = it)) },
                 modifier = Modifier
                     .weight(1f)
                     .padding(top = 24.dp)
@@ -141,9 +134,7 @@ fun PlayerRoundScreen(
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
             Button(
-                onClick = { onPrevious(
-                    Round(player.id, round.id, currentNum10s, currentNumCenter, currentNumMinus)
-                ) },
+                onClick = { onPrevious() },
                 modifier = Modifier
                     .padding(horizontal = dimensionResource(id = R.dimen.button_short_padding_horizontal))
                     .width(dimensionResource(id = R.dimen.button_short_width))
@@ -159,9 +150,7 @@ fun PlayerRoundScreen(
 
             )
             Button(
-                onClick = { onNext(
-                    Round(player.id, round.id, currentNum10s, currentNumCenter, currentNumMinus)
-                ) },
+                onClick = { onNext() },
                 modifier = Modifier
                     .padding(horizontal = dimensionResource(id = R.dimen.button_short_padding_horizontal))
                     .width(dimensionResource(id = R.dimen.button_short_width))
@@ -179,11 +168,9 @@ fun PlayerRoundScreen(
         ) {
             Spacer(modifier = Modifier.weight(1f))
             Button(
-                onClick = { onResults(
-                    Round(player.id, round.id, currentNum10s, currentNumCenter, currentNumMinus)
-                ) },
+                onClick = { onResults() },
                 modifier = Modifier
-                    .padding(bottom = dimensionResource(id = R.dimen.button_bottom_padding))
+                    .padding(bottom = dimensionResource(id = R.dimen.screen_bottom_button_bottom_padding))
                     .width(dimensionResource(id = R.dimen.button_long_width)),
                 colors = ButtonDefaults.buttonColors(containerColor = ThemeOrange),
             ) {
@@ -267,6 +254,7 @@ private fun CardCounterRow(
 
 @Preview(
     showBackground = true,
+    showSystemUi = true,
     device = "id:pixel_4"
 )
 @Composable
@@ -275,6 +263,7 @@ fun PlayerRoundFirstRoundFirstPlayerNoDataScreenPreview() {
         PlayerRoundScreen(
             player = Players.alex,
             round = Round(playerId = 1, id = 1),
+            onRoundChange = { _,_ -> },
             numPlayers = 3,
             onHome = { },
             onNext = { },
@@ -286,6 +275,7 @@ fun PlayerRoundFirstRoundFirstPlayerNoDataScreenPreview() {
 
 @Preview(
     showBackground = true,
+    showSystemUi = true,
     device = "id:pixel_4"
 )
 @Composable
@@ -295,6 +285,7 @@ fun PlayerRoundFirstRoundFirstPlayerScreenPreview() {
         PlayerRoundScreen(
             player = alex,
             round = Round(alex.id, 1, "1", "2", "3"),
+            onRoundChange = { _,_ -> },
             numPlayers = 3,
             onHome = { },
             onNext = { },
@@ -306,6 +297,7 @@ fun PlayerRoundFirstRoundFirstPlayerScreenPreview() {
 
 @Preview(
     showBackground = true,
+    showSystemUi = true,
     device = "id:pixel_4"
 )
 @Composable
@@ -315,6 +307,7 @@ fun PlayerRoundScoreSecondRoundFirstPlayerScreenPreview() {
         PlayerRoundScreen(
             player = alex,
             round = Round(alex.id, 2, "3", "2", "1"),
+            onRoundChange = { _,_ -> },
             numPlayers = 3,
             onHome = { },
             onNext = { },
@@ -326,6 +319,7 @@ fun PlayerRoundScoreSecondRoundFirstPlayerScreenPreview() {
 
 @Preview(
     showBackground = true,
+    showSystemUi = true,
     device = "id:pixel_4"
 )
 @Composable
@@ -335,6 +329,7 @@ fun PlayerRoundMiddlePlayerScreenPreview() {
         PlayerRoundScreen(
             player = thao,
             round = Round(thao.id, 1, "2", "12", "0"),
+            onRoundChange = { _,_ -> },
             numPlayers = 3,
             onHome = { },
             onNext = { },
@@ -346,6 +341,7 @@ fun PlayerRoundMiddlePlayerScreenPreview() {
 
 @Preview(
     showBackground = true,
+    showSystemUi = true,
     device = "id:pixel_4"
 )
 @Composable
@@ -355,6 +351,7 @@ fun PlayerRoundMiddlePlayerTwelvePlayersScreenPreview() {
         PlayerRoundScreen(
             player = thao.copy(id = 11),
             round = Round(thao.id, 1, "1", "1", "1"),
+            onRoundChange = { _,_ -> },
             numPlayers = 12,
             onHome = { },
             onNext = { },
@@ -366,6 +363,7 @@ fun PlayerRoundMiddlePlayerTwelvePlayersScreenPreview() {
 
 @Preview(
     showBackground = true,
+    showSystemUi = true,
     device = "id:pixel_4"
 )
 @Composable
@@ -375,6 +373,7 @@ fun PlayerRoundLastPlayerScreenPreview() {
         PlayerRoundScreen(
             player = Players.rikke,
             round = Round(rikke.id, 1, "3", "9", "1"),
+            onRoundChange = { _,_ -> },
             numPlayers = 3,
             onHome = { },
             onNext = { },

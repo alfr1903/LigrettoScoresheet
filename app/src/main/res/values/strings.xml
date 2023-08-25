@@ -26,7 +26,7 @@
     <string name="can_start_without_total_amount">You can also start without a total amount</string>
     <string name="start_ligretto_calculator">Start Ligretto Calculator</string>
     <string name="only_numbers">Only numbers are valid input</string>
-    <string name="arrow_back">Arrow back</string>
+    <string name="back">Back</string>
     <string name="players">Players</string>
     <string name="type_name">Type in a name</string>
     <string name="choose_color">Choose a color for each player</string>
@@ -40,4 +40,5 @@
     <string name="see_results">See results</string>
     <string name="end_game">End game</string>
     <string name="new_round">New round</string>
+    <string name="edit">Edit</string>
 </resources>

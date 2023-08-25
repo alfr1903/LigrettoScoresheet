@@ -40,7 +40,7 @@ class NavigationTest {
     @Test
     fun afterBackIconPressed_currentScreenShouldBeWelcome() {
         composeTestRule.navigateToPlayersScreen()
-        composeTestRule.clickDescriptionNode(R.string.arrow_back)
+        composeTestRule.clickDescriptionNode(R.string.back)
         navController shouldHaveCurrentRouteName Screen.Welcome.name
     }
 

@@ -7,7 +7,7 @@ data class Round(
     val id: Int,
     val num10s: String = "",
     val numCenter: String = "",
-    val numLigretto: String = ""
+    val numMinus: String = ""
 ) {
-    fun points(): Int = Calculate.points(num10s, numCenter, numLigretto)
+    fun points(): Int = Calculate.points(num10s, numCenter, numMinus)
 }
