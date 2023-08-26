@@ -8,26 +8,27 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import no.fredheim.ligrettoScoresheet.R
+import no.fredheim.ligrettoScoresheet.model.Player
+import no.fredheim.ligrettoScoresheet.ui.theme.ThemeYellow
 
 @Composable
 fun WideButton(
     @StringRes textId: Int,
-    color: Color,
+    buttonColor: Color,
     modifier: Modifier = Modifier,
     onClick: () -> Unit
 ) {
     Button(
         onClick = { onClick() },
         modifier = modifier.width(200.dp),
-        colors = ButtonDefaults.buttonColors(containerColor = color)
+        colors = ButtonDefaults.buttonColors(containerColor = buttonColor)
     ) {
-        Text(
-            text = stringResource(textId),
-            textAlign = TextAlign.Center
-        )
+        Text(text = stringResource(textId))
     }
 }
 
@@ -51,15 +52,20 @@ fun MediumButton(
 fun SmallButton(
     @StringRes textId: Int,
     color: Color,
+    textColor: Color,
     modifier: Modifier = Modifier,
+    enabled: Boolean = true,
     onClick: () -> Unit
 ) {
     Button(
         onClick = { onClick() },
-        modifier = modifier.width(100.dp),
-        colors = ButtonDefaults.buttonColors(containerColor = color)
+        modifier = modifier.width(120.dp),
+        enabled = enabled,
+        colors = ButtonDefaults.buttonColors(
+            containerColor = color,
+            contentColor = textColor
+        )
     ) {
         Text(text = stringResource(textId))
     }
-
 }

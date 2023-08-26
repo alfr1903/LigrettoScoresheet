@@ -69,7 +69,7 @@ fun ResultsScreen(
                 .padding(
                 start = dimensionResource(id = R.dimen.list_padding_start),
                 top = 12.dp,
-                end = dimensionResource(id = R.dimen.list_padding_end)
+                end = dimensionResource(id = R.dimen.players_list_padding_horizontal)
                 )
             ) {
                 itemsIndexed(playersScore) { num, playerScore ->

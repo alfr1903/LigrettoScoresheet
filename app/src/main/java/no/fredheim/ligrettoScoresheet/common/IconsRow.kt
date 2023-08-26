@@ -28,13 +28,7 @@ fun IconsRow(
     modifier: Modifier = Modifier
 ) {
     Row(
-        modifier = modifier
-            .padding(
-                start = dimensionResource(id = R.dimen.icons_row_padding_horizontal),
-                top = dimensionResource(id = R.dimen.icons_row_padding_top),
-                end = dimensionResource(id = R.dimen.icons_row_padding_horizontal),
-            )
-            .fillMaxWidth(),
+        modifier = modifier,
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.Bottom,
     ) {

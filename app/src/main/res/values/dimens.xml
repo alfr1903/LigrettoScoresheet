@@ -7,7 +7,7 @@
     <dimen name="icon_size">32dp</dimen>
     <dimen name="icon_screen_border_padding">28dp</dimen>
     <dimen name="list_padding_start">44dp</dimen>
-    <dimen name="list_padding_end">60dp</dimen>
+    <dimen name="players_list_padding_horizontal">72dp</dimen>
     <dimen name="icons_row_padding_horizontal">28dp</dimen>
     <dimen name="icons_row_padding_top">48dp</dimen>
 </resources>

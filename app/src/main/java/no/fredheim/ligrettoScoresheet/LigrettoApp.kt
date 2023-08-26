@@ -45,7 +45,7 @@ fun LigrettoApp(
                 playerCreator = playerCreator,
                 onPlayerCreatorChange = { viewModel.updatePlayerCreatorState(it) },
                 onPlayerAdd = { viewModel.addPlayer(it) },
-                onStartGameClick = {
+                onStartGame = {
                     viewModel.nextRound(firstRound = true)
                     navController.navigate(Screen.PlayerRound.name)
                 },

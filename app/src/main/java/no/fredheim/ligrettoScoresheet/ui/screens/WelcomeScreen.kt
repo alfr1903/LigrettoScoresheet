@@ -10,7 +10,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -41,7 +40,7 @@ fun WelcomeScreen(
         Spacer(modifier = Modifier.weight(1f))
         WideButton(
             textId = R.string.start_ligretto_calculator,
-            color = ThemeDarkBlue,
+            buttonColor = ThemeDarkBlue,
             modifier = Modifier.padding(bottom = dimensionResource(id = R.dimen.screen_bottom_button_bottom_padding)),
             onClick = { onStartClick() }
         )
