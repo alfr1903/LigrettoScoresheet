@@ -17,8 +17,8 @@ import no.fredheim.ligrettoScoresheet.ui.theme.ThemeColor
 fun WideButton(
     @StringRes textId: Int,
     buttonColor: ThemeColor,
+    onClick: () -> Unit,
     modifier: Modifier = Modifier,
-    onClick: () -> Unit
 ) {
     Button(
         onClick = { onClick() },
@@ -33,8 +33,8 @@ fun WideButton(
 fun MediumButton(
     @StringRes textId: Int,
     color: ThemeColor,
+    onClick: () -> Unit,
     modifier: Modifier = Modifier,
-    onClick: () -> Unit
 ) {
     Button(
         onClick = { onClick() },
@@ -49,10 +49,10 @@ fun MediumButton(
 fun SmallButton(
     @StringRes textId: Int,
     color: ThemeColor,
+    onClick: () -> Unit,
     modifier: Modifier = Modifier,
     textColor: TextColor = TextColor.White,
     enabled: Boolean = true,
-    onClick: () -> Unit
 ) {
     Button(
         onClick = { onClick() },

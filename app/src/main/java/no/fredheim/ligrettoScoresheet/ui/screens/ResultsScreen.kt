@@ -6,11 +6,8 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
-import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -24,7 +21,9 @@ import androidx.compose.ui.unit.dp
 import no.fredheim.ligrettoScoresheet.R
 import no.fredheim.ligrettoScoresheet.common.Background
 import no.fredheim.ligrettoScoresheet.common.IconsRow
+import no.fredheim.ligrettoScoresheet.common.MediumButton
 import no.fredheim.ligrettoScoresheet.common.PlayerScoreRow
+import no.fredheim.ligrettoScoresheet.common.buttonRowHorizontalModifier
 import no.fredheim.ligrettoScoresheet.common.topIconRowModifier
 import no.fredheim.ligrettoScoresheet.model.Icon
 import no.fredheim.ligrettoScoresheet.model.PlayerScore
@@ -75,8 +74,7 @@ fun ResultsScreen(
                 itemsIndexed(playersScore) { num, playerScore ->
                     PlayerScoreRow(
                         number = num + 1,
-                        player = playerScore.player,
-                        score = playerScore.score,
+                        playerScore = playerScore,
                         modifier = Modifier
                             .fillMaxWidth()
                             .padding(horizontal = 16.dp, vertical = 8.dp)
@@ -86,36 +84,20 @@ fun ResultsScreen(
             Spacer(modifier = Modifier.weight(1f))
             Row(
                 modifier = Modifier
-                    .fillMaxWidth()
+                    .buttonRowHorizontalModifier()
                     .padding(bottom = dimensionResource(id = R.dimen.screen_bottom_button_bottom_padding)),
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
-                Button(
-                    onClick = { onEnd() },
-                    modifier = Modifier
-                        .padding(
-                            horizontal = dimensionResource(
-                                id = R.dimen.button_short_padding_horizontal
-                            )
-                        )
-                        .width(dimensionResource(id = R.dimen.button_short_width)),
-                    colors = ButtonDefaults.buttonColors(containerColor = ThemeColor.DarkRed.color)
-                ) {
-                    Text(text = stringResource(R.string.end_game))
-                }
-                Button(
-                    onClick = { onNewRound() },
-                    modifier = Modifier
-                        .padding(
-                            horizontal = dimensionResource(
-                                id = R.dimen.button_short_padding_horizontal
-                            )
-                        )
-                        .width(dimensionResource(id = R.dimen.button_short_width)),
-                    colors = ButtonDefaults.buttonColors(containerColor = ThemeColor.DarkGreen.color)
-                ) {
-                    Text(text = stringResource(R.string.new_round))
-                }
+                MediumButton(
+                    textId = R.string.end_game,
+                    color = ThemeColor.DarkRed,
+                    onClick = { onEnd() }
+                )
+                MediumButton(
+                    textId = R.string.new_round,
+                    color = ThemeColor.DarkGreen,
+                    onClick = { onNewRound() }
+                )
             }
         }
     }

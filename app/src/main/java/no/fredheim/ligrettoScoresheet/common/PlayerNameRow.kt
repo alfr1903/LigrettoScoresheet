@@ -18,6 +18,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import no.fredheim.ligrettoScoresheet.R
 import no.fredheim.ligrettoScoresheet.model.Player
+import no.fredheim.ligrettoScoresheet.model.PlayerScore
 import no.fredheim.ligrettoScoresheet.ui.theme.LigrettoScoresheetTheme
 import no.fredheim.ligrettoScoresheet.ui.theme.PreviewThemeBlue
 import no.fredheim.ligrettoScoresheet.ui.theme.PreviewThemeOrange
@@ -64,8 +65,7 @@ fun PlayerNameRowPreview() {
 @Composable
 fun PlayerScoreRow(
     number: Int,
-    player: Player,
-    score: Int,
+    playerScore: PlayerScore,
     modifier: Modifier = Modifier
 ) {
     Card(
@@ -79,15 +79,15 @@ fun PlayerScoreRow(
             modifier = modifier
         ) {
             Row(verticalAlignment = Alignment.CenterVertically) {
-                HighlightedCircle(color = player.color)
+                HighlightedCircle(color = playerScore.player.color)
                 Text(
-                    text = "$number. ${player.name}",
+                    text = "$number. ${playerScore.player.name}",
                     modifier = Modifier.padding(start = 12.dp),
                     color = MaterialTheme.colorScheme.onPrimary,
                 )
             }
             Text(
-                text = "$score",
+                text = "${playerScore.score}",
                 color = MaterialTheme.colorScheme.onPrimary
             )
         }
@@ -105,8 +105,7 @@ fun PlayerScoreRowFirstRoundPreview() {
     LigrettoScoresheetTheme {
         PlayerScoreRow(
             number = 1,
-            score = 12,
-            player = Players.thao,
+            playerScore = PlayerScore(Players.thao, 12),
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(start = 16.dp, top = 4.dp, bottom = 4.dp, end = 16.dp)
@@ -124,8 +123,7 @@ fun PlayerScoreRowSecondRoundPreview() {
     LigrettoScoresheetTheme {
         PlayerScoreRow(
             number = 2,
-            score = 9,
-            player = Players.thao,
+            playerScore = PlayerScore(Players.thao, 9),
             modifier = Modifier.fillMaxWidth()
         )
     }

@@ -13,8 +13,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
-import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -35,7 +33,10 @@ import no.fredheim.ligrettoScoresheet.R
 import no.fredheim.ligrettoScoresheet.common.Background
 import no.fredheim.ligrettoScoresheet.common.HeadlineBold
 import no.fredheim.ligrettoScoresheet.common.IconsRow
+import no.fredheim.ligrettoScoresheet.common.MediumButton
 import no.fredheim.ligrettoScoresheet.common.PlayerCardText
+import no.fredheim.ligrettoScoresheet.common.WideButton
+import no.fredheim.ligrettoScoresheet.common.buttonRowHorizontalModifier
 import no.fredheim.ligrettoScoresheet.common.cardCounterRowModifier
 import no.fredheim.ligrettoScoresheet.common.topIconRowModifier
 import no.fredheim.ligrettoScoresheet.model.CardType
@@ -130,18 +131,19 @@ fun PlayerRoundScreen(
             numPlayers = numPlayers,
             onNext = onNext,
             lastPlayer = lastPlayer,
-            modifier = Modifier.padding(top = 52.dp)
+            modifier = Modifier
+                .buttonRowHorizontalModifier()
+                .padding(top = 52.dp)
         )
         Spacer(modifier = Modifier.weight(1f))
-        Button(
+        WideButton(
+            textId = R.string.see_results,
+            buttonColor = ThemeColor.Orange,
             onClick = { onResults() },
-            modifier = Modifier
-                .padding(bottom = dimensionResource(id = R.dimen.screen_bottom_button_bottom_padding))
-                .width(dimensionResource(id = R.dimen.button_long_width)),
-            colors = ButtonDefaults.buttonColors(containerColor = ThemeColor.Orange.color),
-        ) {
-            Text(text = stringResource(R.string.see_results))
-        }
+            modifier = Modifier.padding(
+                bottom = dimensionResource(id = R.dimen.screen_bottom_button_bottom_padding)
+            )
+        )
     }
 }
 
@@ -160,16 +162,12 @@ private fun PlayerNavigationRow(
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
-        Button(
+        MediumButton(
+            textId = R.string.prev_player,
+            color = ThemeColor.Blue,
             onClick = { onPrevious() },
-            modifier = Modifier
-                .padding(horizontal = dimensionResource(id = R.dimen.button_short_padding_horizontal))
-                .width(dimensionResource(id = R.dimen.button_short_width))
-                .alpha(if (firstPlayer) 0f else 1f),
-            colors = ButtonDefaults.buttonColors(containerColor = ThemeColor.Blue.color),
-        ) {
-            Text(text = stringResource(id = R.string.prev_player))
-        }
+            modifier = Modifier.alpha(if (firstPlayer) 0f else 1f),
+        )
         Text(
             text = "${player.id}/$numPlayers",
             color = Color.White,
@@ -177,16 +175,12 @@ private fun PlayerNavigationRow(
             textAlign = TextAlign.Center
 
         )
-        Button(
+        MediumButton(
+            textId = R.string.next_player,
+            color = ThemeColor.Red,
             onClick = { onNext() },
-            modifier = Modifier
-                .padding(horizontal = dimensionResource(id = R.dimen.button_short_padding_horizontal))
-                .width(dimensionResource(id = R.dimen.button_short_width))
-                .alpha(if (lastPlayer) 0f else 1f),
-            colors = ButtonDefaults.buttonColors(containerColor = ThemeColor.Red.color),
-        ) {
-            Text(text = stringResource(id = R.string.next_player))
-        }
+            modifier = Modifier.alpha(if (lastPlayer) 0f else 1f),
+        )
     }
 }
 

@@ -15,9 +15,16 @@ fun Modifier.topIconRowModifier() = composed { this
         start = dimensionResource(id = R.dimen.icons_row_padding_horizontal),
         top = dimensionResource(id = R.dimen.icons_row_padding_top),
         end = dimensionResource(id = R.dimen.icons_row_padding_horizontal),
-    ) }
+    )
+}
 
 fun Modifier.cardCounterRowModifier() = composed { this
     .fillMaxWidth()
     .height(120.dp)
-    .padding(horizontal = 12.dp, vertical = 12.dp) }
+    .padding(horizontal = 12.dp, vertical = 12.dp)
+}
+
+fun Modifier.buttonRowHorizontalModifier() = composed { this
+    .fillMaxWidth()
+    .padding(horizontal = 12.dp)
+}
