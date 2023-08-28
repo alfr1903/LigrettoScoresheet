@@ -4,7 +4,7 @@ import androidx.lifecycle.ViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
-import no.fredheim.ligrettoScoresheet.model.ColorPickerState
+import no.fredheim.ligrettoScoresheet.model.PlayerCreatorState
 import no.fredheim.ligrettoScoresheet.model.Player
 import no.fredheim.ligrettoScoresheet.model.PlayerScore
 import no.fredheim.ligrettoScoresheet.model.Round
@@ -20,7 +20,7 @@ class LigrettoViewModel : ViewModel() {
     private val _playersState = MutableStateFlow(mutableMapOf<PlayerId, Player>())
     val playersState = _playersState.asStateFlow()
 
-    private val _playerCreatorState = MutableStateFlow(ColorPickerState())
+    private val _playerCreatorState = MutableStateFlow(PlayerCreatorState())
 
     val playerCreatorState = _playerCreatorState.asStateFlow()
 
@@ -31,7 +31,7 @@ class LigrettoViewModel : ViewModel() {
 
     fun resetData(deletePlayers: Boolean = true) {
         if (deletePlayers) _playersState.update { mutableMapOf() }
-        _playerCreatorState.update { ColorPickerState() }
+        _playerCreatorState.update { PlayerCreatorState() }
         if (deletePlayers) playerRound = mutableMapOf()
         else playerRound.mapValues { mutableMapOf<Int, Round>() }
         currentRound = 1
@@ -46,7 +46,7 @@ class LigrettoViewModel : ViewModel() {
         }
     }
 
-    fun updatePlayerCreatorState(colorPicker: ColorPickerState) {
+    fun updatePlayerCreatorState(colorPicker: PlayerCreatorState) {
         _playerCreatorState.value = colorPicker
     }
 

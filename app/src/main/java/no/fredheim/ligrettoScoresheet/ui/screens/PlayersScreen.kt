@@ -36,21 +36,20 @@ import no.fredheim.ligrettoScoresheet.common.SmallButton
 import no.fredheim.ligrettoScoresheet.common.WideButton
 import no.fredheim.ligrettoScoresheet.common.topIconRowModifier
 import no.fredheim.ligrettoScoresheet.handler.BackPressHandler
-import no.fredheim.ligrettoScoresheet.model.ColorPickerState
 import no.fredheim.ligrettoScoresheet.model.Icon
 import no.fredheim.ligrettoScoresheet.model.Player
+import no.fredheim.ligrettoScoresheet.model.PlayerCreatorState
 import no.fredheim.ligrettoScoresheet.ui.theme.LigrettoScoresheetTheme
 import no.fredheim.ligrettoScoresheet.ui.theme.PlayerColor
 import no.fredheim.ligrettoScoresheet.ui.theme.TextColor
 import no.fredheim.ligrettoScoresheet.ui.theme.ThemeColor
 import no.fredheim.ligrettoScoresheet.util.Players
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun PlayersScreen(
     players: List<Player>,
-    playerCreator: ColorPickerState,
-    onPlayerCreatorChange: (ColorPickerState) -> Unit,
+    playerCreator: PlayerCreatorState,
+    onPlayerCreatorChange: (PlayerCreatorState) -> Unit,
     onPlayerAdd: (Player) -> Unit,
     onStartGame: () -> Unit,
     onBack: () -> Unit,
@@ -71,9 +70,7 @@ fun PlayersScreen(
         HeadlineBold(R.string.players)
         LazyColumn(
             modifier = Modifier.height(400.dp),
-            contentPadding = PaddingValues(
-                horizontal = dimensionResource(id = R.dimen.players_list_padding_horizontal)
-            )
+            contentPadding = PaddingValues(horizontal = dimensionResource(id = R.dimen.players_list_padding_horizontal))
         ) {
             itemsIndexed(players) { num, player ->
                 PlayerNameRow(
@@ -89,69 +86,12 @@ fun PlayersScreen(
             textId = R.string.choose_color,
             modifier = Modifier.padding(top = 20.dp)
         )
-        LazyRow(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(4.dp),
-            horizontalArrangement = Arrangement.SpaceEvenly,
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            items(playerCreator.availableColors.toList()) { color ->
-                if (playerCreator.chosenColor == color) {
-                    HighlightedCircle(
-                        color = color,
-                        onClick = {
-                            onPlayerCreatorChange(playerCreator.copy(chosenColor = color))
-                        }
-                    )
-                } else
-                    Circle(
-                        color = color,
-                        onClick = {
-                            onPlayerCreatorChange(playerCreator.copy(chosenColor = color))
-                        }
-                    )
-            }
-        }
-        Row(
-            modifier = Modifier.fillMaxWidth().padding(vertical = 12.dp, horizontal = 20.dp),
-            horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            TextField(
-                value = playerCreator.name,
-                onValueChange = { onPlayerCreatorChange(playerCreator.copy(name = it)) },
-                modifier = Modifier.width(220.dp),
-                enabled = playerCreator.chosenColor != null,
-                label = { Text(text = stringResource(R.string.type_name)) },
-                keyboardActions = KeyboardActions(
-                    onDone = { onPlayerAdd(
-                        Player(
-                            id = players.size + 1,
-                            name = playerCreator.name,
-                            color = playerCreator.chosenColor!!
-                        )
-                    ) }
-                ),
-                singleLine = true,
-            )
-            SmallButton(
-                textId = R.string.add_player,
-                color = ThemeColor.Yellow,
-                textColor = TextColor.Black,
-                enabled = playerCreator.chosenColor != null,
-                onClick = {
-                    onPlayerAdd(
-                        Player(
-                            id = players.size + 1,
-                            name = playerCreator.name,
-                            color = playerCreator.chosenColor!!
-                        )
-                    )
-
-                }
-            )
-        }
+        PlayerCreator(
+            playerCreator = playerCreator,
+            onPlayerCreatorChange = onPlayerCreatorChange,
+            onPlayerAdd = onPlayerAdd,
+            numPlayers = players.size
+        )
         Spacer(modifier = Modifier.weight(1f))
         WideButton(
             textId = R.string.start_game,
@@ -161,6 +101,82 @@ fun PlayersScreen(
         )
     }
     BackPressHandler { onBack() }
+}
+
+@Composable
+@OptIn(ExperimentalMaterial3Api::class)
+private fun PlayerCreator(
+    playerCreator: PlayerCreatorState,
+    onPlayerCreatorChange: (PlayerCreatorState) -> Unit,
+    onPlayerAdd: (Player) -> Unit,
+    numPlayers: Int,
+) {
+    LazyRow(
+        modifier = Modifier.fillMaxWidth(),
+        horizontalArrangement = Arrangement.SpaceEvenly,
+        verticalAlignment = Alignment.CenterVertically,
+        contentPadding = PaddingValues(4.dp)
+    ) {
+        items(playerCreator.availableColors.toList()) { color ->
+            if (playerCreator.chosenColor == color) {
+                HighlightedCircle(
+                    color = color,
+                    onClick = {
+                        onPlayerCreatorChange(playerCreator.copy(chosenColor = color))
+                    }
+                )
+            } else
+                Circle(
+                    color = color,
+                    onClick = {
+                        onPlayerCreatorChange(playerCreator.copy(chosenColor = color))
+                    }
+                )
+        }
+    }
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(vertical = 12.dp, horizontal = 20.dp),
+        horizontalArrangement = Arrangement.SpaceBetween,
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        TextField(
+            value = playerCreator.name,
+            onValueChange = { onPlayerCreatorChange(playerCreator.copy(name = it)) },
+            modifier = Modifier.width(220.dp),
+            enabled = playerCreator.chosenColor != null,
+            label = { Text(text = stringResource(R.string.type_name)) },
+            keyboardActions = KeyboardActions(
+                onDone = {
+                    onPlayerAdd(
+                        Player(
+                            id = numPlayers + 1,
+                            name = playerCreator.name,
+                            color = playerCreator.chosenColor!!
+                        )
+                    )
+                }
+            ),
+            singleLine = true,
+        )
+        SmallButton(
+            textId = R.string.add_player,
+            color = ThemeColor.Yellow,
+            textColor = TextColor.Black,
+            enabled = playerCreator.chosenColor != null,
+            onClick = {
+                onPlayerAdd(
+                    Player(
+                        id = numPlayers + 1,
+                        name = playerCreator.name,
+                        color = playerCreator.chosenColor!!
+                    )
+                )
+
+            }
+        )
+    }
 }
 
 @Preview(
@@ -173,7 +189,7 @@ fun PlayersScreenNoPlayersPreview() {
     LigrettoScoresheetTheme {
         PlayersScreen(
             players = emptyList(),
-            playerCreator = ColorPickerState(),
+            playerCreator = PlayerCreatorState(),
             onPlayerCreatorChange = { },
             onPlayerAdd = { },
             onStartGame = { },
@@ -193,7 +209,7 @@ fun PlayersScreenThreePlayersPreview() {
     LigrettoScoresheetTheme {
         PlayersScreen(
             players = Players.threePlayers(),
-            playerCreator = ColorPickerState(
+            playerCreator = PlayerCreatorState(
                 "OJ",
                 PlayerColor.values().drop(2).toSet(),
                 PlayerColor.values().elementAt(2)
@@ -216,7 +232,7 @@ fun PlayersScreenAllPlayersPreview() {
     LigrettoScoresheetTheme {
         PlayersScreen(
             players = Players.allPlayers(),
-            playerCreator = ColorPickerState(availableColors =  emptySet(), chosenColor = null),
+            playerCreator = PlayerCreatorState(availableColors =  emptySet(), chosenColor = null),
             onPlayerCreatorChange = { },
             onPlayerAdd = { },
             onStartGame = { },
