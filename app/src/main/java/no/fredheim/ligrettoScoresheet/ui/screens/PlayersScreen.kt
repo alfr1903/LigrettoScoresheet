@@ -37,6 +37,7 @@ import no.fredheim.ligrettoScoresheet.common.WideButton
 import no.fredheim.ligrettoScoresheet.common.topIconRowModifier
 import no.fredheim.ligrettoScoresheet.handler.BackPressHandler
 import no.fredheim.ligrettoScoresheet.model.ColorPickerState
+import no.fredheim.ligrettoScoresheet.model.Icon
 import no.fredheim.ligrettoScoresheet.model.Player
 import no.fredheim.ligrettoScoresheet.ui.theme.LigrettoScoresheetTheme
 import no.fredheim.ligrettoScoresheet.ui.theme.PlayerColor
@@ -61,11 +62,9 @@ fun PlayersScreen(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         IconsRow(
-            leftIconResId = R.drawable.back,
-            lefIconDescriptionId = R.string.back,
+            leftIcon = Icon(resId = R.drawable.back, descriptionId = R.string.back),
             onLeft = { onBack() },
-            rightIconResId = R.drawable.edit,
-            rightIconDescriptionId = R.string.edit,
+            rightIcon = Icon(resId = R.drawable.edit, descriptionId = R.string.edit),
             onRight = {  },
             modifier = Modifier.topIconRowModifier()
         )

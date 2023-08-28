@@ -39,6 +39,7 @@ import no.fredheim.ligrettoScoresheet.common.PlayerCardText
 import no.fredheim.ligrettoScoresheet.common.cardCounterRowModifier
 import no.fredheim.ligrettoScoresheet.common.topIconRowModifier
 import no.fredheim.ligrettoScoresheet.model.CardType
+import no.fredheim.ligrettoScoresheet.model.Icon
 import no.fredheim.ligrettoScoresheet.model.Player
 import no.fredheim.ligrettoScoresheet.model.Round
 import no.fredheim.ligrettoScoresheet.service.Calculate
@@ -78,11 +79,9 @@ fun PlayerRoundScreen(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         IconsRow(
-            leftIconResId = R.drawable.home,
-            lefIconDescriptionId = R.string.home,
+            leftIcon = Icon(resId = R.drawable.home, descriptionId = R.string.home),
             onLeft = { onHome() },
-            rightIconResId = R.drawable.list,
-            rightIconDescriptionId = R.string.list_of_players,
+            rightIcon = Icon(resId = R.drawable.list, descriptionId = R.string.list_of_players),
             onRight = { },
             modifier = Modifier.topIconRowModifier()
         )

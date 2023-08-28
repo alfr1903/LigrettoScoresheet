@@ -16,14 +16,13 @@ import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import no.fredheim.ligrettoScoresheet.R
+import no.fredheim.ligrettoScoresheet.model.Icon
 
 @Composable
 fun IconsRow(
-    @DrawableRes leftIconResId: Int,
-    @StringRes lefIconDescriptionId: Int,
+    leftIcon: Icon,
     onLeft: () -> Unit,
-    @DrawableRes rightIconResId: Int,
-    @StringRes rightIconDescriptionId: Int,
+    rightIcon: Icon,
     onRight: () -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -33,15 +32,15 @@ fun IconsRow(
         verticalAlignment = Alignment.Bottom,
     ) {
         Image(
-            painter = painterResource(id = leftIconResId),
-            contentDescription = stringResource(lefIconDescriptionId),
+            painter = painterResource(id = leftIcon.resId),
+            contentDescription = stringResource(leftIcon.descriptionId),
             modifier = Modifier
                 .size(dimensionResource(id = R.dimen.icon_size))
                 .clickable { onLeft() }
         )
         Image(
-            painter = painterResource(id = rightIconResId),
-            contentDescription = stringResource(id = rightIconDescriptionId),
+            painter = painterResource(id = rightIcon.resId),
+            contentDescription = stringResource(id = rightIcon.descriptionId),
             modifier = Modifier
                 .size(dimensionResource(id = R.dimen.icon_size))
                 .clickable { onRight() }

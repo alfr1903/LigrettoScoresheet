@@ -26,6 +26,7 @@ import no.fredheim.ligrettoScoresheet.common.Background
 import no.fredheim.ligrettoScoresheet.common.IconsRow
 import no.fredheim.ligrettoScoresheet.common.PlayerScoreRow
 import no.fredheim.ligrettoScoresheet.common.topIconRowModifier
+import no.fredheim.ligrettoScoresheet.model.Icon
 import no.fredheim.ligrettoScoresheet.model.PlayerScore
 import no.fredheim.ligrettoScoresheet.ui.theme.LigrettoScoresheetTheme
 import no.fredheim.ligrettoScoresheet.ui.theme.ThemeColor
@@ -47,11 +48,9 @@ fun ResultsScreen(
     Background(resId = R.drawable.ligrettoyellow_background)
     Column(modifier = modifier) {
         IconsRow(
-            leftIconResId = R.drawable.home,
-            lefIconDescriptionId = R.string.home,
+            leftIcon = Icon(resId = R.drawable.home, descriptionId = R.string.home),
             onLeft = { onHome() },
-            rightIconResId = R.drawable.edit,
-            rightIconDescriptionId = R.string.edit,
+            rightIcon = Icon(resId = R.drawable.edit, descriptionId = R.string.edit),
             onRight = { onEdit() },
             modifier = Modifier.topIconRowModifier()
         )
