@@ -20,7 +20,7 @@ import no.fredheim.ligrettoScoresheet.common.Background
 import no.fredheim.ligrettoScoresheet.common.Headline
 import no.fredheim.ligrettoScoresheet.common.WideButton
 import no.fredheim.ligrettoScoresheet.ui.theme.LigrettoScoresheetTheme
-import no.fredheim.ligrettoScoresheet.ui.theme.ThemeDarkBlue
+import no.fredheim.ligrettoScoresheet.ui.theme.ThemeColor
 
 @Composable
 fun WelcomeScreen(
@@ -40,7 +40,7 @@ fun WelcomeScreen(
         Spacer(modifier = Modifier.weight(1f))
         WideButton(
             textId = R.string.start_ligretto_calculator,
-            buttonColor = ThemeDarkBlue,
+            buttonColor = ThemeColor.DarkBlue,
             modifier = Modifier.padding(bottom = dimensionResource(id = R.dimen.screen_bottom_button_bottom_padding)),
             onClick = { onStartClick() }
         )

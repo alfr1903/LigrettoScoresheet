@@ -9,6 +9,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import no.fredheim.ligrettoScoresheet.R
+import no.fredheim.ligrettoScoresheet.model.Player
 
 @Composable
 fun Headline(
@@ -27,10 +28,11 @@ fun Headline(
 @Composable
 fun HeadlineBold(
     @StringRes textId: Int,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    arg: Int? = null,
 ) {
     Text(
-        text = stringResource(textId),
+        text = arg?.let { stringResource(textId, it) } ?: stringResource(textId),
         modifier = modifier,
         color = MaterialTheme.colorScheme.onPrimary,
         fontWeight = FontWeight.Bold,
@@ -51,5 +53,19 @@ fun BodySmall(
         textAlign = TextAlign.Center,
         style = MaterialTheme.typography.bodySmall
     )
+}
 
+@Composable
+fun PlayerCardText(
+    player: Player,
+    modifier: Modifier = Modifier
+) {
+    Text(
+        text = player.name,
+        modifier = modifier,
+        color = player.color.color,
+        fontWeight = FontWeight.Bold,
+        textAlign = TextAlign.Center,
+        style = MaterialTheme.typography.headlineLarge
+    )
 }

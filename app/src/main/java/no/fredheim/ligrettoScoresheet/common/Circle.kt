@@ -12,10 +12,10 @@ import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import no.fredheim.ligrettoScoresheet.ui.theme.PlayerColors
+import no.fredheim.ligrettoScoresheet.ui.theme.PlayerColor
 
 @Composable
-fun HighlightedCircle(color: Color, clickable: Boolean = true, onClick: () -> Unit) {
+fun HighlightedCircle(color: PlayerColor, clickable: Boolean = true, onClick: () -> Unit) {
     Box(
         modifier = Modifier
             .size(24.dp)
@@ -29,13 +29,13 @@ fun HighlightedCircle(color: Color, clickable: Boolean = true, onClick: () -> Un
 }
 
 @Composable
-fun HighlightedCircle(color: Color) {
+fun HighlightedCircle(color: PlayerColor) {
     HighlightedCircle(color = color, clickable = false, onClick = { })
 }
 
 @Composable
 fun Circle(
-    color: Color,
+    color: PlayerColor,
     clickable: Boolean = true,
     shade: Boolean = false,
     onClick: () -> Unit
@@ -45,13 +45,13 @@ fun Circle(
         modifier = Modifier
             .shadow(elevation = elevation, shape = CircleShape)
             .size(20.dp)
-            .background(color = color, shape = CircleShape)
+            .background(color = color.color, shape = CircleShape)
             .clickable(enabled = clickable) { onClick() }
     )
 }
 
 @Composable
-fun Circle(color: Color) {
+fun Circle(color: PlayerColor) {
     Circle(color = color, clickable = false, shade = true, onClick = { })
 }
 
@@ -61,7 +61,7 @@ fun Circle(color: Color) {
 )
 @Composable
 fun HighlightedCirclePreview() {
-    HighlightedCircle(color = PlayerColors.first())
+    HighlightedCircle(color = PlayerColor.Black)
 }
 
 @Preview(
@@ -69,6 +69,6 @@ fun HighlightedCirclePreview() {
 )
 @Composable
 fun CirclePreview() {
-    Circle(color = PlayerColors.first())
+    Circle(color = PlayerColor.Black)
 }
 

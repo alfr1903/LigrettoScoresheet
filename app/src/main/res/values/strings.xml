@@ -14,8 +14,6 @@
     <string name="next_player">Next player</string>
     <string name="results">See results</string>
     <string name="scoreboard">Scoreboard</string>
-    <string name="next_round">Next Round</string>
-    <string name="round_points">Round points: %d</string>
     <string name="trophy">trophy</string>
     <string name="last_round_results">Last round results</string>
     <string name="abort_game">Abort game</string>
@@ -41,4 +39,6 @@
     <string name="end_game">End game</string>
     <string name="new_round">New round</string>
     <string name="edit">Edit</string>
+    <string name="round">Round %d</string>
+    <string name="round_points">Round points: %d</string>
 </resources>

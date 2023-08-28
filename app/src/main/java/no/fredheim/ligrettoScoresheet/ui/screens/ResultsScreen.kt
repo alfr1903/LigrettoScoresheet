@@ -25,10 +25,10 @@ import no.fredheim.ligrettoScoresheet.R
 import no.fredheim.ligrettoScoresheet.common.Background
 import no.fredheim.ligrettoScoresheet.common.IconsRow
 import no.fredheim.ligrettoScoresheet.common.PlayerScoreRow
+import no.fredheim.ligrettoScoresheet.common.topIconRowModifier
 import no.fredheim.ligrettoScoresheet.model.PlayerScore
 import no.fredheim.ligrettoScoresheet.ui.theme.LigrettoScoresheetTheme
-import no.fredheim.ligrettoScoresheet.ui.theme.ThemeDarkGreen
-import no.fredheim.ligrettoScoresheet.ui.theme.ThemeDarkRed
+import no.fredheim.ligrettoScoresheet.ui.theme.ThemeColor
 import no.fredheim.ligrettoScoresheet.util.Players
 
 private const val HEADLINE_WEIGHT = 5f
@@ -53,6 +53,7 @@ fun ResultsScreen(
             rightIconResId = R.drawable.edit,
             rightIconDescriptionId = R.string.edit,
             onRight = { onEdit() },
+            modifier = Modifier.topIconRowModifier()
         )
 
         Text(
@@ -99,7 +100,7 @@ fun ResultsScreen(
                             )
                         )
                         .width(dimensionResource(id = R.dimen.button_short_width)),
-                    colors = ButtonDefaults.buttonColors(containerColor = ThemeDarkRed)
+                    colors = ButtonDefaults.buttonColors(containerColor = ThemeColor.DarkRed.color)
                 ) {
                     Text(text = stringResource(R.string.end_game))
                 }
@@ -112,7 +113,7 @@ fun ResultsScreen(
                             )
                         )
                         .width(dimensionResource(id = R.dimen.button_short_width)),
-                    colors = ButtonDefaults.buttonColors(containerColor = ThemeDarkGreen)
+                    colors = ButtonDefaults.buttonColors(containerColor = ThemeColor.DarkGreen.color)
                 ) {
                     Text(text = stringResource(R.string.new_round))
                 }

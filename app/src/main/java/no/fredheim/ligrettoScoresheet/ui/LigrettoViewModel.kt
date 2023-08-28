@@ -57,7 +57,7 @@ class LigrettoViewModel : ViewModel() {
             it.copy(
                 name = "",
                 availableColors = it.availableColors.minus(player.color),
-                chosenColor = it.availableColors.minus(player.color).first()
+                chosenColor = it.availableColors.minus(player.color).firstOrNull()
             )
         }
     }

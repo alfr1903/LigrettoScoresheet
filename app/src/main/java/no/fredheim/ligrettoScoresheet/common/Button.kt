@@ -8,25 +8,22 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import no.fredheim.ligrettoScoresheet.R
-import no.fredheim.ligrettoScoresheet.model.Player
-import no.fredheim.ligrettoScoresheet.ui.theme.ThemeYellow
+import no.fredheim.ligrettoScoresheet.ui.theme.TextColor
+import no.fredheim.ligrettoScoresheet.ui.theme.ThemeColor
 
 @Composable
 fun WideButton(
     @StringRes textId: Int,
-    buttonColor: Color,
+    buttonColor: ThemeColor,
     modifier: Modifier = Modifier,
     onClick: () -> Unit
 ) {
     Button(
         onClick = { onClick() },
         modifier = modifier.width(200.dp),
-        colors = ButtonDefaults.buttonColors(containerColor = buttonColor)
+        colors = ButtonDefaults.buttonColors(containerColor = buttonColor.color)
     ) {
         Text(text = stringResource(textId))
     }
@@ -35,14 +32,14 @@ fun WideButton(
 @Composable
 fun MediumButton(
     @StringRes textId: Int,
-    color: Color,
+    color: ThemeColor,
     modifier: Modifier = Modifier,
     onClick: () -> Unit
 ) {
     Button(
         onClick = { onClick() },
         modifier = modifier.width(140.dp),
-        colors = ButtonDefaults.buttonColors(containerColor = color)
+        colors = ButtonDefaults.buttonColors(containerColor = color.color)
     ) {
         Text(text = stringResource(textId))
     }
@@ -51,9 +48,9 @@ fun MediumButton(
 @Composable
 fun SmallButton(
     @StringRes textId: Int,
-    color: Color,
-    textColor: Color,
+    color: ThemeColor,
     modifier: Modifier = Modifier,
+    textColor: TextColor = TextColor.White,
     enabled: Boolean = true,
     onClick: () -> Unit
 ) {
@@ -62,8 +59,8 @@ fun SmallButton(
         modifier = modifier.width(120.dp),
         enabled = enabled,
         colors = ButtonDefaults.buttonColors(
-            containerColor = color,
-            contentColor = textColor
+            containerColor = color.color,
+            contentColor = textColor.color
         )
     ) {
         Text(text = stringResource(textId))

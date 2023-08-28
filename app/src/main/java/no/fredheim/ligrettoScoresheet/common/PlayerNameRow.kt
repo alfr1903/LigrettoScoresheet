@@ -21,7 +21,7 @@ import no.fredheim.ligrettoScoresheet.model.Player
 import no.fredheim.ligrettoScoresheet.ui.theme.LigrettoScoresheetTheme
 import no.fredheim.ligrettoScoresheet.ui.theme.PreviewThemeBlue
 import no.fredheim.ligrettoScoresheet.ui.theme.PreviewThemeOrange
-import no.fredheim.ligrettoScoresheet.ui.theme.ThemeOrange
+import no.fredheim.ligrettoScoresheet.ui.theme.ThemeColor
 import no.fredheim.ligrettoScoresheet.util.Players
 
 @Composable
@@ -71,7 +71,7 @@ fun PlayerScoreRow(
     Card(
         shape = RoundedCornerShape(percent = 100),
         colors = CardDefaults.cardColors(
-            containerColor = if (number == 1) ThemeOrange else Color.Transparent
+            containerColor = if (number == 1) ThemeColor.Orange.color else Color.Transparent
         )
     ) {
         Row(

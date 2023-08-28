@@ -1,10 +1,9 @@
 package no.fredheim.ligrettoScoresheet.model
 
-import androidx.compose.ui.graphics.Color
-import no.fredheim.ligrettoScoresheet.ui.theme.PlayerColors
+import no.fredheim.ligrettoScoresheet.ui.theme.PlayerColor
 
 data class ColorPickerState(
     val name: String = "",
-    val availableColors: Set<Color> = PlayerColors,
-    val chosenColor: Color? = availableColors.firstOrNull()
+    val availableColors: Set<PlayerColor> = PlayerColor.values().toSet(),
+    val chosenColor: PlayerColor? = availableColors.firstOrNull()
 )

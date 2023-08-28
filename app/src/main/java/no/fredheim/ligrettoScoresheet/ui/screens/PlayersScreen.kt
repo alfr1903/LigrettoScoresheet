@@ -14,19 +14,14 @@ import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.text.KeyboardActions
-import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import no.fredheim.ligrettoScoresheet.R
@@ -39,13 +34,14 @@ import no.fredheim.ligrettoScoresheet.common.IconsRow
 import no.fredheim.ligrettoScoresheet.common.PlayerNameRow
 import no.fredheim.ligrettoScoresheet.common.SmallButton
 import no.fredheim.ligrettoScoresheet.common.WideButton
+import no.fredheim.ligrettoScoresheet.common.topIconRowModifier
 import no.fredheim.ligrettoScoresheet.handler.BackPressHandler
 import no.fredheim.ligrettoScoresheet.model.ColorPickerState
 import no.fredheim.ligrettoScoresheet.model.Player
 import no.fredheim.ligrettoScoresheet.ui.theme.LigrettoScoresheetTheme
-import no.fredheim.ligrettoScoresheet.ui.theme.PlayerColors
-import no.fredheim.ligrettoScoresheet.ui.theme.ThemeGreen
-import no.fredheim.ligrettoScoresheet.ui.theme.ThemeYellow
+import no.fredheim.ligrettoScoresheet.ui.theme.PlayerColor
+import no.fredheim.ligrettoScoresheet.ui.theme.TextColor
+import no.fredheim.ligrettoScoresheet.ui.theme.ThemeColor
 import no.fredheim.ligrettoScoresheet.util.Players
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -71,13 +67,7 @@ fun PlayersScreen(
             rightIconResId = R.drawable.edit,
             rightIconDescriptionId = R.string.edit,
             onRight = {  },
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(
-                    start = dimensionResource(id = R.dimen.icons_row_padding_horizontal),
-                    top = dimensionResource(id = R.dimen.icons_row_padding_top),
-                    end = dimensionResource(id = R.dimen.icons_row_padding_horizontal),
-                )
+            modifier = Modifier.topIconRowModifier()
         )
         HeadlineBold(R.string.players)
         LazyColumn(
@@ -98,7 +88,7 @@ fun PlayersScreen(
         }
         BodySmall(
             textId = R.string.choose_color,
-            modifier = Modifier.padding(top = 12.dp)
+            modifier = Modifier.padding(top = 20.dp)
         )
         LazyRow(
             modifier = Modifier
@@ -148,8 +138,8 @@ fun PlayersScreen(
             )
             SmallButton(
                 textId = R.string.add_player,
-                color = ThemeYellow,
-                textColor = Color.Black,
+                color = ThemeColor.Yellow,
+                textColor = TextColor.Black,
                 enabled = playerCreator.chosenColor != null,
                 onClick = {
                     onPlayerAdd(
@@ -166,7 +156,7 @@ fun PlayersScreen(
         Spacer(modifier = Modifier.weight(1f))
         WideButton(
             textId = R.string.start_game,
-            buttonColor = ThemeGreen,
+            buttonColor = ThemeColor.Green,
             modifier = Modifier.padding(bottom = dimensionResource(id = R.dimen.screen_bottom_button_bottom_padding)),
             onClick = { onStartGame() }
         )
@@ -206,8 +196,8 @@ fun PlayersScreenThreePlayersPreview() {
             players = Players.threePlayers(),
             playerCreator = ColorPickerState(
                 "OJ",
-                PlayerColors.drop(2).toSet(),
-                PlayerColors.elementAt(2)
+                PlayerColor.values().drop(2).toSet(),
+                PlayerColor.values().elementAt(2)
             ),
             onPlayerCreatorChange = { },
             onPlayerAdd = { },

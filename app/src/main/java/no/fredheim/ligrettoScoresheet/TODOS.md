@@ -5,11 +5,9 @@
 
 
 ## Player Round Screen
-- Add fitting Text to replace "Name"
-- Add logic to choose correct vector art based on player color
 - Add name list pop up (must ask Thao) (mentioned)
 - Number tastatur
-- Forward navigation not working
+- Add CardType Enum
 
 ## Results Screen
 - Implement Edit popup
@@ -18,4 +16,4 @@
 # Notes
 - Navigate to Players screen on Home icon press
 - Max score points showed somewhere? (put on hold)
-- 
+-
