@@ -70,7 +70,7 @@ fun PlayersScreen(
         HeadlineBold(R.string.players)
         LazyColumn(
             modifier = Modifier.height(400.dp),
-            contentPadding = PaddingValues(horizontal = dimensionResource(id = R.dimen.players_list_padding_horizontal))
+            contentPadding = PaddingValues(horizontal = 72.dp)
         ) {
             itemsIndexed(players) { num, player ->
                 PlayerNameRow(
