@@ -13,7 +13,8 @@ typealias RoundMap = MutableMap<Int, Round>
 typealias PlayerId = Int
 
 class LigrettoViewModel : ViewModel() {
-    private var currentRound = 1
+    var currentRound = 1
+        private set
     private var idCurrentPlayer: PlayerId = 1
 
 

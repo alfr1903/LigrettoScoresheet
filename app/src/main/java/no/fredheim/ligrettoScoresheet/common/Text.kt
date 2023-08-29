@@ -14,10 +14,11 @@ import no.fredheim.ligrettoScoresheet.model.Player
 @Composable
 fun Headline(
     @StringRes textId: Int,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    arg: Int? = null,
 ) {
     Text(
-        text = stringResource(textId),
+        text = arg?.let { stringResource(textId, it) } ?: stringResource(textId),
         modifier = modifier,
         color = MaterialTheme.colorScheme.onPrimary,
         textAlign = TextAlign.Center,
@@ -40,6 +41,23 @@ fun HeadlineBold(
         style = MaterialTheme.typography.headlineMedium
     )
 }
+
+@Composable
+fun TitleBold(
+    @StringRes textId: Int,
+    modifier: Modifier = Modifier,
+    arg: Int? = null,
+) {
+    Text(
+        text = arg?.let { stringResource(textId, it) } ?: stringResource(textId),
+        modifier = modifier,
+        color = MaterialTheme.colorScheme.onPrimary,
+        fontWeight = FontWeight.Bold,
+        textAlign = TextAlign.Center,
+        style = MaterialTheme.typography.titleMedium
+    )
+}
+
 
 @Composable
 fun BodySmall(

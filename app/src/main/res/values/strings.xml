@@ -18,7 +18,7 @@
     <string name="last_round_results">Last round results</string>
     <string name="abort_game">Abort game</string>
     <string name="prev_player">Prev player</string>
-    <string name="after_round">after %d round</string>
+    <string name="after_round">After round %d</string>
     <string name="logo">logo</string>
     <string name="type_total_amount">Type a total amount</string>
     <string name="can_start_without_total_amount">You can also start without a total amount</string>

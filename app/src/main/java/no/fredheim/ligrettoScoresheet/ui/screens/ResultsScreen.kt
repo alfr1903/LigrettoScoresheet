@@ -17,10 +17,12 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import no.fredheim.ligrettoScoresheet.R
 import no.fredheim.ligrettoScoresheet.common.Background
+import no.fredheim.ligrettoScoresheet.common.Headline
 import no.fredheim.ligrettoScoresheet.common.HeadlineBold
 import no.fredheim.ligrettoScoresheet.common.IconsRow
 import no.fredheim.ligrettoScoresheet.common.MediumButton
 import no.fredheim.ligrettoScoresheet.common.PlayerScoreRow
+import no.fredheim.ligrettoScoresheet.common.TitleBold
 import no.fredheim.ligrettoScoresheet.common.buttonRowHorizontalModifier
 import no.fredheim.ligrettoScoresheet.common.topIconRowModifier
 import no.fredheim.ligrettoScoresheet.model.Icon
@@ -28,9 +30,11 @@ import no.fredheim.ligrettoScoresheet.model.PlayerScore
 import no.fredheim.ligrettoScoresheet.ui.theme.LigrettoScoresheetTheme
 import no.fredheim.ligrettoScoresheet.ui.theme.ThemeColor
 import no.fredheim.ligrettoScoresheet.util.Players
+import kotlin.math.round
 
 @Composable
 fun ResultsScreen(
+    roundId: Int,
     playersScore: List<PlayerScore>,
     onHome: () -> Unit,
     onNewRound: () -> Unit,
@@ -40,7 +44,10 @@ fun ResultsScreen(
     val onEdit = { }
 
     Background(resId = R.drawable.ligrettoyellow_background)
-    Column(modifier = modifier) {
+    Column(
+        modifier = modifier,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
         IconsRow(
             leftIcon = Icon(resId = R.drawable.home, descriptionId = R.string.home),
             onLeft = { onHome() },
@@ -48,11 +55,9 @@ fun ResultsScreen(
             onRight = { onEdit() },
             modifier = Modifier.topIconRowModifier()
         )
-        HeadlineBold(
-            textId = R.string.scoreboard,
-            modifier = Modifier.align(Alignment.CenterHorizontally)
-        )
-        LazyColumn(contentPadding = PaddingValues(horizontal = 60.dp)) {
+        HeadlineBold(textId = R.string.scoreboard)
+        TitleBold(textId = R.string.after_round, arg = roundId)
+        LazyColumn(contentPadding = PaddingValues(horizontal = 60.dp, vertical = 8.dp)) {
             itemsIndexed(playersScore) { num, playerScore ->
                 PlayerScoreRow(
                     number = num + 1,
@@ -93,7 +98,8 @@ fun ResultsScreen(
 fun ResultsScreenRound1Preview() {
     LigrettoScoresheetTheme {
         ResultsScreen(
-            Players.threePlayers().map { PlayerScore(it, 0) },
+            roundId = 1,
+            playersScore = Players.threePlayers().map { PlayerScore(it, 0) },
             onHome = { },
             onNewRound = { },
             onEnd = { }
@@ -110,7 +116,8 @@ fun ResultsScreenRound1Preview() {
 fun ResultsScreenRound2Preview() {
     LigrettoScoresheetTheme {
         ResultsScreen(
-            Players.threePlayers().map { PlayerScore(it, 0) },
+            roundId = 2,
+            playersScore = Players.threePlayers().map { PlayerScore(it, 0) },
             onHome = { },
             onNewRound = { },
             onEnd = { }
@@ -127,7 +134,8 @@ fun ResultsScreenRound2Preview() {
 fun ResultsScreen12PlayersPreview() {
     LigrettoScoresheetTheme {
         ResultsScreen(
-            Players.allPlayers().map { PlayerScore(it, 0) },
+            roundId = 1,
+            playersScore = Players.allPlayers().map { PlayerScore(it, 0) },
             onHome = { },
             onNewRound = { },
             onEnd = { }

@@ -80,6 +80,7 @@ fun LigrettoApp(
         }
         composable(route = Screen.Results.name) {
             ResultsScreen(
+                roundId = viewModel.currentRound,
                 playersScore = viewModel.playersScore(),
                 onHome = {
                     viewModel.resetData(deletePlayers = false)
