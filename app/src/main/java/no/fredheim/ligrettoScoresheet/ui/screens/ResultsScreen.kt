@@ -1,6 +1,5 @@
 package no.fredheim.ligrettoScoresheet.ui.screens
 
-import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -38,7 +37,6 @@ fun ResultsScreen(
     onHome: () -> Unit,
     onNewRound: () -> Unit,
     onEnd: () -> Unit,
-    onBack: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     val onEdit = { }
@@ -86,7 +84,6 @@ fun ResultsScreen(
                 onClick = { onNewRound() }
             )
         }
-        BackHandler { onBack() }
     }
 }
 
@@ -104,7 +101,6 @@ fun ResultsScreenRound1Preview() {
             onHome = { },
             onNewRound = { },
             onEnd = { },
-            onBack = { }
         )
     }
 }
@@ -122,8 +118,7 @@ fun ResultsScreenRound2Preview() {
             playersScore = Players.threePlayers().map { PlayerScore(it, 0) },
             onHome = { },
             onNewRound = { },
-            onEnd = { },
-            onBack = { }
+            onEnd = { }
         )
     }
 }
@@ -141,8 +136,7 @@ fun ResultsScreen12PlayersPreview() {
             playersScore = Players.allPlayers().map { PlayerScore(it, 0) },
             onHome = { },
             onNewRound = { },
-            onEnd = { },
-            onBack = { }
+            onEnd = { }
         )
     }
 }

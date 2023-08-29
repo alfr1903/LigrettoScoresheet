@@ -75,8 +75,8 @@ fun LigrettoApp(
                 onResults = { navController.navigate(Screen.Results.name) },
                 onBack = {
                     when {
-                        viewModel.currentRound == 1 -> { }
-                        viewModel.currentPlayer().id == 1 -> viewModel.decrementRound()
+                        firstRoundFirstPlayer(viewModel) -> { }
+                        firstPlayer(viewModel) -> viewModel.decrementRound()
                         else -> viewModel.decrementPlayer()
                     }
                     navController.popBackStack()
@@ -98,11 +98,13 @@ fun LigrettoApp(
                 onEnd = {
                     viewModel.resetData()
                     navController.popBackStack(route = Screen.Welcome.name, inclusive = false)
-                },
-                onBack = {
-
                 }
             )
         }
     }
 }
+private fun firstRoundFirstPlayer(viewModel: LigrettoViewModel) =
+    viewModel.currentRound == 1 && firstPlayer(viewModel)
+
+private fun firstPlayer(viewModel: LigrettoViewModel) =
+    viewModel.currentPlayer().id == 1
