@@ -34,6 +34,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import no.fredheim.ligrettoScoresheet.R
 import no.fredheim.ligrettoScoresheet.common.Background
+import no.fredheim.ligrettoScoresheet.common.BodySmall
 import no.fredheim.ligrettoScoresheet.common.HeadlineBold
 import no.fredheim.ligrettoScoresheet.common.IconsRow
 import no.fredheim.ligrettoScoresheet.common.MediumButton
@@ -69,6 +70,18 @@ fun PlayerRoundScreen(
 
 
     Background(resId = R.drawable.ligrettogreen_background)
+
+    // Temp row
+    Row(
+        modifier = Modifier.fillMaxWidth(),
+        horizontalArrangement = Arrangement.End
+    ) {
+        BodySmall(
+            textId = R.string.coming_soon,
+            modifier.padding(top = 80.dp, end = 20.dp).width(52.dp)
+        )
+    }
+
     Box(
         modifier = Modifier.fillMaxWidth(),
         contentAlignment = Alignment.TopCenter

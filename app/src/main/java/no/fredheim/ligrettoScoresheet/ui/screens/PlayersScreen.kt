@@ -62,7 +62,10 @@ fun PlayersScreen(
     Background(resId = R.drawable.ligrettoblue_background)
 
     // Temp row
-    Row(horizontalArrangement = Arrangement.End) {
+    Row(
+        modifier = Modifier.fillMaxWidth(),
+        horizontalArrangement = Arrangement.End
+    ) {
         BodySmall(
             textId = R.string.coming_soon,
             modifier.padding(top = 80.dp, end = 20.dp).width(52.dp)
