@@ -19,7 +19,10 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
+import androidx.compose.ui.platform.SoftwareKeyboardController
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -45,6 +48,7 @@ import no.fredheim.ligrettoScoresheet.ui.theme.TextColor
 import no.fredheim.ligrettoScoresheet.ui.theme.ThemeColor
 import no.fredheim.ligrettoScoresheet.util.Players
 
+@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun PlayersScreen(
     players: List<Player>,
@@ -70,14 +74,14 @@ fun PlayersScreen(
         HeadlineBold(R.string.players)
         LazyColumn(
             modifier = Modifier.height(400.dp),
-            contentPadding = PaddingValues(horizontal = 72.dp)
+            contentPadding =PaddingValues(start = 72.dp, top = 28.dp, end = 72.dp)
         ) {
             itemsIndexed(players) { num, player ->
                 PlayerNameRow(
                     number = num + 1,
                     player = player,
                     Modifier
-                        .padding(vertical = 4.dp)
+                        .padding(vertical = 3.dp)
                         .fillMaxWidth()
                 )
             }

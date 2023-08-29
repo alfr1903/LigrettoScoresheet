@@ -18,3 +18,4 @@
 
 
 # Bugs
+- First player not showing on Players screen when input
