@@ -1,5 +1,6 @@
 package no.fredheim.ligrettoScoresheet.ui.screens
 
+import androidx.activity.compose.BackHandler
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import androidx.compose.foundation.Image
@@ -60,6 +61,7 @@ fun PlayerRoundScreen(
     onPrevious: () -> Unit,
     onNext: () -> Unit,
     onResults: () -> Unit,
+    onBack: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     val firstPlayer = player.id == 1
@@ -146,6 +148,7 @@ fun PlayerRoundScreen(
                 bottom = dimensionResource(id = R.dimen.screen_bottom_button_bottom_padding)
             )
         )
+        BackHandler { onBack() }
     }
 }
 
@@ -266,7 +269,8 @@ fun PlayerRoundFirstRoundFirstPlayerNoDataScreenPreview() {
             onHome = { },
             onNext = { },
             onResults = { },
-            onPrevious = { }
+            onPrevious = { },
+            onBack = { }
         )
     }
 }
@@ -288,7 +292,8 @@ fun PlayerRoundFirstRoundFirstPlayerScreenPreview() {
             onHome = { },
             onNext = { },
             onResults = { },
-            onPrevious = { }
+            onPrevious = { },
+            onBack = { }
         )
     }
 }
@@ -310,7 +315,8 @@ fun PlayerRoundScoreSecondRoundFirstPlayerScreenPreview() {
             onHome = { },
             onNext = { },
             onResults = { },
-            onPrevious = { }
+            onPrevious = { },
+            onBack = { }
         )
     }
 }
@@ -332,7 +338,8 @@ fun PlayerRoundMiddlePlayerScreenPreview() {
             onHome = { },
             onNext = { },
             onResults = { },
-            onPrevious = { }
+            onPrevious = { },
+            onBack = { }
         )
     }
 }
@@ -354,7 +361,8 @@ fun PlayerRoundMiddlePlayerTwelvePlayersScreenPreview() {
             onHome = { },
             onNext = { },
             onResults = { },
-            onPrevious = { }
+            onPrevious = { },
+            onBack = { }
         )
     }
 }
@@ -376,7 +384,8 @@ fun PlayerRoundLastPlayerScreenPreview() {
             onHome = { },
             onNext = { },
             onResults = { },
-            onPrevious = { }
+            onPrevious = { },
+            onBack = { }
         )
     }
 }

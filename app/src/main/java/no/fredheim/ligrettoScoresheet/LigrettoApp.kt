@@ -45,10 +45,7 @@ fun LigrettoApp(
                 playerCreator = playerCreator,
                 onPlayerCreatorChange = { viewModel.updatePlayerCreatorState(it) },
                 onPlayerAdd = { viewModel.addPlayer(it) },
-                onStartGame = {
-                    viewModel.nextRound(firstRound = true)
-                    navController.navigate(Screen.PlayerRound.name)
-                },
+                onStartGame = { navController.navigate(Screen.PlayerRound.name) },
                 onBack = {
                     viewModel.resetData()
                     navController.popBackStack()
@@ -76,6 +73,14 @@ fun LigrettoApp(
                     navController.navigate(Screen.PlayerRound.name)
                 },
                 onResults = { navController.navigate(Screen.Results.name) },
+                onBack = {
+                    when {
+                        viewModel.currentRound == 1 -> { }
+                        viewModel.currentPlayer().id == 1 -> viewModel.decrementRound()
+                        else -> viewModel.decrementPlayer()
+                    }
+                    navController.popBackStack()
+                }
             )
         }
         composable(route = Screen.Results.name) {
@@ -87,13 +92,16 @@ fun LigrettoApp(
                     navController.popBackStack(route = Screen.Players.name, inclusive = false)
                 },
                 onNewRound = {
-                    viewModel.nextRound()
+                    viewModel.incrementRound()
                     navController.navigate(Screen.PlayerRound.name)
                 },
                 onEnd = {
                     viewModel.resetData()
                     navController.popBackStack(route = Screen.Welcome.name, inclusive = false)
                 },
+                onBack = {
+
+                }
             )
         }
     }

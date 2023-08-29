@@ -93,8 +93,16 @@ class LigrettoViewModel : ViewModel() {
         updateRoundState()
     }
 
-    fun nextRound(firstRound: Boolean = false) {
-        if (!firstRound) { idCurrentPlayer = 1; currentRound++ }
+    fun incrementRound() {
+        currentRound++
+        idCurrentPlayer = 1
+        updateRoundState()
+    }
+
+    fun decrementRound() {
+        require(currentRound > 1)
+        currentRound--
+        idCurrentPlayer = numPlayers()
         updateRoundState()
     }
 }

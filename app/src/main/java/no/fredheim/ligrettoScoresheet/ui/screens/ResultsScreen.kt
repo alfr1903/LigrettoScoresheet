@@ -1,5 +1,6 @@
 package no.fredheim.ligrettoScoresheet.ui.screens
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -17,7 +18,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import no.fredheim.ligrettoScoresheet.R
 import no.fredheim.ligrettoScoresheet.common.Background
-import no.fredheim.ligrettoScoresheet.common.Headline
 import no.fredheim.ligrettoScoresheet.common.HeadlineBold
 import no.fredheim.ligrettoScoresheet.common.IconsRow
 import no.fredheim.ligrettoScoresheet.common.MediumButton
@@ -30,7 +30,6 @@ import no.fredheim.ligrettoScoresheet.model.PlayerScore
 import no.fredheim.ligrettoScoresheet.ui.theme.LigrettoScoresheetTheme
 import no.fredheim.ligrettoScoresheet.ui.theme.ThemeColor
 import no.fredheim.ligrettoScoresheet.util.Players
-import kotlin.math.round
 
 @Composable
 fun ResultsScreen(
@@ -39,6 +38,7 @@ fun ResultsScreen(
     onHome: () -> Unit,
     onNewRound: () -> Unit,
     onEnd: () -> Unit,
+    onBack: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     val onEdit = { }
@@ -86,6 +86,7 @@ fun ResultsScreen(
                 onClick = { onNewRound() }
             )
         }
+        BackHandler { onBack() }
     }
 }
 
@@ -102,7 +103,8 @@ fun ResultsScreenRound1Preview() {
             playersScore = Players.threePlayers().map { PlayerScore(it, 0) },
             onHome = { },
             onNewRound = { },
-            onEnd = { }
+            onEnd = { },
+            onBack = { }
         )
     }
 }
@@ -120,7 +122,8 @@ fun ResultsScreenRound2Preview() {
             playersScore = Players.threePlayers().map { PlayerScore(it, 0) },
             onHome = { },
             onNewRound = { },
-            onEnd = { }
+            onEnd = { },
+            onBack = { }
         )
     }
 }
@@ -138,7 +141,8 @@ fun ResultsScreen12PlayersPreview() {
             playersScore = Players.allPlayers().map { PlayerScore(it, 0) },
             onHome = { },
             onNewRound = { },
-            onEnd = { }
+            onEnd = { },
+            onBack = { }
         )
     }
 }

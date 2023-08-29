@@ -1,6 +1,5 @@
-# Notes
-
 ## Welcome Screen
+- Max score points (put on hold)
 
 
 ## Players Screen
@@ -8,12 +7,14 @@
 
 ## Player Round Screen
 - Add name list pop up (put on hold)
-- Number keyboard
 - Add CardType Enum
 
 ## Results Screen
 - Implement Edit popup
+- Max score points (put on hold)
+
 
 # Notes
-- Max score points showed somewhere? (put on hold)
--
+
+
+# Bugs
