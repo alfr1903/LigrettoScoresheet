@@ -75,7 +75,9 @@ fun LigrettoApp(
                 onResults = { navController.navigate(Screen.Results.name) },
                 onBack = {
                     when {
-                        firstRoundFirstPlayer(viewModel) -> { }
+                        firstRoundFirstPlayer(viewModel) -> {
+                            viewModel.resetData(deletePlayers = false)
+                        }
                         firstPlayer(viewModel) -> viewModel.decrementRound()
                         else -> viewModel.decrementPlayer()
                     }

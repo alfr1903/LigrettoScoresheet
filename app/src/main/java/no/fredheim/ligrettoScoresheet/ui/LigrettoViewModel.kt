@@ -1,9 +1,11 @@
 package no.fredheim.ligrettoScoresheet.ui
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
 import no.fredheim.ligrettoScoresheet.model.PlayerCreatorState
 import no.fredheim.ligrettoScoresheet.model.Player
 import no.fredheim.ligrettoScoresheet.model.PlayerScore
@@ -31,42 +33,51 @@ class LigrettoViewModel : ViewModel() {
     private var playerRound = mutableMapOf<PlayerId, RoundMap>()
 
     fun resetData(deletePlayers: Boolean = true) {
-        if (deletePlayers) _playersState.update { mutableMapOf() }
-        _playerCreatorState.update { PlayerCreatorState() }
-        if (deletePlayers) playerRound = mutableMapOf()
-        else players().forEach { playerRound[it.id] = mutableMapOf() }
-        currentRound = 1
-        idCurrentPlayer = 1
-        updateRoundState()
-
+        viewModelScope.launch {
+            if (deletePlayers) _playersState.update { mutableMapOf() }
+            _playerCreatorState.update { PlayerCreatorState() }
+            if (deletePlayers) playerRound = mutableMapOf()
+            else players().forEach { playerRound[it.id] = mutableMapOf() }
+            currentRound = 1
+            idCurrentPlayer = 1
+            updateRoundState()
+        }
     }
 
     private fun updateRoundState() {
-        _roundState.update {
-            playerRound[idCurrentPlayer]?.get(currentRound) ?: Round(idCurrentPlayer, currentRound)
+        viewModelScope.launch {
+            _roundState.update {
+                playerRound[idCurrentPlayer]?.get(currentRound) ?: Round(idCurrentPlayer, currentRound)
+            }
         }
     }
 
     fun updatePlayerCreatorState(colorPicker: PlayerCreatorState) {
-        _playerCreatorState.value = colorPicker
+        viewModelScope.launch {
+            _playerCreatorState.value = colorPicker
+        }
     }
 
     fun addPlayer(player: Player) {
-        _playersState.update { it.apply { it[player.id] = player }}
-        playerRound[player.id] = mutableMapOf()
-        _playerCreatorState.update {
-            it.copy(
-                name = "",
-                availableColors = it.availableColors.minus(player.color),
-                chosenColor = it.availableColors.minus(player.color).firstOrNull()
-            )
+        viewModelScope.launch {
+            _playersState.update { it.apply { it[player.id] = player }}
+            playerRound[player.id] = mutableMapOf()
+            _playerCreatorState.update {
+                it.copy(
+                    name = "",
+                    availableColors = it.availableColors.minus(player.color),
+                    chosenColor = it.availableColors.minus(player.color).firstOrNull()
+                )
+            }
         }
     }
 
     fun updatePlayerRound(player: Player, round: Round) {
-        _roundState.update { round }
-        playerRound[player.id]?.set(round.id, round)
-            ?: throw PlayerRoundDataStructureNotFound(player.id)
+        viewModelScope.launch {
+            playerRound[player.id]?.set(round.id, round)
+                ?: throw PlayerRoundDataStructureNotFound(player.id)
+            _roundState.update { round }
+        }
     }
 
     fun currentPlayer(): Player = _playersState.value[idCurrentPlayer]
@@ -84,26 +95,34 @@ class LigrettoViewModel : ViewModel() {
             ?: throw RoundDataStructureNotFound(player)
 
     fun incrementPlayer() {
-        idCurrentPlayer++
-        updateRoundState()
+        viewModelScope.launch {
+            idCurrentPlayer++
+            updateRoundState()
+        }
     }
 
     fun decrementPlayer() {
-        idCurrentPlayer--
-        updateRoundState()
+        viewModelScope.launch {
+            idCurrentPlayer--
+            updateRoundState()
+        }
     }
 
     fun incrementRound() {
-        currentRound++
-        idCurrentPlayer = 1
-        updateRoundState()
+        viewModelScope.launch {
+            currentRound++
+            idCurrentPlayer = 1
+            updateRoundState()
+        }
     }
 
     fun decrementRound() {
-        require(currentRound > 1)
-        currentRound--
-        idCurrentPlayer = numPlayers()
-        updateRoundState()
+        viewModelScope.launch {
+            require(currentRound > 1)
+            currentRound--
+            idCurrentPlayer = numPlayers()
+            updateRoundState()
+        }
     }
 }
 

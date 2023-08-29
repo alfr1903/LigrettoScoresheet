@@ -1,6 +1,7 @@
 package no.fredheim.ligrettoScoresheet.ui.screens
 
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -14,17 +15,16 @@ import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
-import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalSoftwareKeyboardController
-import androidx.compose.ui.platform.SoftwareKeyboardController
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import no.fredheim.ligrettoScoresheet.R
@@ -48,7 +48,6 @@ import no.fredheim.ligrettoScoresheet.ui.theme.TextColor
 import no.fredheim.ligrettoScoresheet.ui.theme.ThemeColor
 import no.fredheim.ligrettoScoresheet.util.Players
 
-@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun PlayersScreen(
     players: List<Player>,
@@ -59,7 +58,17 @@ fun PlayersScreen(
     onBack: () -> Unit,
     modifier: Modifier = Modifier
 ) {
+    
     Background(resId = R.drawable.ligrettoblue_background)
+
+    // Temp row
+    Row(horizontalArrangement = Arrangement.End) {
+        BodySmall(
+            textId = R.string.coming_soon,
+            modifier.padding(top = 80.dp, end = 20.dp).width(52.dp)
+        )
+    }
+
     Column(
         modifier = modifier,
         horizontalAlignment = Alignment.CenterHorizontally
@@ -68,7 +77,7 @@ fun PlayersScreen(
             leftIcon = Icon(resId = R.drawable.back, descriptionId = R.string.back),
             onLeft = { onBack() },
             rightIcon = Icon(resId = R.drawable.edit, descriptionId = R.string.edit),
-            onRight = {  },
+            onRight = { },
             modifier = Modifier.topIconRowModifier()
         )
         HeadlineBold(R.string.players)
@@ -101,6 +110,7 @@ fun PlayersScreen(
             textId = R.string.start_game,
             buttonColor = ThemeColor.Green,
             modifier = Modifier.padding(bottom = dimensionResource(id = R.dimen.screen_bottom_button_bottom_padding)),
+            enabled = players.size >= 2,
             onClick = { onStartGame() }
         )
     }
@@ -151,6 +161,7 @@ private fun PlayerCreator(
             modifier = Modifier.width(220.dp),
             enabled = playerCreator.chosenColor != null,
             label = { Text(text = stringResource(R.string.type_name)) },
+            keyboardOptions = KeyboardOptions(capitalization = KeyboardCapitalization.Words),
             keyboardActions = KeyboardActions(
                 onDone = {
                     onPlayerAdd(

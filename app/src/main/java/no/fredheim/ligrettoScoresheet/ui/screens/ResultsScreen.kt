@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.runtime.Composable
@@ -17,6 +18,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import no.fredheim.ligrettoScoresheet.R
 import no.fredheim.ligrettoScoresheet.common.Background
+import no.fredheim.ligrettoScoresheet.common.BodySmall
 import no.fredheim.ligrettoScoresheet.common.HeadlineBold
 import no.fredheim.ligrettoScoresheet.common.IconsRow
 import no.fredheim.ligrettoScoresheet.common.MediumButton
@@ -39,9 +41,16 @@ fun ResultsScreen(
     onEnd: () -> Unit,
     modifier: Modifier = Modifier
 ) {
-    val onEdit = { }
-
     Background(resId = R.drawable.ligrettoyellow_background)
+
+    // Temp row
+    Row(horizontalArrangement = Arrangement.End) {
+        BodySmall(
+            textId = R.string.coming_soon,
+            modifier.padding(top = 80.dp, end = 20.dp).width(52.dp)
+        )
+    }
+
     Column(
         modifier = modifier,
         horizontalAlignment = Alignment.CenterHorizontally
@@ -50,7 +59,7 @@ fun ResultsScreen(
             leftIcon = Icon(resId = R.drawable.home, descriptionId = R.string.home),
             onLeft = { onHome() },
             rightIcon = Icon(resId = R.drawable.edit, descriptionId = R.string.edit),
-            onRight = { onEdit() },
+            onRight = { },
             modifier = Modifier.topIconRowModifier()
         )
         HeadlineBold(textId = R.string.scoreboard)

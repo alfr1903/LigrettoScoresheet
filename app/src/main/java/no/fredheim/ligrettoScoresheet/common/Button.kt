@@ -19,10 +19,12 @@ fun WideButton(
     buttonColor: ThemeColor,
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
+    enabled: Boolean = true,
 ) {
     Button(
         onClick = { onClick() },
         modifier = modifier.width(200.dp),
+        enabled = enabled,
         colors = ButtonDefaults.buttonColors(containerColor = buttonColor.color)
     ) {
         Text(text = stringResource(textId))

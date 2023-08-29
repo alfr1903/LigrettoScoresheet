@@ -41,4 +41,5 @@
     <string name="edit">Edit</string>
     <string name="round">Round %d</string>
     <string name="round_points">Round points: %d</string>
+    <string name="coming_soon">Coming soon</string>
 </resources>
