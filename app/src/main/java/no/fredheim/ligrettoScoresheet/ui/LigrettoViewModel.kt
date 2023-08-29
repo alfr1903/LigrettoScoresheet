@@ -34,7 +34,7 @@ class LigrettoViewModel : ViewModel() {
         if (deletePlayers) _playersState.update { mutableMapOf() }
         _playerCreatorState.update { PlayerCreatorState() }
         if (deletePlayers) playerRound = mutableMapOf()
-        else playerRound.mapValues { mutableMapOf<Int, Round>() }
+        else players().forEach { playerRound[it.id] = mutableMapOf() }
         currentRound = 1
         idCurrentPlayer = 1
         updateRoundState()
