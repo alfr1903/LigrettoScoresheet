@@ -1,8 +1,6 @@
 package no.fredheim.ligrettoScoresheet.ui.screens
 
 import androidx.activity.compose.BackHandler
-import androidx.annotation.DrawableRes
-import androidx.annotation.StringRes
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -43,10 +41,13 @@ import no.fredheim.ligrettoScoresheet.common.WideButton
 import no.fredheim.ligrettoScoresheet.common.buttonRowHorizontalModifier
 import no.fredheim.ligrettoScoresheet.common.cardCounterRowModifier
 import no.fredheim.ligrettoScoresheet.common.topIconRowModifier
-import no.fredheim.ligrettoScoresheet.model.CardType
+import no.fredheim.ligrettoScoresheet.model.Card
+import no.fredheim.ligrettoScoresheet.model.CenterPileCard
 import no.fredheim.ligrettoScoresheet.model.Icon
+import no.fredheim.ligrettoScoresheet.model.MinusPileCard
 import no.fredheim.ligrettoScoresheet.model.Player
 import no.fredheim.ligrettoScoresheet.model.Round
+import no.fredheim.ligrettoScoresheet.model.TenCard
 import no.fredheim.ligrettoScoresheet.service.Calculate
 import no.fredheim.ligrettoScoresheet.ui.theme.LigrettoScoresheetTheme
 import no.fredheim.ligrettoScoresheet.ui.theme.ThemeColor
@@ -110,28 +111,19 @@ fun PlayerRoundScreen(
             arg = round.id
         )
         CardCounterRow(
-            cardTypeImageId = R.drawable.tens_cards,
-            cardTypeDescriptionId = R.string.number_10s_center,
-            cardTypeTextId = R.string.tens,
-            cardType = CardType.Ten,
+            card = TenCard(),
             value = round.num10s,
             onValueChange = { onRoundChange(player, round.copy(num10s = it)) },
             modifier = Modifier.cardCounterRowModifier()
         )
         CardCounterRow(
-            cardTypeImageId = R.drawable.center_pile_cards,
-            cardTypeDescriptionId = R.string.number_cards_center_excluding_10s,
-            cardTypeTextId = R.string.center_pile,
-            cardType = CardType.Center,
+            card = CenterPileCard(),
             value = round.numCenter,
             onValueChange = { onRoundChange(player, round.copy(numCenter = it)) },
             modifier = Modifier.cardCounterRowModifier()
         )
         CardCounterRow(
-            cardTypeImageId = R.drawable.minus_pile_cards,
-            cardTypeDescriptionId = R.string.number_cards_minus_pile,
-            cardTypeTextId = R.string.minus_pile,
-            cardType = CardType.Minus,
+            card = MinusPileCard(),
             value = round.numMinus,
             onValueChange = { onRoundChange(player, round.copy(numMinus = it)) },
             modifier = Modifier.cardCounterRowModifier()
@@ -205,10 +197,7 @@ private fun PlayerNavigationRow(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun CardCounterRow(
-    @DrawableRes cardTypeImageId: Int,
-    @StringRes cardTypeDescriptionId: Int,
-    @StringRes cardTypeTextId: Int,
-    cardType: CardType,
+    card: Card,
     value: String,
     onValueChange: (String) -> Unit,
     modifier: Modifier = Modifier,
@@ -222,12 +211,12 @@ private fun CardCounterRow(
     ) {
         Column(horizontalAlignment = Alignment.CenterHorizontally) {
             Image(
-                painter = painterResource(cardTypeImageId),
-                contentDescription = stringResource(cardTypeDescriptionId),
+                painter = painterResource(card.typeImageId),
+                contentDescription = stringResource(card.typeDescriptionId),
                 modifier = Modifier.weight(1f)
             )
             Text(
-                text = stringResource(cardTypeTextId),
+                text = stringResource(card.typeTextId),
                 color = MaterialTheme.colorScheme.onPrimary
             )
         }
@@ -256,7 +245,7 @@ private fun CardCounterRow(
             )
         }
         Text(
-            text = stringResource(id = R.string.points, Calculate.points(cardType, value)),
+            text = stringResource(id = R.string.points, Calculate.points(card.type, value)),
             modifier = Modifier.padding(end = 24.dp),
             color = Color.White,
             fontWeight = FontWeight.Bold,

@@ -33,7 +33,7 @@
     <string name="player_card">Player card</string>
     <string name="list_of_players">List of players</string>
     <string name="number_10s_center">Number of 10s in the center</string>
-    <string name="number_cards_center_excluding_10s">Number of cards in the center (excluding 10s)</string>
+    <string name="number_cards_center_pile">Number of cards in the center (excluding 10s)</string>
     <string name="number_cards_minus_pile">Number of cards in the minus pile (ligretto pile)</string>
     <string name="see_results">See results</string>
     <string name="end_game">End game</string>
