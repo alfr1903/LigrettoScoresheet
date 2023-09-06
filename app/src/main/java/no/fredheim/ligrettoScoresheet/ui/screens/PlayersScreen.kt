@@ -1,7 +1,6 @@
 package no.fredheim.ligrettoScoresheet.ui.screens
 
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -16,14 +15,16 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -121,7 +122,6 @@ fun PlayersScreen(
 }
 
 @Composable
-@OptIn(ExperimentalMaterial3Api::class)
 private fun PlayerCreator(
     playerCreator: PlayerCreatorState,
     onPlayerCreatorChange: (PlayerCreatorState) -> Unit,
@@ -158,26 +158,7 @@ private fun PlayerCreator(
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically
     ) {
-        TextField(
-            value = playerCreator.name,
-            onValueChange = { onPlayerCreatorChange(playerCreator.copy(name = it)) },
-            modifier = Modifier.width(220.dp),
-            enabled = playerCreator.chosenColor != null,
-            label = { Text(text = stringResource(R.string.type_name)) },
-            keyboardOptions = KeyboardOptions(capitalization = KeyboardCapitalization.Words),
-            keyboardActions = KeyboardActions(
-                onDone = {
-                    onPlayerAdd(
-                        Player(
-                            id = numPlayers + 1,
-                            name = playerCreator.name,
-                            color = playerCreator.chosenColor!!
-                        )
-                    )
-                }
-            ),
-            singleLine = true,
-        )
+        PlayerAdderTextField(playerCreator, onPlayerCreatorChange, onPlayerAdd, numPlayers)
         SmallButton(
             textId = R.string.add_player,
             color = ThemeColor.Yellow,
@@ -195,6 +176,42 @@ private fun PlayerCreator(
             }
         )
     }
+}
+
+@OptIn(ExperimentalComposeUiApi::class)
+@Composable
+private fun PlayerAdderTextField(
+    playerCreator: PlayerCreatorState,
+    onPlayerCreatorChange: (PlayerCreatorState) -> Unit,
+    onPlayerAdd: (Player) -> Unit,
+    numPlayers: Int
+) {
+    val keyboardController = LocalSoftwareKeyboardController.current
+
+    TextField(
+        value = playerCreator.name,
+        onValueChange = { onPlayerCreatorChange(playerCreator.copy(name = it)) },
+        modifier = Modifier.width(220.dp),
+        enabled = playerCreator.chosenColor != null,
+        label = { Text(text = stringResource(R.string.type_name)) },
+        keyboardOptions = KeyboardOptions(
+            capitalization = KeyboardCapitalization.Words,
+            imeAction = if (playerCreator.name.isEmpty()) ImeAction.Done else ImeAction.Next
+        ),
+        keyboardActions = KeyboardActions(
+            onDone = { keyboardController?.hide() },
+            onNext = {
+                onPlayerAdd(
+                    Player(
+                        id = numPlayers + 1,
+                        name = playerCreator.name,
+                        color = playerCreator.chosenColor!!
+                    )
+                )
+            }
+        ),
+        singleLine = true,
+    )
 }
 
 @Preview(

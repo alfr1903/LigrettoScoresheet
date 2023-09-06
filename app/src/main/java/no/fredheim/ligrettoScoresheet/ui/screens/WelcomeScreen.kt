@@ -56,7 +56,7 @@ fun LigrettoLogo() {
         contentAlignment = Alignment.BottomCenter
     ) {
         Image(
-            painter = painterResource(id = R.drawable.ligretto_calculator_logo),
+            painter = painterResource(id = R.drawable.ligretto_logo),
             contentDescription = stringResource(R.string.logo)
         )
     }

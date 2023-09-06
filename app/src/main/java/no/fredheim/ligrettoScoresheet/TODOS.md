@@ -7,7 +7,6 @@
 
 ## Player Round Screen
 - Add name list pop up (put on hold)
-- Add CardType Enum
 
 ## Results Screen
 - Implement Edit popup
@@ -18,4 +17,3 @@
 
 
 # Bugs
-- First player not showing on Players screen when input
