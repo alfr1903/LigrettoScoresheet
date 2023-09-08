@@ -94,36 +94,35 @@ class LigrettoViewModel : ViewModel() {
         playerRound[player.id]?.filterValues { it.id <= round }?.values?.sumOf { it.points() }
             ?: throw RoundDataStructureNotFound(player)
 
-    fun incrementPlayer() {
+    fun sideEffect(player: PlayerSideEffect) {
         viewModelScope.launch {
-            idCurrentPlayer++
+            when(player) {
+                PlayerSideEffect.Decrement -> idCurrentPlayer--
+                PlayerSideEffect.Increment -> idCurrentPlayer++
+            }
             updateRoundState()
         }
     }
 
-    fun decrementPlayer() {
+    fun sideEffect(round: RoundSideEffect) {
         viewModelScope.launch {
-            idCurrentPlayer--
+            when(round) {
+                RoundSideEffect.Decrement -> { idCurrentPlayer = numPlayers(); currentRound-- }
+                RoundSideEffect.Increment -> { idCurrentPlayer = 1; currentRound++ }
+            }
             updateRoundState()
         }
     }
+}
 
-    fun incrementRound() {
-        viewModelScope.launch {
-            currentRound++
-            idCurrentPlayer = 1
-            updateRoundState()
-        }
-    }
+enum class RoundSideEffect {
+    Decrement,
+    Increment
+}
 
-    fun decrementRound() {
-        viewModelScope.launch {
-            require(currentRound > 1)
-            currentRound--
-            idCurrentPlayer = numPlayers()
-            updateRoundState()
-        }
-    }
+enum class PlayerSideEffect {
+    Decrement,
+    Increment
 }
 
 class RoundDataStructureNotFound(

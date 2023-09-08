@@ -55,8 +55,7 @@ fun PlayersScreen(
     playerCreator: PlayerCreatorState,
     onPlayerCreatorChange: (PlayerCreatorState) -> Unit,
     onPlayerAdd: (Player) -> Unit,
-    onStartGame: () -> Unit,
-    onBack: () -> Unit,
+    onNavigate: (PlayersScreenNav) -> Unit,
     modifier: Modifier = Modifier
 ) {
     
@@ -79,7 +78,7 @@ fun PlayersScreen(
     ) {
         IconsRow(
             leftIcon = Icon(resId = R.drawable.back, descriptionId = R.string.back),
-            onLeft = { onBack() },
+            onLeft = { onNavigate(PlayersScreenNav.Back) },
             rightIcon = Icon(resId = R.drawable.edit, descriptionId = R.string.edit),
             onRight = { },
             modifier = Modifier.topIconRowModifier()
@@ -115,10 +114,10 @@ fun PlayersScreen(
             buttonColor = ThemeColor.Green,
             modifier = Modifier.padding(bottom = dimensionResource(id = R.dimen.screen_bottom_button_bottom_padding)),
             enabled = players.size >= 2,
-            onClick = { onStartGame() }
+            onClick = { onNavigate(PlayersScreenNav.StartGame) }
         )
     }
-    BackPressHandler { onBack() }
+    BackPressHandler { onNavigate(PlayersScreenNav.Back) }
 }
 
 @Composable
@@ -214,6 +213,11 @@ private fun PlayerAdderTextField(
     )
 }
 
+enum class PlayersScreenNav {
+    StartGame,
+    Back
+}
+
 @Preview(
     showBackground = true,
     showSystemUi = true,
@@ -227,8 +231,7 @@ fun PlayersScreenNoPlayersPreview() {
             playerCreator = PlayerCreatorState(),
             onPlayerCreatorChange = { },
             onPlayerAdd = { },
-            onStartGame = { },
-            onBack = { },
+            onNavigate = { },
         )
     }
 }
@@ -251,8 +254,7 @@ fun PlayersScreenThreePlayersPreview() {
             ),
             onPlayerCreatorChange = { },
             onPlayerAdd = { },
-            onStartGame = { },
-            onBack = { },
+            onNavigate = { },
         )
     }
 }
@@ -270,8 +272,7 @@ fun PlayersScreenAllPlayersPreview() {
             playerCreator = PlayerCreatorState(availableColors =  emptySet(), chosenColor = null),
             onPlayerCreatorChange = { },
             onPlayerAdd = { },
-            onStartGame = { },
-            onBack = { },
+            onNavigate = { },
         )
     }
 }
