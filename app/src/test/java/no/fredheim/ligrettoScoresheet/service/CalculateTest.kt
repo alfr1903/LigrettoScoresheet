@@ -50,8 +50,8 @@ internal class CalculateTest {
         }
 
         @Test
-        fun `given 1 decrement function should set score to empty string`() {
-            Calculate.decrement("1") shouldBe ""
+        fun `given 1 decrement function should set score to 0`() {
+            Calculate.decrement("1") shouldBe "0"
         }
 
         @Test
