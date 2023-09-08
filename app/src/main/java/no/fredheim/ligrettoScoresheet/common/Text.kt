@@ -8,14 +8,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import no.fredheim.ligrettoScoresheet.R
 import no.fredheim.ligrettoScoresheet.model.Player
 
 @Composable
 fun Headline(
     @StringRes textId: Int,
     modifier: Modifier = Modifier,
-    arg: Int? = null,
+    arg: Int? = null
 ) {
     Text(
         text = arg?.let { stringResource(textId, it) } ?: stringResource(textId),
@@ -30,7 +29,7 @@ fun Headline(
 fun HeadlineBold(
     @StringRes textId: Int,
     modifier: Modifier = Modifier,
-    arg: Int? = null,
+    arg: Int? = null
 ) {
     Text(
         text = arg?.let { stringResource(textId, it) } ?: stringResource(textId),
@@ -46,7 +45,7 @@ fun HeadlineBold(
 fun TitleBold(
     @StringRes textId: Int,
     modifier: Modifier = Modifier,
-    arg: Int? = null,
+    arg: Int? = null
 ) {
     Text(
         text = arg?.let { stringResource(textId, it) } ?: stringResource(textId),
@@ -57,7 +56,6 @@ fun TitleBold(
         style = MaterialTheme.typography.titleMedium
     )
 }
-
 
 @Composable
 fun BodySmall(

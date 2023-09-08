@@ -10,7 +10,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -47,7 +46,7 @@ fun PlayerNameRow(
             Text(
                 text = stringResource(R.string.player, number),
                 modifier = Modifier.padding(start = 12.dp),
-                color = MaterialTheme.colorScheme.onPrimary,
+                color = MaterialTheme.colorScheme.onPrimary
             )
         }
         Text(
@@ -78,7 +77,7 @@ fun PlayerScoreRow(
                 Text(
                     text = "$number. ${playerScore.player.name}",
                     modifier = Modifier.padding(start = 12.dp),
-                    color = MaterialTheme.colorScheme.onPrimary,
+                    color = MaterialTheme.colorScheme.onPrimary
                 )
             }
             Text(
@@ -86,7 +85,6 @@ fun PlayerScoreRow(
                 color = MaterialTheme.colorScheme.onPrimary
             )
         }
-
     }
 }
 
@@ -107,7 +105,7 @@ fun PlayerEditScoreRow(
             Text(
                 text = "$number. ${playerScore.player.name}",
                 modifier = Modifier.padding(start = 12.dp),
-                color = MaterialTheme.colorScheme.onPrimary,
+                color = MaterialTheme.colorScheme.onPrimary
             )
         }
         Row(verticalAlignment = Alignment.CenterVertically) {
@@ -120,7 +118,7 @@ fun PlayerEditScoreRow(
                     .width(60.dp),
                 textStyle = LocalTextStyle.current.copy(textAlign = TextAlign.Center),
                 singleLine = true,
-                cursorBrush = SolidColor(MaterialTheme.colorScheme.primary),
+                cursorBrush = SolidColor(MaterialTheme.colorScheme.primary)
             )
             Text(
                 text = "points",
@@ -130,25 +128,27 @@ fun PlayerEditScoreRow(
     }
 }
 
+@Suppress("MagicNumber")
 @Preview(
     showBackground = true,
     backgroundColor = PreviewThemeBlue,
     device = "id:pixel_4"
 )
 @Composable
-fun PlayerNameRowPreview() {
+private fun PlayerNameRowPreview() {
     LigrettoScoresheetTheme {
         PlayerNameRow(number = 1, player = Players.alex, modifier = Modifier.fillMaxWidth())
     }
 }
 
+@Suppress("MagicNumber")
 @Preview(
     showBackground = true,
     backgroundColor = PreviewThemeOrange,
     device = "id:pixel_4"
 )
 @Composable
-fun PlayerScoreRowFirstRoundPreview() {
+private fun PlayerScoreRowFirstRoundPreview() {
     LigrettoScoresheetTheme {
         PlayerScoreRow(
             number = 1,
@@ -160,13 +160,14 @@ fun PlayerScoreRowFirstRoundPreview() {
     }
 }
 
+@Suppress("MagicNumber")
 @Preview(
     showBackground = true,
     backgroundColor = PreviewThemeOrange,
     device = "id:pixel_4"
 )
 @Composable
-fun PlayerScoreRowSecondRoundPreview() {
+private fun PlayerScoreRowSecondRoundPreview() {
     LigrettoScoresheetTheme {
         PlayerScoreRow(
             number = 2,
@@ -176,13 +177,14 @@ fun PlayerScoreRowSecondRoundPreview() {
     }
 }
 
+@Suppress("MagicNumber")
 @Preview(
     showBackground = true,
     backgroundColor = PreviewThemeOrange,
     device = "id:pixel_4"
 )
 @Composable
-fun PlayerEditScoreRowPreview() {
+private fun PlayerEditScoreRowPreview() {
     LigrettoScoresheetTheme {
         PlayerEditScoreRow(
             number = 1,

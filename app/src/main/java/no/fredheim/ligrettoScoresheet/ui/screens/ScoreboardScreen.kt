@@ -65,7 +65,9 @@ fun ResultsScreen(
         Row(
             modifier = Modifier
                 .buttonRowHorizontalModifier()
-                .padding(bottom = dimensionResource(id = R.dimen.screen_bottom_button_bottom_padding)),
+                .padding(
+                    bottom = dimensionResource(id = R.dimen.screen_bottom_button_bottom_padding)
+                ),
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
             MediumButton(
@@ -88,14 +90,14 @@ fun ResultsScreen(
     device = "id:pixel_4"
 )
 @Composable
-fun ResultsScreenRound1Preview() {
+private fun ResultsScreenRound1Preview() {
     LigrettoScoresheetTheme {
         ResultsScreen(
             roundId = 1,
             playersScore = Players.threePlayers().map { PlayerScore(it, 0) },
             onHome = { },
             onNewRound = { },
-            onEnd = { },
+            onEnd = { }
         )
     }
 }
@@ -106,7 +108,7 @@ fun ResultsScreenRound1Preview() {
     device = "id:pixel_4"
 )
 @Composable
-fun ResultsScreenRound2Preview() {
+private fun ResultsScreenRound2Preview() {
     LigrettoScoresheetTheme {
         ResultsScreen(
             roundId = 2,
@@ -124,7 +126,7 @@ fun ResultsScreenRound2Preview() {
     device = "id:pixel_4"
 )
 @Composable
-fun ResultsScreen12PlayersPreview() {
+private fun ResultsScreen12PlayersPreview() {
     LigrettoScoresheetTheme {
         ResultsScreen(
             roundId = 1,

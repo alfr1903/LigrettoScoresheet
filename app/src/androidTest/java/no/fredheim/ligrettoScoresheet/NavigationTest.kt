@@ -25,7 +25,6 @@ class NavigationTest {
         }
     }
 
-
     @Test
     fun startScreenShouldBeWelcomeScreen() {
         navController shouldHaveCurrentRouteName Screen.Welcome.name
@@ -83,7 +82,6 @@ class NavigationTest {
         navController shouldHaveCurrentRouteName Screen.Players.name
     }
 
-
     @Test
     fun afterResultsPressed_currentScreenShouldBeResultsScreen() {
         composeTestRule.navigateToFirstPlayerRoundScreen()
@@ -107,7 +105,4 @@ class NavigationTest {
 
         navController shouldHaveCurrentRouteName Screen.Welcome.name
     }
-
-
-
 }

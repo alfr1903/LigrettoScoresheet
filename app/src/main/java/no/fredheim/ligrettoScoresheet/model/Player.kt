@@ -8,5 +8,5 @@ data class Player(
     val id: Int,
     val name: String = "",
     val color: PlayerColor,
-    @DrawableRes val cardImageId: Int = CardImage.resolve(color),
+    @DrawableRes val cardImageId: Int = CardImage.resolve(color)
 )

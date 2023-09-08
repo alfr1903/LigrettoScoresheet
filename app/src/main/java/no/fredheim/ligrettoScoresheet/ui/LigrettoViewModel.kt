@@ -6,8 +6,8 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import no.fredheim.ligrettoScoresheet.model.PlayerCreatorState
 import no.fredheim.ligrettoScoresheet.model.Player
+import no.fredheim.ligrettoScoresheet.model.PlayerCreatorState
 import no.fredheim.ligrettoScoresheet.model.PlayerScore
 import no.fredheim.ligrettoScoresheet.model.Round
 
@@ -18,7 +18,6 @@ class LigrettoViewModel : ViewModel() {
     var currentRound = 1
         private set
     private var idCurrentPlayer: PlayerId = 1
-
 
     private val _playersState = MutableStateFlow(mutableMapOf<PlayerId, Player>())
     val playersState = _playersState.asStateFlow()
@@ -36,8 +35,11 @@ class LigrettoViewModel : ViewModel() {
         viewModelScope.launch {
             if (deletePlayers) _playersState.update { mutableMapOf() }
             _playerCreatorState.update { PlayerCreatorState() }
-            if (deletePlayers) playerRound = mutableMapOf()
-            else players().forEach { playerRound[it.id] = mutableMapOf() }
+            if (deletePlayers) {
+                playerRound = mutableMapOf()
+            } else {
+                players().forEach { playerRound[it.id] = mutableMapOf() }
+            }
             currentRound = 1
             idCurrentPlayer = 1
             updateRoundState()
@@ -47,7 +49,10 @@ class LigrettoViewModel : ViewModel() {
     private fun updateRoundState() {
         viewModelScope.launch {
             _roundState.update {
-                playerRound[idCurrentPlayer]?.get(currentRound) ?: Round(idCurrentPlayer, currentRound)
+                playerRound[idCurrentPlayer]?.get(currentRound) ?: Round(
+                    idCurrentPlayer,
+                    currentRound
+                )
             }
         }
     }
@@ -60,7 +65,7 @@ class LigrettoViewModel : ViewModel() {
 
     fun addPlayer(player: Player) {
         viewModelScope.launch {
-            _playersState.update { it.apply { it[player.id] = player }}
+            _playersState.update { it.apply { it[player.id] = player } }
             playerRound[player.id] = mutableMapOf()
             _playerCreatorState.update {
                 it.copy(
@@ -96,7 +101,7 @@ class LigrettoViewModel : ViewModel() {
 
     fun sideEffect(player: PlayerSideEffect) {
         viewModelScope.launch {
-            when(player) {
+            when (player) {
                 PlayerSideEffect.Decrement -> idCurrentPlayer--
                 PlayerSideEffect.Increment -> idCurrentPlayer++
             }
@@ -106,7 +111,7 @@ class LigrettoViewModel : ViewModel() {
 
     fun sideEffect(round: RoundSideEffect) {
         viewModelScope.launch {
-            when(round) {
+            when (round) {
                 RoundSideEffect.Decrement -> { idCurrentPlayer = numPlayers(); currentRound-- }
                 RoundSideEffect.Increment -> { idCurrentPlayer = 1; currentRound++ }
             }

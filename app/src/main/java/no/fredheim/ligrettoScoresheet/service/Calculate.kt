@@ -1,7 +1,7 @@
 package no.fredheim.ligrettoScoresheet.service
 
-import no.fredheim.ligrettoScoresheet.util.isDigitsOnly
 import no.fredheim.ligrettoScoresheet.model.CardType
+import no.fredheim.ligrettoScoresheet.util.isDigitsOnly
 
 object Calculate {
     fun increment(value: String): String =
@@ -18,6 +18,7 @@ object Calculate {
             else -> value.toInt().dec().toString()
         }
 
+    @Suppress("MagicNumber")
     fun points(cardType: CardType, numCards: String): Int =
         when (cardType) {
             CardType.Ten -> {
@@ -33,6 +34,6 @@ object Calculate {
 
     fun points(num10s: String, numCenter: String, numLigretto: String): Int =
         points(CardType.Ten, num10s) +
-        points(CardType.Center, numCenter) +
-        points(CardType.Minus, numLigretto)
+            points(CardType.Center, numCenter) +
+            points(CardType.Minus, numLigretto)
 }

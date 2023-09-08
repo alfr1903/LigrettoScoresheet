@@ -5,7 +5,7 @@ import no.fredheim.ligrettoScoresheet.ui.theme.PlayerColor
 
 object CardImage {
     fun resolve(color: PlayerColor): Int =
-        when(color) {
+        when (color) {
             PlayerColor.LightPink -> R.drawable.lightpinkcard_name
             PlayerColor.Black -> R.drawable.blackcard_name
             PlayerColor.LightRed -> R.drawable.lightredcard_name

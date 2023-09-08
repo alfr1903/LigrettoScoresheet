@@ -12,17 +12,11 @@ import no.fredheim.ligrettoScoresheet.ui.LigrettoViewModel
 import no.fredheim.ligrettoScoresheet.ui.PlayerSideEffect
 import no.fredheim.ligrettoScoresheet.ui.RoundSideEffect
 import no.fredheim.ligrettoScoresheet.ui.screens.PlayerRoundScreen
+import no.fredheim.ligrettoScoresheet.ui.screens.PlayerRoundScreenNav
 import no.fredheim.ligrettoScoresheet.ui.screens.PlayersScreen
 import no.fredheim.ligrettoScoresheet.ui.screens.PlayersScreenNav
 import no.fredheim.ligrettoScoresheet.ui.screens.ResultsScreen
 import no.fredheim.ligrettoScoresheet.ui.screens.WelcomeScreen
-
-enum class Screen {
-    Welcome,
-    Players,
-    PlayerRound,
-    Results
-}
 
 @Composable
 fun LigrettoApp(
@@ -48,7 +42,7 @@ fun LigrettoApp(
                 playerCreator = playerCreator,
                 onPlayerCreatorChange = { viewModel.updatePlayerCreatorState(it) },
                 onPlayerAdd = { viewModel.addPlayer(it) },
-                onNavigate = { playersScreenNavigate(it, navController, viewModel) },
+                onNavigate = { playersScreenNavigate(it, navController, viewModel) }
             )
         }
         composable(route = Screen.PlayerRound.name) {
@@ -57,30 +51,10 @@ fun LigrettoApp(
             PlayerRoundScreen(
                 player = currentPlayer,
                 round = round,
-                onRoundChange = { player, rnd -> viewModel.updatePlayerRound(player, rnd)},
+                onRoundChange = { player, rnd -> viewModel.updatePlayerRound(player, rnd) },
                 numPlayers = viewModel.numPlayers(),
-                onHome = {
-                    viewModel.resetData(deletePlayers = false)
-                    navController.popBackStack(route = Screen.Players.name, inclusive = false)
-                },
-                onPrevious = {
-                    viewModel.sideEffect(PlayerSideEffect.Decrement)
-                    navController.popBackStack()
-                },
-                onNext = {
-                    viewModel.sideEffect(PlayerSideEffect.Increment)
-                    navController.navigate(Screen.PlayerRound.name)
-                },
-                onResults = { navController.navigate(Screen.Results.name) },
-                onBack = {
-                    when {
-                        firstRoundFirstPlayer(viewModel) -> {
-                            viewModel.resetData(deletePlayers = false)
-                        }
-                        firstPlayer(viewModel) -> viewModel.sideEffect(RoundSideEffect.Decrement)
-                        else -> viewModel.sideEffect(PlayerSideEffect.Decrement)
-                    }
-                    navController.popBackStack()
+                onNavigate = {
+                    playerRoundScreenNavigate(it, viewModel, navController)
                 }
             )
         }
@@ -105,6 +79,42 @@ fun LigrettoApp(
     }
 }
 
+private fun playerRoundScreenNavigate(
+    it: PlayerRoundScreenNav,
+    viewModel: LigrettoViewModel,
+    navController: NavHostController
+) {
+    when (it) {
+        PlayerRoundScreenNav.Home -> {
+            viewModel.resetData(deletePlayers = false)
+            navController.popBackStack(route = Screen.Players.name, inclusive = false)
+        }
+
+        PlayerRoundScreenNav.Previous -> {
+            viewModel.sideEffect(PlayerSideEffect.Decrement)
+            navController.popBackStack()
+        }
+
+        PlayerRoundScreenNav.Next -> {
+            viewModel.sideEffect(PlayerSideEffect.Increment)
+            navController.navigate(Screen.PlayerRound.name)
+        }
+
+        PlayerRoundScreenNav.Results -> navController.navigate(Screen.Results.name)
+        PlayerRoundScreenNav.Back -> {
+            when {
+                firstRoundFirstPlayer(viewModel) -> {
+                    viewModel.resetData(deletePlayers = false)
+                }
+
+                firstPlayer(viewModel) -> viewModel.sideEffect(RoundSideEffect.Decrement)
+                else -> viewModel.sideEffect(PlayerSideEffect.Decrement)
+            }
+            navController.popBackStack()
+        }
+    }
+}
+
 private fun playersScreenNavigate(
     it: PlayersScreenNav,
     navController: NavHostController,
@@ -117,6 +127,13 @@ private fun playersScreenNavigate(
             navController.popBackStack()
         }
     }
+}
+
+enum class Screen {
+    Welcome,
+    Players,
+    PlayerRound,
+    Results
 }
 
 private fun firstRoundFirstPlayer(viewModel: LigrettoViewModel) =

@@ -15,7 +15,11 @@ import androidx.compose.ui.unit.dp
 import no.fredheim.ligrettoScoresheet.ui.theme.PlayerColor
 
 @Composable
-fun HighlightedCircle(color: PlayerColor, clickable: Boolean = true, onClick: () -> Unit) {
+fun HighlightedCircle(
+    color: PlayerColor,
+    onClick: () -> Unit,
+    clickable: Boolean = true
+) {
     Box(
         modifier = Modifier
             .size(24.dp)
@@ -24,7 +28,7 @@ fun HighlightedCircle(color: PlayerColor, clickable: Boolean = true, onClick: ()
             .clickable(enabled = clickable) { onClick() },
         contentAlignment = Alignment.Center
     ) {
-        Circle(color = color) { onClick() }
+        Circle(color = color, onClick = { onClick() })
     }
 }
 
@@ -36,9 +40,9 @@ fun HighlightedCircle(color: PlayerColor) {
 @Composable
 fun Circle(
     color: PlayerColor,
+    onClick: () -> Unit,
     clickable: Boolean = true,
-    shade: Boolean = false,
-    onClick: () -> Unit
+    shade: Boolean = false
 ) {
     val elevation = if (shade) 1.dp else 0.dp
     Box(
@@ -60,15 +64,14 @@ fun Circle(color: PlayerColor) {
     backgroundColor = 0xFF0f6bb9
 )
 @Composable
-fun HighlightedCirclePreview() {
+private fun HighlightedCirclePreview() {
     HighlightedCircle(color = PlayerColor.Black)
 }
 
 @Preview(
-    showBackground = true,
+    showBackground = true
 )
 @Composable
-fun CirclePreview() {
+private fun CirclePreview() {
     Circle(color = PlayerColor.Black)
 }
-

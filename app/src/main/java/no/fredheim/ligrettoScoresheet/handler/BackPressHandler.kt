@@ -11,9 +11,9 @@ import androidx.compose.runtime.rememberUpdatedState
 
 @Composable
 fun BackPressHandler(
+    onBackPressed: () -> Unit,
     backPressedDispatcher: OnBackPressedDispatcher? =
-        LocalOnBackPressedDispatcherOwner.current?.onBackPressedDispatcher,
-    onBackPressed: () -> Unit
+        LocalOnBackPressedDispatcherOwner.current?.onBackPressedDispatcher
 ) {
     val currentOnBackPressed by rememberUpdatedState(newValue = onBackPressed)
 

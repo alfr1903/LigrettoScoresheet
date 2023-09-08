@@ -5,7 +5,6 @@ import androidx.compose.foundation.Image
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
-import no.fredheim.ligrettoScoresheet.R
 
 @Composable
 fun Background(@DrawableRes resId: Int) {

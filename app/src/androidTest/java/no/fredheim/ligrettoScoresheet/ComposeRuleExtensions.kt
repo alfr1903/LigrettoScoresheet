@@ -10,13 +10,13 @@ import androidx.compose.ui.test.performTextInput
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 
 internal fun AndroidComposeTestRule<ActivityScenarioRule<ComponentActivity>, ComponentActivity>
-        .clickTextNode(@StringRes textId: Int) =
+.clickTextNode(@StringRes textId: Int) =
     this.onNodeWithText(this.activity.getString(textId)).performClick()
 
 internal fun AndroidComposeTestRule<ActivityScenarioRule<ComponentActivity>, ComponentActivity>
-        .clickDescriptionNode(@StringRes textId: Int) =
+.clickDescriptionNode(@StringRes textId: Int) =
     this.onNodeWithContentDescription(this.activity.getString(textId)).performClick()
 
 internal fun AndroidComposeTestRule<ActivityScenarioRule<ComponentActivity>, ComponentActivity>
-        .insertIntoField(@StringRes textId: Int, input: String) =
+.insertIntoField(@StringRes textId: Int, input: String) =
     this.onNodeWithText(this.activity.getString(textId)).performTextInput(input)

@@ -1,3 +1,5 @@
+@file:Suppress("MagicNumber")
+
 package no.fredheim.ligrettoScoresheet.ui.theme
 
 import androidx.compose.ui.graphics.Color
@@ -40,6 +42,3 @@ enum class TextColor(val color: Color) {
 
 const val PreviewThemeOrange = 0xFFF29634
 const val PreviewThemeBlue = 0xFF0B7CC8
-
-
-

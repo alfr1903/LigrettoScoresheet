@@ -13,7 +13,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
@@ -32,7 +31,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import no.fredheim.ligrettoScoresheet.R
 import no.fredheim.ligrettoScoresheet.common.Background
-import no.fredheim.ligrettoScoresheet.common.BodySmall
 import no.fredheim.ligrettoScoresheet.common.HeadlineBold
 import no.fredheim.ligrettoScoresheet.common.IconsRow
 import no.fredheim.ligrettoScoresheet.common.MediumButton
@@ -59,30 +57,10 @@ fun PlayerRoundScreen(
     round: Round,
     onRoundChange: (Player, Round) -> Unit,
     numPlayers: Int,
-    onHome: () -> Unit,
-    onPrevious: () -> Unit,
-    onNext: () -> Unit,
-    onResults: () -> Unit,
-    onBack: () -> Unit,
+    onNavigate: (PlayerRoundScreenNav) -> Unit,
     modifier: Modifier = Modifier
 ) {
-    val firstPlayer = player.id == 1
-    val lastPlayer = player.id == numPlayers
-
-
     Background(resId = R.drawable.ligrettogreen_background)
-
-    // Temp row
-    Row(
-        modifier = Modifier.fillMaxWidth(),
-        horizontalArrangement = Arrangement.End
-    ) {
-        BodySmall(
-            textId = R.string.coming_soon,
-            modifier.padding(top = 80.dp, end = 20.dp).width(52.dp)
-        )
-    }
-
     Box(
         modifier = Modifier.fillMaxWidth(),
         contentAlignment = Alignment.TopCenter
@@ -90,7 +68,7 @@ fun PlayerRoundScreen(
         Image(
             painter = painterResource(id = player.cardImageId),
             contentDescription = "",
-            modifier = Modifier.height(140.dp),
+            modifier = Modifier.height(140.dp)
         )
     }
     Column(
@@ -99,7 +77,7 @@ fun PlayerRoundScreen(
     ) {
         IconsRow(
             leftIcon = Icon(resId = R.drawable.home, descriptionId = R.string.home),
-            onLeft = { onHome() },
+            onLeft = { onNavigate(PlayerRoundScreenNav.Home) },
             rightIcon = Icon(resId = R.drawable.list, descriptionId = R.string.list_of_players),
             onRight = { },
             modifier = Modifier.topIconRowModifier()
@@ -110,6 +88,41 @@ fun PlayerRoundScreen(
             modifier = Modifier.padding(top = 20.dp),
             arg = round.id
         )
+        CardCountersColumn(round, onRoundChange, player)
+        Text(
+            text = stringResource(id = R.string.round_points, round.points()),
+            color = MaterialTheme.colorScheme.onPrimary,
+            fontWeight = FontWeight.Bold
+        )
+        PlayerNavigationRow(
+            onPrevious = { onNavigate(PlayerRoundScreenNav.Previous) },
+            player = player,
+            numPlayers = numPlayers,
+            onNext = { onNavigate(PlayerRoundScreenNav.Next) },
+            modifier = Modifier
+                .buttonRowHorizontalModifier()
+                .padding(top = 52.dp)
+        )
+        Spacer(modifier = Modifier.weight(1f))
+        WideButton(
+            textId = R.string.see_results,
+            buttonColor = ThemeColor.Orange,
+            onClick = { onNavigate(PlayerRoundScreenNav.Results) },
+            modifier = Modifier.padding(
+                bottom = dimensionResource(id = R.dimen.screen_bottom_button_bottom_padding)
+            )
+        )
+        BackHandler { onNavigate(PlayerRoundScreenNav.Back) }
+    }
+}
+
+@Composable
+private fun CardCountersColumn(
+    round: Round,
+    onRoundChange: (Player, Round) -> Unit,
+    player: Player
+) {
+    Column {
         CardCounterRow(
             card = TenCard(),
             value = round.num10s,
@@ -128,45 +141,19 @@ fun PlayerRoundScreen(
             onValueChange = { onRoundChange(player, round.copy(numMinus = it)) },
             modifier = Modifier.cardCounterRowModifier()
         )
-        Text(
-            text = stringResource(id = R.string.round_points, round.points()),
-            color = MaterialTheme.colorScheme.onPrimary,
-            fontWeight = FontWeight.Bold
-        )
-        PlayerNavigationRow(
-            onPrevious = onPrevious,
-            firstPlayer = firstPlayer,
-            player = player,
-            numPlayers = numPlayers,
-            onNext = onNext,
-            lastPlayer = lastPlayer,
-            modifier = Modifier
-                .buttonRowHorizontalModifier()
-                .padding(top = 52.dp)
-        )
-        Spacer(modifier = Modifier.weight(1f))
-        WideButton(
-            textId = R.string.see_results,
-            buttonColor = ThemeColor.Orange,
-            onClick = { onResults() },
-            modifier = Modifier.padding(
-                bottom = dimensionResource(id = R.dimen.screen_bottom_button_bottom_padding)
-            )
-        )
-        BackHandler { onBack() }
     }
 }
 
 @Composable
 private fun PlayerNavigationRow(
     onPrevious: () -> Unit,
-    firstPlayer: Boolean,
     player: Player,
     numPlayers: Int,
     onNext: () -> Unit,
-    lastPlayer: Boolean,
     modifier: Modifier = Modifier
 ) {
+    val firstPlayer = player.id == 1
+    val lastPlayer = player.id == numPlayers
     Row(
         modifier = modifier.fillMaxWidth(),
         verticalAlignment = Alignment.CenterVertically,
@@ -176,7 +163,7 @@ private fun PlayerNavigationRow(
             textId = R.string.prev_player,
             color = ThemeColor.Blue,
             onClick = { onPrevious() },
-            modifier = Modifier.alpha(if (firstPlayer) 0f else 1f),
+            modifier = Modifier.alpha(if (firstPlayer) 0f else 1f)
         )
         Text(
             text = "${player.id}/$numPlayers",
@@ -189,7 +176,7 @@ private fun PlayerNavigationRow(
             textId = R.string.next_player,
             color = ThemeColor.Red,
             onClick = { onNext() },
-            modifier = Modifier.alpha(if (lastPlayer) 0f else 1f),
+            modifier = Modifier.alpha(if (lastPlayer) 0f else 1f)
         )
     }
 }
@@ -199,13 +186,12 @@ private fun CardCounterRow(
     card: Card,
     value: String,
     onValueChange: (String) -> Unit,
-    modifier: Modifier = Modifier,
+    modifier: Modifier = Modifier
 ) {
     Row(
         modifier = modifier,
         horizontalArrangement = Arrangement.SpaceBetween,
-        verticalAlignment = Alignment.CenterVertically,
-
+        verticalAlignment = Alignment.CenterVertically
 
     ) {
         Column(horizontalAlignment = Alignment.CenterHorizontally) {
@@ -254,24 +240,28 @@ private fun CardCounterRow(
     }
 }
 
+enum class PlayerRoundScreenNav {
+    Home,
+    Previous,
+    Next,
+    Results,
+    Back
+}
+
 @Preview(
     showBackground = true,
     showSystemUi = true,
     device = "id:pixel_4"
 )
 @Composable
-fun PlayerRoundFirstRoundFirstPlayerNoDataScreenPreview() {
+private fun PlayerRoundFirstRoundFirstPlayerNoDataScreenPreview() {
     LigrettoScoresheetTheme {
         PlayerRoundScreen(
             player = Players.alex,
             round = Round(playerId = 1, id = 1),
-            onRoundChange = { _,_ -> },
+            onRoundChange = { _, _ -> },
             numPlayers = 3,
-            onHome = { },
-            onNext = { },
-            onResults = { },
-            onPrevious = { },
-            onBack = { }
+            onNavigate = { }
         )
     }
 }
@@ -282,19 +272,15 @@ fun PlayerRoundFirstRoundFirstPlayerNoDataScreenPreview() {
     device = "id:pixel_4"
 )
 @Composable
-fun PlayerRoundFirstRoundFirstPlayerScreenPreview() {
+private fun PlayerRoundFirstRoundFirstPlayerScreenPreview() {
     val alex = Players.alex
     LigrettoScoresheetTheme {
         PlayerRoundScreen(
             player = alex,
             round = Round(alex.id, 1, "1", "2", "3"),
-            onRoundChange = { _,_ -> },
+            onRoundChange = { _, _ -> },
             numPlayers = 3,
-            onHome = { },
-            onNext = { },
-            onResults = { },
-            onPrevious = { },
-            onBack = { }
+            onNavigate = { }
         )
     }
 }
@@ -305,19 +291,15 @@ fun PlayerRoundFirstRoundFirstPlayerScreenPreview() {
     device = "id:pixel_4"
 )
 @Composable
-fun PlayerRoundScoreSecondRoundFirstPlayerScreenPreview() {
+private fun PlayerRoundScoreSecondRoundFirstPlayerScreenPreview() {
     val alex = Players.alex
     LigrettoScoresheetTheme {
         PlayerRoundScreen(
             player = alex,
             round = Round(alex.id, 2, "3", "2", "1"),
-            onRoundChange = { _,_ -> },
+            onRoundChange = { _, _ -> },
             numPlayers = 3,
-            onHome = { },
-            onNext = { },
-            onResults = { },
-            onPrevious = { },
-            onBack = { }
+            onNavigate = { }
         )
     }
 }
@@ -328,19 +310,15 @@ fun PlayerRoundScoreSecondRoundFirstPlayerScreenPreview() {
     device = "id:pixel_4"
 )
 @Composable
-fun PlayerRoundMiddlePlayerScreenPreview() {
+private fun PlayerRoundMiddlePlayerScreenPreview() {
     val thao = Players.thao
     LigrettoScoresheetTheme {
         PlayerRoundScreen(
             player = thao,
             round = Round(thao.id, 1, "2", "12", "0"),
-            onRoundChange = { _,_ -> },
+            onRoundChange = { _, _ -> },
             numPlayers = 3,
-            onHome = { },
-            onNext = { },
-            onResults = { },
-            onPrevious = { },
-            onBack = { }
+            onNavigate = { }
         )
     }
 }
@@ -351,19 +329,15 @@ fun PlayerRoundMiddlePlayerScreenPreview() {
     device = "id:pixel_4"
 )
 @Composable
-fun PlayerRoundMiddlePlayerTwelvePlayersScreenPreview() {
+private fun PlayerRoundMiddlePlayerTwelvePlayersScreenPreview() {
     val thao = Players.thao
     LigrettoScoresheetTheme {
         PlayerRoundScreen(
             player = thao.copy(id = 11),
             round = Round(thao.id, 1, "1", "1", "1"),
-            onRoundChange = { _,_ -> },
+            onRoundChange = { _, _ -> },
             numPlayers = 12,
-            onHome = { },
-            onNext = { },
-            onResults = { },
-            onPrevious = { },
-            onBack = { }
+            onNavigate = { }
         )
     }
 }
@@ -374,19 +348,15 @@ fun PlayerRoundMiddlePlayerTwelvePlayersScreenPreview() {
     device = "id:pixel_4"
 )
 @Composable
-fun PlayerRoundLastPlayerScreenPreview() {
+private fun PlayerRoundLastPlayerScreenPreview() {
     val rikke = Players.rikke
     LigrettoScoresheetTheme {
         PlayerRoundScreen(
             player = Players.rikke,
             round = Round(rikke.id, 1, "3", "9", "1"),
-            onRoundChange = { _,_ -> },
+            onRoundChange = { _, _ -> },
             numPlayers = 3,
-            onHome = { },
-            onNext = { },
-            onResults = { },
-            onPrevious = { },
-            onBack = { }
+            onNavigate = { }
         )
     }
 }

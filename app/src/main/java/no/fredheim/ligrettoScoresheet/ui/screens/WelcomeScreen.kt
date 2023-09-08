@@ -41,7 +41,9 @@ fun WelcomeScreen(
         WideButton(
             textId = R.string.start_ligretto_calculator,
             buttonColor = ThemeColor.DarkBlue,
-            modifier = Modifier.padding(bottom = dimensionResource(id = R.dimen.screen_bottom_button_bottom_padding)),
+            modifier = Modifier.padding(
+                bottom = dimensionResource(id = R.dimen.screen_bottom_button_bottom_padding)
+            ),
             onClick = { onStartClick() }
         )
     }
@@ -68,10 +70,10 @@ fun LigrettoLogo() {
     device = "id:pixel_4"
 )
 @Composable
-fun WelcomeScreenPreviewNoMaxScoreInput() {
+private fun WelcomeScreenPreviewNoMaxScoreInput() {
     LigrettoScoresheetTheme {
         WelcomeScreen(
-            onStartClick = { },
+            onStartClick = { }
         )
     }
 }
@@ -82,10 +84,10 @@ fun WelcomeScreenPreviewNoMaxScoreInput() {
     device = "id:pixel_4"
 )
 @Composable
-fun WelcomeScreenPreviewMaxScoreInput() {
+private fun WelcomeScreenPreviewMaxScoreInput() {
     LigrettoScoresheetTheme {
         WelcomeScreen(
-            onStartClick = { },
+            onStartClick = { }
         )
     }
 }
@@ -96,11 +98,10 @@ fun WelcomeScreenPreviewMaxScoreInput() {
     device = "id:pixel_4"
 )
 @Composable
-fun WelcomeScreenPreviewInvalidMaxScoreInput() {
+private fun WelcomeScreenPreviewInvalidMaxScoreInput() {
     LigrettoScoresheetTheme {
         WelcomeScreen(
-            onStartClick = { },
+            onStartClick = { }
         )
     }
 }
-

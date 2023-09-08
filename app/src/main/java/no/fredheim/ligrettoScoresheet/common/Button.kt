@@ -7,7 +7,6 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import no.fredheim.ligrettoScoresheet.ui.theme.TextColor
@@ -19,7 +18,7 @@ fun WideButton(
     buttonColor: ThemeColor,
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
-    enabled: Boolean = true,
+    enabled: Boolean = true
 ) {
     Button(
         onClick = { onClick() },
@@ -36,7 +35,7 @@ fun MediumButton(
     @StringRes textId: Int,
     color: ThemeColor,
     onClick: () -> Unit,
-    modifier: Modifier = Modifier,
+    modifier: Modifier = Modifier
 ) {
     Button(
         onClick = { onClick() },
@@ -54,7 +53,7 @@ fun SmallButton(
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
     textColor: TextColor = TextColor.White,
-    enabled: Boolean = true,
+    enabled: Boolean = true
 ) {
     Button(
         onClick = { onClick() },

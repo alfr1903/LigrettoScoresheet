@@ -58,20 +58,7 @@ fun PlayersScreen(
     onNavigate: (PlayersScreenNav) -> Unit,
     modifier: Modifier = Modifier
 ) {
-    
     Background(resId = R.drawable.ligrettoblue_background)
-
-    // Temp row
-    Row(
-        modifier = Modifier.fillMaxWidth(),
-        horizontalArrangement = Arrangement.End
-    ) {
-        BodySmall(
-            textId = R.string.coming_soon,
-            modifier.padding(top = 80.dp, end = 20.dp).width(52.dp)
-        )
-    }
-
     Column(
         modifier = modifier,
         horizontalAlignment = Alignment.CenterHorizontally
@@ -86,7 +73,7 @@ fun PlayersScreen(
         HeadlineBold(R.string.players)
         LazyColumn(
             modifier = Modifier.height(400.dp),
-            contentPadding =PaddingValues(start = 72.dp, top = 28.dp, end = 72.dp)
+            contentPadding = PaddingValues(start = 72.dp, top = 28.dp, end = 72.dp)
         ) {
             itemsIndexed(players) { num, player ->
                 PlayerNameRow(
@@ -112,12 +99,14 @@ fun PlayersScreen(
         WideButton(
             textId = R.string.start_game,
             buttonColor = ThemeColor.Green,
-            modifier = Modifier.padding(bottom = dimensionResource(id = R.dimen.screen_bottom_button_bottom_padding)),
+            modifier = Modifier.padding(
+                bottom = dimensionResource(id = R.dimen.screen_bottom_button_bottom_padding)
+            ),
             enabled = players.size >= 2,
             onClick = { onNavigate(PlayersScreenNav.StartGame) }
         )
     }
-    BackPressHandler { onNavigate(PlayersScreenNav.Back) }
+    BackPressHandler({ onNavigate(PlayersScreenNav.Back) })
 }
 
 @Composable
@@ -125,7 +114,7 @@ private fun PlayerCreator(
     playerCreator: PlayerCreatorState,
     onPlayerCreatorChange: (PlayerCreatorState) -> Unit,
     onPlayerAdd: (Player) -> Unit,
-    numPlayers: Int,
+    numPlayers: Int
 ) {
     LazyRow(
         modifier = Modifier.fillMaxWidth(),
@@ -141,13 +130,14 @@ private fun PlayerCreator(
                         onPlayerCreatorChange(playerCreator.copy(chosenColor = color))
                     }
                 )
-            } else
+            } else {
                 Circle(
                     color = color,
                     onClick = {
                         onPlayerCreatorChange(playerCreator.copy(chosenColor = color))
                     }
                 )
+            }
         }
     }
     Row(
@@ -171,7 +161,6 @@ private fun PlayerCreator(
                         color = playerCreator.chosenColor!!
                     )
                 )
-
             }
         )
     }
@@ -209,7 +198,7 @@ private fun PlayerAdderTextField(
                 )
             }
         ),
-        singleLine = true,
+        singleLine = true
     )
 }
 
@@ -224,18 +213,17 @@ enum class PlayersScreenNav {
     device = "id:pixel_4"
 )
 @Composable
-fun PlayersScreenNoPlayersPreview() {
+private fun PlayersScreenNoPlayersPreview() {
     LigrettoScoresheetTheme {
         PlayersScreen(
             players = emptyList(),
             playerCreator = PlayerCreatorState(),
             onPlayerCreatorChange = { },
             onPlayerAdd = { },
-            onNavigate = { },
+            onNavigate = { }
         )
     }
 }
-
 
 @Preview(
     showBackground = true,
@@ -243,7 +231,7 @@ fun PlayersScreenNoPlayersPreview() {
     device = "id:pixel_4"
 )
 @Composable
-fun PlayersScreenThreePlayersPreview() {
+private fun PlayersScreenThreePlayersPreview() {
     LigrettoScoresheetTheme {
         PlayersScreen(
             players = Players.threePlayers(),
@@ -254,7 +242,7 @@ fun PlayersScreenThreePlayersPreview() {
             ),
             onPlayerCreatorChange = { },
             onPlayerAdd = { },
-            onNavigate = { },
+            onNavigate = { }
         )
     }
 }
@@ -265,14 +253,14 @@ fun PlayersScreenThreePlayersPreview() {
     device = "id:pixel_4"
 )
 @Composable
-fun PlayersScreenAllPlayersPreview() {
+private fun PlayersScreenAllPlayersPreview() {
     LigrettoScoresheetTheme {
         PlayersScreen(
             players = Players.allPlayers(),
-            playerCreator = PlayerCreatorState(availableColors =  emptySet(), chosenColor = null),
+            playerCreator = PlayerCreatorState(availableColors = emptySet(), chosenColor = null),
             onPlayerCreatorChange = { },
             onPlayerAdd = { },
-            onNavigate = { },
+            onNavigate = { }
         )
     }
 }

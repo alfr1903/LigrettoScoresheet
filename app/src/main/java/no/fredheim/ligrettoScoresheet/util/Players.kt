@@ -7,19 +7,19 @@ object Players {
     val alex = Player(
         id = 1,
         name = "Alex",
-        color = PlayerColor.Orange,
+        color = PlayerColor.Orange
     )
 
     val thao = Player(
         id = 2,
         name = "Thao",
-        color = PlayerColor.LightBlue,
+        color = PlayerColor.LightBlue
     )
 
     val rikke = Player(
         id = 3,
         name = "Rikke",
-        color = PlayerColor.Purple,
+        color = PlayerColor.Purple
     )
 
     fun threePlayers() = listOf(alex, thao, rikke)
@@ -33,6 +33,5 @@ object Players {
         )
 
         return PlayerColor.values().mapIndexed { i, color -> Player(i, names.removeFirst(), color) }
-
     }
 }
